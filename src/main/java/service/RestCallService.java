@@ -269,28 +269,7 @@ public class RestCallService {
         }
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    public int sendVerifyEmail(String userId, String token) {
+    public RestCallOutput sendVerifyEmail(String userId, String token) {
         dlmUserLog.addElement("Sending verification email to " + userId);
         String surl = "http://" + BeIp + ":" + BePort + "/user/" + userId + "/email";
         dlmUserLog.addElement("URL: " + surl);
@@ -298,54 +277,14 @@ public class RestCallService {
         HttpURLConnection con = null;
         int status = 0;
         try {
-            URL url = new URL(surl);
-            con = (HttpURLConnection) url.openConnection();
-            con.setConnectTimeout(5000);
-            con.setDoOutput(true);
-            con.setRequestMethod("POST");
-            //con.setRequestProperty("Content-Type", "application/json");
-            con.setRequestProperty("Authorization", "Bearer " + token);
-
-            //---------------------- send data ---------------------
-            status = con.getResponseCode();
-            dlmUserLog.addElement("ResultCode=" + status);
-            dlmUserLog.addElement("Message=" + con.getResponseMessage());
-            try {
-                BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
-                String inputLine;
-                StringBuilder content = new StringBuilder();
-                while ((inputLine = in.readLine()) != null) {
-                    content.append(inputLine);
-                }
-                dlmUserLog.addElement("==========  RESULT: ============");
-                dlmUserLog.addElement(content.toString());
-                in.close();
-            }
-            catch(Exception ex) {
-                dlmUserLog.addElement("--- No data ---");
-            }
-            try {
-                BufferedReader in = new BufferedReader(new InputStreamReader(con.getErrorStream()));
-                String inputLine;
-                StringBuilder content = new StringBuilder();
-                while ((inputLine = in.readLine()) != null) {
-                    content.append(inputLine);
-                }
-                dlmUserLog.addElement("==========  ERROR: ============");
-                dlmUserLog.addElement(content.toString());
-                in.close();
-            }
-            catch(Exception ex) {
-                dlmUserLog.addElement("--- No Error ---");
-            }
-            con.disconnect();
-            return(status);
+            Map<String, String> props = new HashMap<>();
+            props.put("Authorization", "Bearer " + token);
+            RestCallOutput ro = SendRestApiRequest("POST", props, null, surl);
+            return(ro);
         }
         catch(Exception ex) {
-            dlmUserLog.addElement("Exception: " + ex.getMessage());
-            return(status);
+            return(null);
         }
     }
-
 
 }

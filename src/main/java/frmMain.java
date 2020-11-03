@@ -497,7 +497,7 @@ public class frmMain {
     private void ResendVerifyEmail() {
         String UserId = GetUserIdByEmail(cbUserMailUsers.getSelectedItem().toString());
         if (UserId.length() > 0) {
-            int iRes = restCall.sendVerifyEmail(UserId, globalData.token.getToken());
+            int iRes = restCall.sendVerifyEmail(UserId, globalData.token.getToken()).getResultCode();
             JOptionPane.showMessageDialog(null, "Result code: " + iRes);
         }
     }
