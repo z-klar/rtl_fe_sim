@@ -1,6 +1,7 @@
 package common;
 
 import dto.AccessTokenDto;
+import dto.MmDevice;
 import dto.TestrackDTO;
 import dto.UserDto;
 
@@ -11,5 +12,6 @@ public class GlobalData {
     public AccessTokenDto token;
     public List<UserDto> users;
     public List<TestrackDTO> testracks;
+    public List<MmDevice> mmDevices;
 
 }

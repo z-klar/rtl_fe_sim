@@ -1,19 +1,20 @@
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
 import common.GlobalData;
+import common.JsonProcessing;
 import common.RestCallOutput;
 import commonEnum.DisplayType;
 import commonEnum.TestrackPlatform;
 import dto.*;
 import service.RestCallService;
-import tables.TestrackTable1;
-import tables.TestrackTable1Model;
-import tables.UserTable1;
-import tables.UserTable1Model;
+import tables.*;
 
 import javax.swing.*;
 import javax.swing.Timer;
+import javax.swing.border.TitledBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -78,13 +79,32 @@ public class frmMain {
     private JTextField txCreateRackNoOfDevices;
     private JButton btnAddDisplay;
     private JButton btnRemoveDisplay;
+    private JTabbedPane tabbedPane5;
+    private JTextField txConfigSignalServerPort;
+    private JButton btnSignalReadAllDevices;
+    private JList lbLogSignal;
+    private JTable tblSignal;
+    private JButton btnClearSignalLog;
+    private JComboBox cbSignalDevices;
+    private JButton btnSignaUpdateDevices;
+    private JTextField txNewDeviceId;
+    private JTextField txNewDeviceName;
+    private JTextField txNewDeviceDescr;
+    private JTextField txNewDeviceInAudio;
+    private JTextField txNewDeviceInVideo;
+    private JTextField txNewDeviceHostAudio;
+    private JTextField txNewDeviceOutAudioPort;
+    private JButton btnCreateNewDevice;
+    private JButton btnDeleteMmDevice;
 
 
     private DefaultListModel<String> dlmUserLog = new DefaultListModel<>();
     private DefaultListModel<String> dlmRackData = new DefaultListModel<>();
+    private DefaultListModel<String> dlmSignal = new DefaultListModel<>();
 
     private RestCallService restCall;
     private GlobalData globalData = new GlobalData();
+    private JsonProcessing jsonProcessing;
 
     private timerListener Casovac = new timerListener();
     private Timer timer = new Timer(1000, Casovac);
@@ -97,6 +117,7 @@ public class frmMain {
     public frmMain() {
         lbUserLog.setModel(dlmUserLog);
         lbTestrackData.setModel(dlmRackData);
+        lbLogSignal.setModel(dlmSignal);
 
         dlmUserLog.addElement("Start log .....");
 
@@ -105,6 +126,7 @@ public class frmMain {
                 Integer.parseInt(txBePort.getText()),
                 dlmUserLog
         );
+        jsonProcessing = new JsonProcessing(dlmSignal);
 
         cbCreateRackPlatform.removeAllItems();
         for (TestrackPlatform p : TestrackPlatform.values())
@@ -132,6 +154,100 @@ public class frmMain {
         lbGetRackDetails.addActionListener(e -> GetRackDetails());
         btnAddDisplay.addActionListener(e -> RackAddDisplay());
         btnRemoveDisplay.addActionListener(e -> RackRemoveDisplay());
+        btnClearSignalLog.addActionListener(e -> dlmSignal.clear());
+        btnSignalReadAllDevices.addActionListener(e -> ReadAllMmDevices());
+        btnSignaUpdateDevices.addActionListener(e -> UpdateDevices());
+        btnCreateNewDevice.addActionListener(e -> CreateNewMmDevice());
+        btnDeleteMmDevice.addActionListener(e -> DeleteMmDevice());
+    }
+
+    private void DeleteMmDevice() {
+        MmDevice device = new MmDevice();
+        device.setId(cbSignalDevices.getSelectedItem().toString());
+
+        Map<String, String> props = null;
+        String jsonString = "";
+        try {
+            props = new HashMap<>();
+            props.put("Content-Type", "application/json");
+
+            ObjectMapper mapper = new ObjectMapper();
+            jsonString = mapper.writeValueAsString(device);
+        } catch (Exception ex) {
+
+        }
+        String surl = "http://" + txBeIpAddress.getText() + ":" + txConfigSignalServerPort.getText()
+                + "/device";
+        RestCallOutput ro = restCall.SendRestApiRequest("DELETE", props, jsonString, surl);
+        JOptionPane.showMessageDialog(null, "RESULT CODE: " + ro.getResultCode());
+        if (ro.getResultCode() > 230) {
+            dlmSignal.addElement("POST Err: " + ro.getErrorMsg());
+        }
+
+    }
+
+    private void CreateNewMmDevice() {
+        MmDevice device = new MmDevice();
+        device.setId(txNewDeviceId.getText());
+        device.setName(txNewDeviceName.getText());
+        device.setDescription(txNewDeviceDescr.getText());
+        device.setPortIncomingAudio(Integer.parseInt(txNewDeviceInAudio.getText()));
+        device.setPortIncomingVideo(Integer.parseInt(txNewDeviceInVideo.getText()));
+        device.setHostOutgoingAudio(txNewDeviceHostAudio.getText());
+        device.setPortOutgoingAudio(Integer.parseInt(txNewDeviceOutAudioPort.getText()));
+        device.setActive(true);
+
+        Map<String, String> props = null;
+        String jsonString = "";
+        try {
+            props = new HashMap<>();
+            props.put("Content-Type", "application/json");
+
+            ObjectMapper mapper = new ObjectMapper();
+            jsonString = mapper.writeValueAsString(device);
+        } catch (Exception ex) {
+
+        }
+        String surl = "http://" + txBeIpAddress.getText() + ":" + txConfigSignalServerPort.getText()
+                + "/device";
+        RestCallOutput ro = restCall.SendRestApiRequest("POST", props, jsonString, surl);
+        JOptionPane.showMessageDialog(null, "RESULT CODE: " + ro.getResultCode());
+        if (ro.getResultCode() > 230) {
+            dlmSignal.addElement("POST Err: " + ro.getErrorMsg());
+        }
+
+    }
+
+    private void UpdateDevices() {
+        cbSignalDevices.removeAllItems();
+        for (MmDevice dev : globalData.mmDevices) cbSignalDevices.addItem(dev.getId());
+    }
+
+    private void ReadAllMmDevices() {
+        dlmSignal.addElement("Reading all devices from SIGNAL ");
+        String surl = "http://" + txBeIpAddress.getText() + ":" + txConfigSignalServerPort.getText() + "/devices";
+        dlmSignal.addElement("URL: " + surl);
+
+        try {
+            Map<String, String> props = new HashMap<>();
+            props.put("Accept", "*/*");
+            RestCallOutput ro = restCall.SendRestApiRequest("GET", props, null, surl);
+            dlmSignal.addElement("RESULT: " + ro.getResultCode());
+            if (ro.getResultCode() < 300) {
+                globalData.mmDevices = jsonProcessing.ParseDeviceList(ro.getDataMsg());
+                Vector<DevicesTable1> data = new Vector<>();
+                for (MmDevice dev : globalData.mmDevices) {
+                    DevicesTable1 row = new DevicesTable1(dev.getId(), dev.getName(), dev.getDescription(),
+                            dev.getPortIncomingAudio(), dev.getPortIncomingVideo(),
+                            dev.getHostOutgoingAudio(), dev.getPortOutgoingAudio(),
+                            dev.isActive());
+                    data.add(row);
+                }
+                tblSignal.setModel(new DevicesTable1Model(data));
+            }
+        } catch (Exception ex) {
+            dlmSignal.addElement("ERR: " + ex.getMessage());
+        }
     }
 
     private void RackAddDisplay() {
@@ -900,44 +1016,197 @@ public class frmMain {
         tblFrontendRacks = new JTable();
         scrollPane4.setViewportView(tblFrontendRacks);
         final JPanel panel11 = new JPanel();
-        panel11.setLayout(new GridLayoutManager(2, 2, new Insets(0, 0, 0, 0), -1, -1));
-        tabbedPane1.addTab("Log", panel11);
-        final JScrollPane scrollPane5 = new JScrollPane();
-        panel11.add(scrollPane5, new GridConstraints(1, 0, 1, 2, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, null, new Dimension(0, 135), null, 0, false));
-        lbUserLog = new JList();
-        scrollPane5.setViewportView(lbUserLog);
-        btnUserClearLog = new JButton();
-        btnUserClearLog.setText("Clear Log");
-        panel11.add(btnUserClearLog, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        final Spacer spacer9 = new Spacer();
-        panel11.add(spacer9, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
+        panel11.setLayout(new GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
+        tabbedPane1.addTab("Signal Server", panel11);
+        tabbedPane5 = new JTabbedPane();
+        panel11.add(tabbedPane5, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, new Dimension(200, 200), null, 0, false));
         final JPanel panel12 = new JPanel();
-        panel12.setLayout(new GridLayoutManager(2, 5, new Insets(0, 0, 0, 0), -1, -1));
-        tabbedPane1.addTab("Configuration", panel12);
+        panel12.setLayout(new GridLayoutManager(1, 2, new Insets(0, 0, 0, 0), -1, -1));
+        tabbedPane5.addTab("Main", panel12);
+        final JSplitPane splitPane1 = new JSplitPane();
+        splitPane1.setOrientation(0);
+        panel12.add(splitPane1, new GridConstraints(0, 0, 1, 2, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, new Dimension(200, 200), null, 0, false));
+        final JPanel panel13 = new JPanel();
+        panel13.setLayout(new GridLayoutManager(2, 2, new Insets(0, 0, 0, 0), -1, -1));
+        splitPane1.setLeftComponent(panel13);
+        btnSignalReadAllDevices = new JButton();
+        btnSignalReadAllDevices.setText("Read All Devices");
+        panel13.add(btnSignalReadAllDevices, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        final Spacer spacer9 = new Spacer();
+        panel13.add(spacer9, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
+        final JScrollPane scrollPane5 = new JScrollPane();
+        panel13.add(scrollPane5, new GridConstraints(1, 0, 1, 2, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
+        tblSignal = new JTable();
+        scrollPane5.setViewportView(tblSignal);
+        final JPanel panel14 = new JPanel();
+        panel14.setLayout(new GridLayoutManager(2, 2, new Insets(0, 0, 0, 0), -1, -1));
+        splitPane1.setRightComponent(panel14);
+        btnClearSignalLog = new JButton();
+        btnClearSignalLog.setText("Clear Log");
+        panel14.add(btnClearSignalLog, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        final Spacer spacer10 = new Spacer();
+        panel14.add(spacer10, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
+        final JScrollPane scrollPane6 = new JScrollPane();
+        panel14.add(scrollPane6, new GridConstraints(1, 0, 1, 2, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
+        lbLogSignal = new JList();
+        scrollPane6.setViewportView(lbLogSignal);
+        final JPanel panel15 = new JPanel();
+        panel15.setLayout(new GridLayoutManager(3, 5, new Insets(0, 0, 0, 0), -1, -1));
+        tabbedPane5.addTab("Devices Management", panel15);
         final JLabel label26 = new JLabel();
         Font label26Font = this.$$$getFont$$$(null, Font.BOLD, 12, label26.getFont());
         if (label26Font != null) label26.setFont(label26Font);
-        label26.setText("BE IP Address");
-        panel12.add(label26, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        final Spacer spacer10 = new Spacer();
-        panel12.add(spacer10, new GridConstraints(0, 4, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
+        label26.setText("Device ID:");
+        panel15.add(label26, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final Spacer spacer11 = new Spacer();
-        panel12.add(spacer11, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL, 1, GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
+        panel15.add(spacer11, new GridConstraints(0, 4, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
+        final Spacer spacer12 = new Spacer();
+        panel15.add(spacer12, new GridConstraints(2, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL, 1, GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
+        cbSignalDevices = new JComboBox();
+        panel15.add(cbSignalDevices, new GridConstraints(0, 1, 1, 2, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(143, 25), null, 0, false));
+        btnSignaUpdateDevices = new JButton();
+        btnSignaUpdateDevices.setText("Update  Devices");
+        panel15.add(btnSignaUpdateDevices, new GridConstraints(0, 3, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        final JLabel label27 = new JLabel();
+        Font label27Font = this.$$$getFont$$$(null, -1, 36, label27.getFont());
+        if (label27Font != null) label27.setFont(label27Font);
+        label27.setText(" ");
+        panel15.add(label27, new GridConstraints(1, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        final JPanel panel16 = new JPanel();
+        panel16.setLayout(new GridLayoutManager(7, 4, new Insets(0, 0, 0, 0), -1, -1));
+        panel15.add(panel16, new GridConstraints(2, 1, 1, 4, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
+        panel16.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "New Device", TitledBorder.CENTER, TitledBorder.DEFAULT_POSITION, this.$$$getFont$$$(null, Font.BOLD, -1, panel16.getFont()), null));
+        final JLabel label28 = new JLabel();
+        Font label28Font = this.$$$getFont$$$(null, Font.BOLD, 12, label28.getFont());
+        if (label28Font != null) label28.setFont(label28Font);
+        label28.setText("Device ID:");
+        panel16.add(label28, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        final Spacer spacer13 = new Spacer();
+        panel16.add(spacer13, new GridConstraints(6, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL, 1, GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
+        txNewDeviceId = new JTextField();
+        Font txNewDeviceIdFont = this.$$$getFont$$$(null, -1, 12, txNewDeviceId.getFont());
+        if (txNewDeviceIdFont != null) txNewDeviceId.setFont(txNewDeviceIdFont);
+        txNewDeviceId.setText("ID");
+        panel16.add(txNewDeviceId, new GridConstraints(0, 1, 1, 3, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
+        final JLabel label29 = new JLabel();
+        Font label29Font = this.$$$getFont$$$(null, Font.BOLD, 12, label29.getFont());
+        if (label29Font != null) label29.setFont(label29Font);
+        label29.setText("Name:");
+        panel16.add(label29, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        final JLabel label30 = new JLabel();
+        Font label30Font = this.$$$getFont$$$(null, Font.BOLD, 12, label30.getFont());
+        if (label30Font != null) label30.setFont(label30Font);
+        label30.setText("Description");
+        panel16.add(label30, new GridConstraints(2, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        txNewDeviceName = new JTextField();
+        Font txNewDeviceNameFont = this.$$$getFont$$$(null, -1, 12, txNewDeviceName.getFont());
+        if (txNewDeviceNameFont != null) txNewDeviceName.setFont(txNewDeviceNameFont);
+        txNewDeviceName.setText("Name");
+        panel16.add(txNewDeviceName, new GridConstraints(1, 1, 1, 3, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
+        txNewDeviceDescr = new JTextField();
+        Font txNewDeviceDescrFont = this.$$$getFont$$$(null, -1, 12, txNewDeviceDescr.getFont());
+        if (txNewDeviceDescrFont != null) txNewDeviceDescr.setFont(txNewDeviceDescrFont);
+        txNewDeviceDescr.setText("Description");
+        panel16.add(txNewDeviceDescr, new GridConstraints(2, 1, 1, 3, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
+        final JLabel label31 = new JLabel();
+        Font label31Font = this.$$$getFont$$$(null, Font.BOLD, 12, label31.getFont());
+        if (label31Font != null) label31.setFont(label31Font);
+        label31.setText("In Audio Port:");
+        panel16.add(label31, new GridConstraints(3, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        final JLabel label32 = new JLabel();
+        Font label32Font = this.$$$getFont$$$(null, Font.BOLD, 12, label32.getFont());
+        if (label32Font != null) label32.setFont(label32Font);
+        label32.setText("In Video Port:");
+        panel16.add(label32, new GridConstraints(4, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        txNewDeviceInAudio = new JTextField();
+        Font txNewDeviceInAudioFont = this.$$$getFont$$$(null, -1, 12, txNewDeviceInAudio.getFont());
+        if (txNewDeviceInAudioFont != null) txNewDeviceInAudio.setFont(txNewDeviceInAudioFont);
+        txNewDeviceInAudio.setText("7000");
+        panel16.add(txNewDeviceInAudio, new GridConstraints(3, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
+        txNewDeviceInVideo = new JTextField();
+        Font txNewDeviceInVideoFont = this.$$$getFont$$$(null, -1, 12, txNewDeviceInVideo.getFont());
+        if (txNewDeviceInVideoFont != null) txNewDeviceInVideo.setFont(txNewDeviceInVideoFont);
+        txNewDeviceInVideo.setText("7002");
+        panel16.add(txNewDeviceInVideo, new GridConstraints(4, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
+        final JLabel label33 = new JLabel();
+        Font label33Font = this.$$$getFont$$$(null, Font.BOLD, 12, label33.getFont());
+        if (label33Font != null) label33.setFont(label33Font);
+        label33.setText("HOST Audio OUT:");
+        panel16.add(label33, new GridConstraints(3, 2, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        final JLabel label34 = new JLabel();
+        Font label34Font = this.$$$getFont$$$(null, Font.BOLD, 12, label34.getFont());
+        if (label34Font != null) label34.setFont(label34Font);
+        label34.setText("HOST Audio PORT:");
+        panel16.add(label34, new GridConstraints(4, 2, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        txNewDeviceHostAudio = new JTextField();
+        Font txNewDeviceHostAudioFont = this.$$$getFont$$$(null, -1, 12, txNewDeviceHostAudio.getFont());
+        if (txNewDeviceHostAudioFont != null) txNewDeviceHostAudio.setFont(txNewDeviceHostAudioFont);
+        txNewDeviceHostAudio.setText("localhost");
+        panel16.add(txNewDeviceHostAudio, new GridConstraints(3, 3, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
+        txNewDeviceOutAudioPort = new JTextField();
+        Font txNewDeviceOutAudioPortFont = this.$$$getFont$$$(null, -1, 12, txNewDeviceOutAudioPort.getFont());
+        if (txNewDeviceOutAudioPortFont != null) txNewDeviceOutAudioPort.setFont(txNewDeviceOutAudioPortFont);
+        txNewDeviceOutAudioPort.setText("7004");
+        panel16.add(txNewDeviceOutAudioPort, new GridConstraints(4, 3, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
+        btnCreateNewDevice = new JButton();
+        Font btnCreateNewDeviceFont = this.$$$getFont$$$(null, Font.BOLD, 16, btnCreateNewDevice.getFont());
+        if (btnCreateNewDeviceFont != null) btnCreateNewDevice.setFont(btnCreateNewDeviceFont);
+        btnCreateNewDevice.setText("Create New Device");
+        panel16.add(btnCreateNewDevice, new GridConstraints(5, 1, 1, 2, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        btnDeleteMmDevice = new JButton();
+        btnDeleteMmDevice.setBackground(new Color(-6612697));
+        btnDeleteMmDevice.setForeground(new Color(-792));
+        btnDeleteMmDevice.setText("Delete Device");
+        panel15.add(btnDeleteMmDevice, new GridConstraints(1, 2, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        final JPanel panel17 = new JPanel();
+        panel17.setLayout(new GridLayoutManager(2, 2, new Insets(0, 0, 0, 0), -1, -1));
+        tabbedPane1.addTab("Log", panel17);
+        final JScrollPane scrollPane7 = new JScrollPane();
+        panel17.add(scrollPane7, new GridConstraints(1, 0, 1, 2, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, null, new Dimension(0, 135), null, 0, false));
+        lbUserLog = new JList();
+        scrollPane7.setViewportView(lbUserLog);
+        btnUserClearLog = new JButton();
+        btnUserClearLog.setText("Clear Log");
+        panel17.add(btnUserClearLog, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        final Spacer spacer14 = new Spacer();
+        panel17.add(spacer14, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
+        final JPanel panel18 = new JPanel();
+        panel18.setLayout(new GridLayoutManager(3, 5, new Insets(0, 0, 0, 0), -1, -1));
+        tabbedPane1.addTab("Configuration", panel18);
+        final JLabel label35 = new JLabel();
+        Font label35Font = this.$$$getFont$$$(null, Font.BOLD, 12, label35.getFont());
+        if (label35Font != null) label35.setFont(label35Font);
+        label35.setText("BE IP Address");
+        panel18.add(label35, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        final Spacer spacer15 = new Spacer();
+        panel18.add(spacer15, new GridConstraints(0, 4, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
+        final Spacer spacer16 = new Spacer();
+        panel18.add(spacer16, new GridConstraints(2, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL, 1, GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
         txBeIpAddress = new JTextField();
         Font txBeIpAddressFont = this.$$$getFont$$$(null, -1, 12, txBeIpAddress.getFont());
         if (txBeIpAddressFont != null) txBeIpAddress.setFont(txBeIpAddressFont);
         txBeIpAddress.setText("localhost");
-        panel12.add(txBeIpAddress, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
-        final JLabel label27 = new JLabel();
-        Font label27Font = this.$$$getFont$$$(null, Font.BOLD, 12, label27.getFont());
-        if (label27Font != null) label27.setFont(label27Font);
-        label27.setText("BE Port");
-        panel12.add(label27, new GridConstraints(0, 2, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        panel18.add(txBeIpAddress, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
+        final JLabel label36 = new JLabel();
+        Font label36Font = this.$$$getFont$$$(null, Font.BOLD, 12, label36.getFont());
+        if (label36Font != null) label36.setFont(label36Font);
+        label36.setText("BE Port");
+        panel18.add(label36, new GridConstraints(0, 2, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         txBePort = new JTextField();
         Font txBePortFont = this.$$$getFont$$$(null, -1, 12, txBePort.getFont());
         if (txBePortFont != null) txBePort.setFont(txBePortFont);
         txBePort.setText("8089");
-        panel12.add(txBePort, new GridConstraints(0, 3, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
+        panel18.add(txBePort, new GridConstraints(0, 3, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
+        final JLabel label37 = new JLabel();
+        Font label37Font = this.$$$getFont$$$(null, Font.BOLD, 12, label37.getFont());
+        if (label37Font != null) label37.setFont(label37Font);
+        label37.setText("Signal Server Port");
+        panel18.add(label37, new GridConstraints(1, 2, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        txConfigSignalServerPort = new JTextField();
+        Font txConfigSignalServerPortFont = this.$$$getFont$$$(null, -1, 12, txConfigSignalServerPort.getFont());
+        if (txConfigSignalServerPortFont != null) txConfigSignalServerPort.setFont(txConfigSignalServerPortFont);
+        txConfigSignalServerPort.setText("8890");
+        panel18.add(txConfigSignalServerPort, new GridConstraints(1, 3, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
     }
 
     /**
