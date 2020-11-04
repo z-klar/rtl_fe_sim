@@ -125,12 +125,13 @@ public class RestCallService {
         String surl = "http://" + BeIp + ":" + BePort + "/user/";
         if(verbose) dlmUserLog.addElement("URL: " + surl);
 
+        RestCallOutput ro = new RestCallOutput();
         try {
 
             Map<String, String> props = new HashMap<>();
             props.put("Accept", "*/*");
             props.put("Authorization", "Bearer " + token);
-            RestCallOutput ro = SendRestApiRequest("GET", props, null, surl);
+            ro = SendRestApiRequest("GET", props, null, surl);
 
             ObjectMapper mapper = new ObjectMapper();
             List<UserDto> listUsers = mapper.readValue(ro.getDataMsg(), new TypeReference<List<UserDto>>(){});
@@ -138,7 +139,7 @@ public class RestCallService {
             return (ro);
         }
         catch(Exception ex) {
-            return(null);
+            return(ro);
         }
     }
 

@@ -557,7 +557,14 @@ public class frmMain {
      *
      */
     private void getAllUsers() {
+        if (globalData.token == null) {
+            JOptionPane.showMessageDialog(null, "No Access token available !");
+            return;
+        }
         RestCallOutput res = restCall.readAllUsers(globalData.token.getToken(), true);
+        if (res.getResultCode() > 299) {
+            JOptionPane.showMessageDialog(null, "Error:\n" + res.getErrorMsg());
+        }
         List<UserDto> users = (List<UserDto>) res.getOutputData();
         Vector<UserTable1> rows = new Vector<>();
         if (users != null) {
@@ -691,6 +698,8 @@ public class frmMain {
         btnUserClearText.setText("Clear Text");
         panel1.add(btnUserClearText, new GridConstraints(2, 4, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         txaUserFeedback = new JTextArea();
+        Font txaUserFeedbackFont = this.$$$getFont$$$("JetBrains Mono", -1, -1, txaUserFeedback.getFont());
+        if (txaUserFeedbackFont != null) txaUserFeedback.setFont(txaUserFeedbackFont);
         txaUserFeedback.setLineWrap(true);
         panel1.add(txaUserFeedback, new GridConstraints(3, 0, 1, 5, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_WANT_GROW, null, new Dimension(150, 155), null, 0, false));
         final JScrollPane scrollPane1 = new JScrollPane();
@@ -1049,6 +1058,8 @@ public class frmMain {
         final JScrollPane scrollPane6 = new JScrollPane();
         panel14.add(scrollPane6, new GridConstraints(1, 0, 1, 2, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
         lbLogSignal = new JList();
+        Font lbLogSignalFont = this.$$$getFont$$$("Nimbus Mono L", -1, 13, lbLogSignal.getFont());
+        if (lbLogSignalFont != null) lbLogSignal.setFont(lbLogSignalFont);
         scrollPane6.setViewportView(lbLogSignal);
         final JPanel panel15 = new JPanel();
         panel15.setLayout(new GridLayoutManager(3, 5, new Insets(0, 0, 0, 0), -1, -1));

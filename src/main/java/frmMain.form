@@ -88,6 +88,7 @@
                   </grid>
                 </constraints>
                 <properties>
+                  <font name="JetBrains Mono"/>
                   <lineWrap value="true"/>
                 </properties>
               </component>
@@ -953,7 +954,9 @@
                                 <children>
                                   <component id="8358" class="javax.swing.JList" binding="lbLogSignal">
                                     <constraints/>
-                                    <properties/>
+                                    <properties>
+                                      <font name="Nimbus Mono L" size="13"/>
+                                    </properties>
                                   </component>
                                 </children>
                               </scrollpane>
