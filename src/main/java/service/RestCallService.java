@@ -208,6 +208,24 @@ public class RestCallService {
         }
     }
 
+    public RestCallOutput sendHandOverRack(String rackId, String token, boolean verbose) {
+        if(verbose) dlmUserLog.addElement("Sending HandOver request  to " + rackId);
+        String surl = "http://" + BeIp + ":" + BePort + "/testrack/" + rackId + "/control";
+        if(verbose) dlmUserLog.addElement("URL: " + surl);
+
+        RestCallOutput ro = new RestCallOutput();
+        try {
+            Map<String, String> props = new HashMap<>();
+            props.put("Authorization", "Bearer " + token);
+
+            ro = SendRestApiRequest("POST", props, null, surl);
+            return(ro);
+        }
+        catch(Exception ex) {
+            return(ro);
+        }
+    }
+
     public RestCallOutput createNewRack(TestrackDTO rack, String token, boolean verbose) {
         if(verbose) dlmUserLog.addElement("Creating new rack: ");
         String surl = "http://" + BeIp + ":" + BePort + "/testrack/";

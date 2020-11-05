@@ -34,7 +34,7 @@
                 <properties/>
                 <border type="none"/>
                 <children>
-                  <grid id="21593" layout-manager="GridLayoutManager" row-count="6" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                  <grid id="21593" layout-manager="GridLayoutManager" row-count="3" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
                     <margin top="0" left="0" bottom="0" right="0"/>
                     <constraints>
                       <tabbedpane title="Create User"/>
@@ -44,7 +44,7 @@
                     <children>
                       <scrollpane id="82c0b">
                         <constraints>
-                          <grid row="5" column="0" row-span="1" col-span="2" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                          <grid row="2" column="0" row-span="1" col-span="2" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
                         </constraints>
                         <properties/>
                         <border type="none"/>
@@ -57,7 +57,7 @@
                       </scrollpane>
                       <component id="2ccf7" class="javax.swing.JButton" binding="btnGetAllUsers">
                         <constraints>
-                          <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
+                          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
                             <preferred-size width="386" height="30"/>
                           </grid>
                         </constraints>
@@ -65,95 +65,10 @@
                           <text value="Get All Users"/>
                         </properties>
                       </component>
-                      <grid id="772dc" layout-manager="GridLayoutManager" row-count="4" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                      <grid id="87d00" layout-manager="GridLayoutManager" row-count="4" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
                         <margin top="5" left="5" bottom="5" right="5"/>
                         <constraints>
-                          <grid row="0" column="0" row-span="4" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
-                            <preferred-size width="386" height="131"/>
-                          </grid>
-                        </constraints>
-                        <properties/>
-                        <border type="bevel-raised" title="Create New User" title-justification="2">
-                          <font size="11"/>
-                          <title-color color="-15527846"/>
-                        </border>
-                        <children>
-                          <component id="d882b" class="javax.swing.JLabel">
-                            <constraints>
-                              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-                            </constraints>
-                            <properties>
-                              <font size="12" style="1"/>
-                              <horizontalAlignment value="4"/>
-                              <text value="First  Name:"/>
-                            </properties>
-                          </component>
-                          <component id="ee7b9" class="javax.swing.JLabel">
-                            <constraints>
-                              <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-                            </constraints>
-                            <properties>
-                              <font size="12" style="1"/>
-                              <text value="Last  Name:"/>
-                            </properties>
-                          </component>
-                          <component id="64bf7" class="javax.swing.JLabel">
-                            <constraints>
-                              <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false"/>
-                            </constraints>
-                            <properties>
-                              <font size="12" style="1"/>
-                              <horizontalAlignment value="4"/>
-                              <text value="Email:"/>
-                            </properties>
-                          </component>
-                          <component id="856a1" class="javax.swing.JTextField" binding="txCreateUserFirstName">
-                            <constraints>
-                              <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
-                                <preferred-size width="150" height="-1"/>
-                              </grid>
-                            </constraints>
-                            <properties>
-                              <font size="12"/>
-                              <text value=""/>
-                            </properties>
-                          </component>
-                          <component id="605df" class="javax.swing.JTextField" binding="txCreateUserLastName">
-                            <constraints>
-                              <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
-                                <preferred-size width="150" height="-1"/>
-                              </grid>
-                            </constraints>
-                            <properties>
-                              <font size="12"/>
-                              <text value=""/>
-                            </properties>
-                          </component>
-                          <component id="feccb" class="javax.swing.JTextField" binding="txCreateUserEmail">
-                            <constraints>
-                              <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
-                                <preferred-size width="150" height="-1"/>
-                              </grid>
-                            </constraints>
-                            <properties>
-                              <font size="12"/>
-                              <text value=""/>
-                            </properties>
-                          </component>
-                          <component id="3d027" class="javax.swing.JButton" binding="btnCreateUser">
-                            <constraints>
-                              <grid row="3" column="0" row-span="1" col-span="2" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-                            </constraints>
-                            <properties>
-                              <text value="Create New User"/>
-                            </properties>
-                          </component>
-                        </children>
-                      </grid>
-                      <grid id="e6b2e" layout-manager="GridLayoutManager" row-count="4" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-                        <margin top="5" left="5" bottom="5" right="5"/>
-                        <constraints>
-                          <grid row="0" column="1" row-span="4" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
                         </constraints>
                         <properties/>
                         <border type="bevel-raised" title="Login" title-justification="2">
@@ -161,7 +76,7 @@
                           <title-color color="-15527846"/>
                         </border>
                         <children>
-                          <component id="b196b" class="javax.swing.JLabel">
+                          <component id="cc45d" class="javax.swing.JLabel">
                             <constraints>
                               <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false">
                                 <preferred-size width="115" height="16"/>
@@ -173,7 +88,7 @@
                               <text value="User  Name:"/>
                             </properties>
                           </component>
-                          <component id="e74c6" class="javax.swing.JTextField" binding="txUserUserName">
+                          <component id="8d9cd" class="javax.swing.JTextField" binding="txUserUserName">
                             <constraints>
                               <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                                 <preferred-size width="244" height="26"/>
@@ -184,7 +99,7 @@
                               <text value="admin"/>
                             </properties>
                           </component>
-                          <component id="8da39" class="javax.swing.JLabel">
+                          <component id="809fb" class="javax.swing.JLabel">
                             <constraints>
                               <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false">
                                 <preferred-size width="115" height="16"/>
@@ -196,7 +111,7 @@
                               <text value="Password:"/>
                             </properties>
                           </component>
-                          <component id="befed" class="javax.swing.JTextField" binding="txUserPassword">
+                          <component id="2df8a" class="javax.swing.JTextField" binding="txUserPassword">
                             <constraints>
                               <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                                 <preferred-size width="244" height="26"/>
@@ -207,7 +122,7 @@
                               <text value="admin"/>
                             </properties>
                           </component>
-                          <component id="622ac" class="javax.swing.JButton" binding="btnUserLogin">
+                          <component id="37405" class="javax.swing.JButton" binding="btnUserLogin">
                             <constraints>
                               <grid row="3" column="0" row-span="1" col-span="2" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
                                 <preferred-size width="244" height="30"/>
@@ -217,7 +132,7 @@
                               <text value="Login"/>
                             </properties>
                           </component>
-                          <component id="cf66" class="javax.swing.JTextField" binding="txUserLoginState">
+                          <component id="8c7d1" class="javax.swing.JTextField" binding="txUserLoginState">
                             <constraints>
                               <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                                 <preferred-size width="244" height="26"/>
@@ -228,7 +143,7 @@
                               <text value="Not Logged"/>
                             </properties>
                           </component>
-                          <component id="92af8" class="javax.swing.JLabel">
+                          <component id="6c51c" class="javax.swing.JLabel">
                             <constraints>
                               <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false">
                                 <preferred-size width="115" height="16"/>
@@ -238,6 +153,91 @@
                               <font size="12" style="1"/>
                               <horizontalAlignment value="4"/>
                               <text value="Result:"/>
+                            </properties>
+                          </component>
+                        </children>
+                      </grid>
+                      <grid id="5f302" layout-manager="GridLayoutManager" row-count="4" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                        <margin top="5" left="5" bottom="5" right="5"/>
+                        <constraints>
+                          <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                            <preferred-size width="386" height="131"/>
+                          </grid>
+                        </constraints>
+                        <properties/>
+                        <border type="bevel-raised" title="Create New User" title-justification="2">
+                          <font size="11"/>
+                          <title-color color="-15527846"/>
+                        </border>
+                        <children>
+                          <component id="90018" class="javax.swing.JLabel">
+                            <constraints>
+                              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                            </constraints>
+                            <properties>
+                              <font size="12" style="1"/>
+                              <horizontalAlignment value="4"/>
+                              <text value="First  Name:"/>
+                            </properties>
+                          </component>
+                          <component id="76c8e" class="javax.swing.JLabel">
+                            <constraints>
+                              <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                            </constraints>
+                            <properties>
+                              <font size="12" style="1"/>
+                              <text value="Last  Name:"/>
+                            </properties>
+                          </component>
+                          <component id="9f2" class="javax.swing.JLabel">
+                            <constraints>
+                              <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false"/>
+                            </constraints>
+                            <properties>
+                              <font size="12" style="1"/>
+                              <horizontalAlignment value="4"/>
+                              <text value="Email:"/>
+                            </properties>
+                          </component>
+                          <component id="ca105" class="javax.swing.JTextField" binding="txCreateUserFirstName">
+                            <constraints>
+                              <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                                <preferred-size width="150" height="-1"/>
+                              </grid>
+                            </constraints>
+                            <properties>
+                              <font size="12"/>
+                              <text value=""/>
+                            </properties>
+                          </component>
+                          <component id="6d6" class="javax.swing.JTextField" binding="txCreateUserLastName">
+                            <constraints>
+                              <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                                <preferred-size width="150" height="-1"/>
+                              </grid>
+                            </constraints>
+                            <properties>
+                              <font size="12"/>
+                              <text value=""/>
+                            </properties>
+                          </component>
+                          <component id="94bea" class="javax.swing.JTextField" binding="txCreateUserEmail">
+                            <constraints>
+                              <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                                <preferred-size width="150" height="-1"/>
+                              </grid>
+                            </constraints>
+                            <properties>
+                              <font size="12"/>
+                              <text value=""/>
+                            </properties>
+                          </component>
+                          <component id="1c164" class="javax.swing.JButton" binding="btnCreateUser">
+                            <constraints>
+                              <grid row="3" column="0" row-span="1" col-span="2" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                            </constraints>
+                            <properties>
+                              <text value="Create New User"/>
                             </properties>
                           </component>
                         </children>
@@ -354,7 +354,7 @@
                       </hspacer>
                     </children>
                   </grid>
-                  <grid id="7d063" layout-manager="GridLayoutManager" row-count="4" column-count="7" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                  <grid id="7d063" layout-manager="GridLayoutManager" row-count="5" column-count="7" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
                     <margin top="0" left="0" bottom="0" right="0"/>
                     <constraints>
                       <tabbedpane title="Testrack Services"/>
@@ -397,7 +397,7 @@
                       </component>
                       <component id="2b2b4" class="javax.swing.JButton" binding="btnDeleteTestrack">
                         <constraints>
-                          <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                          <grid row="3" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                         </constraints>
                         <properties>
                           <background color="-6612697"/>
@@ -407,7 +407,7 @@
                       </component>
                       <scrollpane id="65b2b">
                         <constraints>
-                          <grid row="3" column="0" row-span="1" col-span="7" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                          <grid row="4" column="0" row-span="1" col-span="7" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
                         </constraints>
                         <properties/>
                         <border type="none"/>
@@ -422,7 +422,7 @@
                       </scrollpane>
                       <component id="7181c" class="javax.swing.JButton" binding="btnClearTestrackData">
                         <constraints>
-                          <grid row="2" column="6" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                          <grid row="3" column="6" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                         </constraints>
                         <properties>
                           <text value="Clear Data"/>
@@ -430,7 +430,7 @@
                       </component>
                       <component id="629a7" class="javax.swing.JButton" binding="lbGetRackDetails">
                         <constraints>
-                          <grid row="2" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                          <grid row="3" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                         </constraints>
                         <properties>
                           <text value="Get Testrack Details"/>
@@ -438,12 +438,12 @@
                       </component>
                       <hspacer id="2896e">
                         <constraints>
-                          <grid row="2" column="5" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                          <grid row="3" column="5" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                         </constraints>
                       </hspacer>
                       <component id="d9930" class="javax.swing.JButton" binding="btnAddDisplay">
                         <constraints>
-                          <grid row="2" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                          <grid row="3" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                         </constraints>
                         <properties>
                           <text value="Add Display"/>
@@ -451,11 +451,35 @@
                       </component>
                       <component id="dcd68" class="javax.swing.JButton" binding="btnRemoveDisplay">
                         <constraints>
-                          <grid row="2" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                          <grid row="3" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                         </constraints>
                         <properties>
                           <text value="Remove Display"/>
                         </properties>
+                      </component>
+                      <component id="a9d75" class="javax.swing.JTextField" binding="txRackHeartbeatResponse">
+                        <constraints>
+                          <grid row="1" column="2" row-span="1" col-span="5" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                            <preferred-size width="150" height="-1"/>
+                          </grid>
+                        </constraints>
+                        <properties/>
+                      </component>
+                      <component id="14a80" class="javax.swing.JButton" binding="btnSendRackHandOver">
+                        <constraints>
+                          <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                        </constraints>
+                        <properties>
+                          <text value="Hand Over Selected Rack"/>
+                        </properties>
+                      </component>
+                      <component id="384bc" class="javax.swing.JTextField" binding="txRackHandOverResponse">
+                        <constraints>
+                          <grid row="2" column="2" row-span="1" col-span="5" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                            <preferred-size width="150" height="-1"/>
+                          </grid>
+                        </constraints>
+                        <properties/>
                       </component>
                     </children>
                   </grid>
@@ -808,7 +832,7 @@
                 <properties/>
                 <border type="none"/>
                 <children>
-                  <grid id="5213e" layout-manager="GridLayoutManager" row-count="3" column-count="4" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                  <grid id="5213e" layout-manager="GridLayoutManager" row-count="5" column-count="4" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
                     <margin top="0" left="0" bottom="0" right="0"/>
                     <constraints>
                       <tabbedpane title="Front End Simulation"/>
@@ -832,7 +856,7 @@
                       </hspacer>
                       <component id="d6dd9" class="javax.swing.JLabel" binding="lbSysTime">
                         <constraints>
-                          <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                          <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                         </constraints>
                         <properties>
                           <text value="Label"/>
@@ -859,7 +883,7 @@
                       </component>
                       <scrollpane id="fbf16">
                         <constraints>
-                          <grid row="1" column="0" row-span="1" col-span="4" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                          <grid row="3" column="0" row-span="1" col-span="4" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
                         </constraints>
                         <properties/>
                         <border type="none"/>
@@ -870,6 +894,46 @@
                           </component>
                         </children>
                       </scrollpane>
+                      <component id="59ec9" class="javax.swing.JLabel">
+                        <constraints>
+                          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                        </constraints>
+                        <properties>
+                          <font size="12" style="1"/>
+                          <text value="Last Cyclic Response:"/>
+                        </properties>
+                      </component>
+                      <component id="cbc32" class="javax.swing.JTextField" binding="txFrontEndLastResponse">
+                        <constraints>
+                          <grid row="1" column="1" row-span="1" col-span="3" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                            <preferred-size width="244" height="26"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <font size="12"/>
+                          <text value=""/>
+                        </properties>
+                      </component>
+                      <component id="84d0f" class="javax.swing.JLabel">
+                        <constraints>
+                          <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                        </constraints>
+                        <properties>
+                          <font size="12" style="1"/>
+                          <text value="Last Single Response:"/>
+                        </properties>
+                      </component>
+                      <component id="803ec" class="javax.swing.JTextField" binding="txFrontEndLastSingleResponse">
+                        <constraints>
+                          <grid row="2" column="1" row-span="1" col-span="3" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                            <preferred-size width="244" height="26"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <font size="12"/>
+                          <text value=""/>
+                        </properties>
+                      </component>
                     </children>
                   </grid>
                 </children>
