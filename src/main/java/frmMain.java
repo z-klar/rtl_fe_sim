@@ -102,6 +102,9 @@ public class frmMain {
     private JTextField txRackHandOverResponse;
     private JTextField txFrontEndLastResponse;
     private JTextField txFrontEndLastSingleResponse;
+    private JButton btnGetSysInfo;
+    private JTextField txSystemInfo;
+    private JButton btnUpdateConfig;
 
 
     private DefaultListModel<String> dlmUserLog = new DefaultListModel<>();
@@ -168,6 +171,30 @@ public class frmMain {
         btnDeleteMmDevice.addActionListener(e -> DeleteMmDevice());
         btnSendRackHandOver.addActionListener(e -> HandOverRack());
         chkFrontendConnectRack.addActionListener(e -> SwitchRackControl());
+        btnGetSysInfo.addActionListener(e -> GetSystemInfo());
+        btnUpdateConfig.addActionListener(e -> restCall.UpdateUrl(txBeIpAddress.getText(),
+                                                    Integer.parseInt(txBePort.getText())));
+    }
+
+    private void GetSystemInfo() {
+        RestCallOutput res = restCall.getSystemInfo(globalData.token.getToken());
+        int iRes = res.getResultCode();
+        if(iRes < 300) {
+            try {
+                ObjectMapper mapper = new ObjectMapper();
+                SystemInfo sysInfo = mapper.readValue(res.getDataMsg(), SystemInfo.class);
+                String spom = "Version: " + sysInfo.getSystemVersion() +
+                              " ,   Build Date: " + sysInfo.getSystemBuildDate();
+                txSystemInfo.setText(spom);
+            }
+            catch(Exception ex) {
+                txSystemInfo.setText("Error parsin JSON:" + res.getDataMsg());
+            }
+        }
+        else {
+            String msg = "ERROR: " + res.getResultCode() + " / " + res.getErrorMsg();
+            txSystemInfo.setText(msg);
+        }
     }
 
     private void HandOverRack() {
@@ -180,7 +207,7 @@ public class frmMain {
                 txRackHandOverResponse.setText(msg);
             }
             else {
-                String msg = "Response: " + iRes ;
+                String msg = "Response: " + iRes + "  ERR: " + res.getErrorMsg() ;
                 txRackHandOverResponse.setText(msg);
                 JOptionPane.showMessageDialog(null, "ERROR: Result code: " + iRes);
             }
@@ -527,7 +554,7 @@ public class frmMain {
             }
             else {
                 String msg = "Response: " + iRes ;
-                txRackHeartbeatResponse.setText(msg);
+                txRackHeartbeatResponse.setText(msg + "   ERR: " + res.getErrorMsg());
                 JOptionPane.showMessageDialog(null, "ERROR: Result code: " + iRes);
             }
         }
@@ -761,15 +788,12 @@ public class frmMain {
         tabbedPane2 = new JTabbedPane();
         panel1.add(tabbedPane2, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, new Dimension(200, 200), null, 0, false));
         final JPanel panel2 = new JPanel();
-        panel2.setLayout(new GridLayoutManager(3, 2, new Insets(0, 0, 0, 0), -1, -1));
-        tabbedPane2.addTab("Create User", panel2);
+        panel2.setLayout(new GridLayoutManager(4, 2, new Insets(0, 0, 0, 0), -1, -1));
+        tabbedPane2.addTab("Main Functions", panel2);
         final JScrollPane scrollPane1 = new JScrollPane();
-        panel2.add(scrollPane1, new GridConstraints(2, 0, 1, 2, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
+        panel2.add(scrollPane1, new GridConstraints(3, 0, 1, 2, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
         tblUser = new JTable();
         scrollPane1.setViewportView(tblUser);
-        btnGetAllUsers = new JButton();
-        btnGetAllUsers.setText("Get All Users");
-        panel2.add(btnGetAllUsers, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(386, 30), null, 0, false));
         final JPanel panel3 = new JPanel();
         panel3.setLayout(new GridLayoutManager(4, 2, new Insets(5, 5, 5, 5), -1, -1));
         panel2.add(panel3, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
@@ -849,6 +873,17 @@ public class frmMain {
         btnCreateUser = new JButton();
         btnCreateUser.setText("Create New User");
         panel4.add(btnCreateUser, new GridConstraints(3, 0, 1, 2, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        btnGetSysInfo = new JButton();
+        btnGetSysInfo.setText("Get System Info");
+        panel2.add(btnGetSysInfo, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        txSystemInfo = new JTextField();
+        Font txSystemInfoFont = this.$$$getFont$$$(null, -1, 12, txSystemInfo.getFont());
+        if (txSystemInfoFont != null) txSystemInfo.setFont(txSystemInfoFont);
+        txSystemInfo.setText("");
+        panel2.add(txSystemInfo, new GridConstraints(1, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
+        btnGetAllUsers = new JButton();
+        btnGetAllUsers.setText("Get All Users");
+        panel2.add(btnGetAllUsers, new GridConstraints(2, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(386, 30), null, 0, false));
         final JPanel panel5 = new JPanel();
         panel5.setLayout(new GridLayoutManager(3, 4, new Insets(0, 0, 0, 0), -1, -1));
         tabbedPane2.addTab("Mail Functions", panel5);
@@ -1351,6 +1386,9 @@ public class frmMain {
         if (txConfigSignalServerPortFont != null) txConfigSignalServerPort.setFont(txConfigSignalServerPortFont);
         txConfigSignalServerPort.setText("8890");
         panel19.add(txConfigSignalServerPort, new GridConstraints(1, 3, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
+        btnUpdateConfig = new JButton();
+        btnUpdateConfig.setText("Update Configuration");
+        panel19.add(btnUpdateConfig, new GridConstraints(1, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
     }
 
     /**

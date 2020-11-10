@@ -33,6 +33,11 @@ public class RestCallService {
         this.dlmUserLog = dlm;
     }
 
+    public void UpdateUrl(String url, int port) {
+        BeIp = url;
+        BePort = port;
+    }
+
     public RestCallOutput SendRestApiRequest(String Method, Map<String,String> Properties,
                                              String TxData, String surl) {
 
@@ -277,15 +282,10 @@ public class RestCallService {
         String surl = "http://" + BeIp + ":" + BePort + "/testrack/" + rackId ;
         if(verbose) dlmUserLog.addElement("URL: " + surl);
 
-        try {
-            Map<String, String> props = new HashMap<>();
-            props.put("Authorization", "Bearer " + token);
-            RestCallOutput ro = SendRestApiRequest("DELETE", props, null, surl);
-            return(ro);
-        }
-        catch(Exception ex) {
-            return(null);
-        }
+        Map<String, String> props = new HashMap<>();
+        props.put("Authorization", "Bearer " + token);
+        RestCallOutput ro = SendRestApiRequest("DELETE", props, null, surl);
+        return(ro);
     }
 
     public RestCallOutput sendVerifyEmail(String userId, String token) {
@@ -295,15 +295,18 @@ public class RestCallService {
 
         HttpURLConnection con = null;
         int status = 0;
-        try {
-            Map<String, String> props = new HashMap<>();
-            props.put("Authorization", "Bearer " + token);
-            RestCallOutput ro = SendRestApiRequest("POST", props, null, surl);
-            return(ro);
-        }
-        catch(Exception ex) {
-            return(null);
-        }
+        Map<String, String> props = new HashMap<>();
+        props.put("Authorization", "Bearer " + token);
+        RestCallOutput ro = SendRestApiRequest("POST", props, null, surl);
+        return(ro);
     }
 
+    public RestCallOutput getSystemInfo(String token) {
+        String surl = "http://" + BeIp + ":" + BePort + "/sysinfo";
+        Map<String, String> props = new HashMap<>();
+        props.put("Content-Type", "application/json");
+        props.put("Authorization", "Bearer " + token);
+        RestCallOutput res = SendRestApiRequest("GET", props,null, surl);
+        return res;
+    }
 }
