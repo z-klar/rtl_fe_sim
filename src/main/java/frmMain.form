@@ -1110,15 +1110,6 @@
                           <text value="Update  Devices"/>
                         </properties>
                       </component>
-                      <component id="59dd0" class="javax.swing.JLabel">
-                        <constraints>
-                          <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-                        </constraints>
-                        <properties>
-                          <font size="36"/>
-                          <text value=" "/>
-                        </properties>
-                      </component>
                       <grid id="f3a79" layout-manager="GridLayoutManager" row-count="7" column-count="4" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
                         <margin top="5" left="5" bottom="5" right="5"/>
                         <constraints>
@@ -1288,7 +1279,7 @@
                       </grid>
                       <component id="ead93" class="javax.swing.JButton" binding="btnDeleteMmDevice">
                         <constraints>
-                          <grid row="1" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                          <grid row="1" column="1" row-span="1" col-span="2" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                         </constraints>
                         <properties>
                           <background color="-6612697"/>
@@ -1549,7 +1540,7 @@
                       <editable value="false"/>
                       <font size="12"/>
                       <horizontalAlignment value="2"/>
-                      <text value="1.0.1.14"/>
+                      <text value="1.0.1.15"/>
                     </properties>
                   </component>
                   <component id="f55ba" class="javax.swing.JLabel">
