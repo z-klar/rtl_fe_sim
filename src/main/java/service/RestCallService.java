@@ -10,6 +10,7 @@ import javax.swing.*;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.net.ConnectException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
@@ -90,6 +91,11 @@ public class RestCallService {
             con.disconnect();
             return(ro);
         }
+        catch(ConnectException ex) {
+            ro.setResultCode(1000);
+            ro.setErrorMsg("Exception: " + ex.getMessage());
+            return(ro);
+        }
         catch(Exception ex) {
             ro.setErrorMsg("Exception: " + ex.getMessage());
             return(ro);
@@ -113,6 +119,7 @@ public class RestCallService {
                 sj.add(URLEncoder.encode(entry.getKey(), "UTF-8") + "="
                         + URLEncoder.encode(entry.getValue(), "UTF-8"));
             RestCallOutput ro = SendRestApiRequest("POST", props, sj.toString(), surl);
+            if(ro.getResultCode() > 299) return ro;
             //Creating the ObjectMapper object
             ObjectMapper mapper = new ObjectMapper();
             //Converting the JSONString to POJO
@@ -121,7 +128,10 @@ public class RestCallService {
             return (ro);
         }
         catch(Exception ex) {
-            return(null);
+            RestCallOutput ro = new RestCallOutput();
+            ro.setResultCode(1001);
+            ro.setErrorMsg(ex.getMessage());
+            return(ro);
         }
     }
 
@@ -169,7 +179,7 @@ public class RestCallService {
             ro.setOutputData(racks.getContent());
             return (ro);
         }
-        catch(Exception ex) {
+        catch(Exception ro) {
             return(null);
         }
     }

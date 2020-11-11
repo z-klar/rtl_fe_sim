@@ -107,6 +107,7 @@ public class frmMain {
     private JButton btnUpdateConfig;
     private JTabbedPane tabbedPane6;
     private JList lbSysInfo;
+    private JComboBox cbFesimRacks;
 
 
     private DefaultListModel<String> dlmUserLog = new DefaultListModel<>();
@@ -515,7 +516,8 @@ public class frmMain {
                 }
                 else {  // now NOT Controlling -> start sequence
                     // send CONTROL
-                    RestCallOutput ro = restCall.sendHandOverRack(txFrontendRackId.getText(),
+                    String sRackId = parseRackId(cbFesimRacks.getSelectedItem().toString());
+                    RestCallOutput ro = restCall.sendHandOverRack(sRackId,
                                                     globalData.token.getToken(), false);
                     if(ro.getResultCode() < 300) {
                         txFrontEndLastSingleResponse.setText("SendHandOverRack:   RESULT=" + ro.getResultCode());
@@ -523,6 +525,7 @@ public class frmMain {
                     else {
                         txFrontEndLastSingleResponse.setText(
                                 "ERR: RESULT=" + ro.getResultCode() + "  MSG=" + ro.getErrorMsg());
+                        chkFrontendConnectRack.setSelected(false);
                     }
                 }
             }
@@ -533,6 +536,22 @@ public class frmMain {
         else {  // was unchecked
             ControllingTestrack = false;
         }
+    }
+
+    /**
+     * rackDescr contains something like "ID:23   "RACK:desccription"
+     *
+     * @param rackDescr
+     * @return
+     */
+    private String parseRackId(String rackDescr) {
+        String sRes = "";
+        int pos1 = rackDescr.indexOf(":");
+        String spom1 = rackDescr.substring(pos1+1);
+        int pos2 = spom1.indexOf(" ");
+        spom1 = spom1.substring(0, pos2);
+        long id = Long.parseLong(spom1);
+        return(String.format("%d", id));
     }
 
     private void SwitchRunning() {
@@ -607,8 +626,12 @@ public class frmMain {
 
     private void HeartbeatUpdateRacks() {
         cbHeartbeatRacks.removeAllItems();
+        cbFesimRacks.removeAllItems();
         for (int i = 0; i < globalData.testracks.size(); i++) {
-            cbHeartbeatRacks.addItem(globalData.testracks.get(i).getName());
+            String spom = "ID:" + globalData.testracks.get(i).getId();
+            spom += "   Rack:" + globalData.testracks.get(i).getName();
+            cbHeartbeatRacks.addItem(spom);
+            cbFesimRacks.addItem(spom);
         }
     }
 
@@ -660,6 +683,7 @@ public class frmMain {
             }
             TestrackTable1Model model = new TestrackTable1Model(rows);
             tblTestracks.setModel(model);
+            HeartbeatUpdateRacks();
         }
     }
 
@@ -722,7 +746,8 @@ public class frmMain {
         else {
             txUserLoginState.setText("Log Error !");
             JOptionPane.showMessageDialog(null, "Error getting logged - see the Logger");
-            dlmUserLog.addElement(res.getErrorMsg());
+            dlmUserLog.addElement("getLoginToken:   RES=" + res.getResultCode());
+            dlmUserLog.addElement("ERR: " + res.getErrorMsg());
         }
     }
 
@@ -742,7 +767,8 @@ public class frmMain {
             UpdateRackTable();
             if (chkFrontendConnectRack.isSelected()) {
                 RestCallOutput ro = restCall.sendHeartbeat(
-                        txFrontendRackId.getText(), globalData.token.getToken(), false);
+                        parseRackId(cbFesimRacks.getSelectedItem().toString()),
+                        globalData.token.getToken(), false);
                 txFrontEndLastResponse.setText("Send HB:  RESULT=" + ro.getResultCode());
             }
         } else {
@@ -903,8 +929,9 @@ public class frmMain {
         tblUser = new JTable();
         scrollPane1.setViewportView(tblUser);
         final JPanel panel6 = new JPanel();
-        panel6.setLayout(new GridLayoutManager(3, 4, new Insets(0, 0, 0, 0), -1, -1));
+        panel6.setLayout(new GridLayoutManager(3, 4, new Insets(5, 5, 5, 5), -1, -1));
         tabbedPane2.addTab("Mail Functions", panel6);
+        panel6.setBorder(BorderFactory.createTitledBorder(BorderFactory.createRaisedBevelBorder(), null, TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, null, null));
         final JLabel label7 = new JLabel();
         Font label7Font = this.$$$getFont$$$(null, Font.BOLD, 12, label7.getFont());
         if (label7Font != null) label7.setFont(label7Font);
@@ -929,8 +956,9 @@ public class frmMain {
         panel7.add(tabbedPane3, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, new Dimension(200, 200), null, 0, false));
         tabbedPane3.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0), null, TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, null, null));
         final JPanel panel8 = new JPanel();
-        panel8.setLayout(new GridLayoutManager(2, 2, new Insets(0, 0, 0, 0), -1, -1));
+        panel8.setLayout(new GridLayoutManager(2, 2, new Insets(5, 5, 5, 5), -1, -1));
         tabbedPane3.addTab("Testrack List", panel8);
+        panel8.setBorder(BorderFactory.createTitledBorder(BorderFactory.createRaisedBevelBorder(), null, TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, null, null));
         final JScrollPane scrollPane2 = new JScrollPane();
         panel8.add(scrollPane2, new GridConstraints(1, 0, 1, 2, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
         tblTestracks = new JTable();
@@ -941,8 +969,9 @@ public class frmMain {
         final Spacer spacer4 = new Spacer();
         panel8.add(spacer4, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
         final JPanel panel9 = new JPanel();
-        panel9.setLayout(new GridLayoutManager(5, 7, new Insets(0, 0, 0, 0), -1, -1));
+        panel9.setLayout(new GridLayoutManager(5, 7, new Insets(5, 5, 5, 5), -1, -1));
         tabbedPane3.addTab("Testrack Services", panel9);
+        panel9.setBorder(BorderFactory.createTitledBorder(BorderFactory.createRaisedBevelBorder(), null, TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, null, null));
         btnHeartbeatUpdateRacks = new JButton();
         btnHeartbeatUpdateRacks.setText("Update  Testracks");
         panel9.add(btnHeartbeatUpdateRacks, new GridConstraints(0, 2, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
@@ -989,11 +1018,11 @@ public class frmMain {
         txRackHandOverResponse = new JTextField();
         panel9.add(txRackHandOverResponse, new GridConstraints(2, 2, 1, 5, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         final JPanel panel10 = new JPanel();
-        panel10.setLayout(new GridLayoutManager(13, 4, new Insets(0, 0, 0, 0), -1, -1));
+        panel10.setLayout(new GridLayoutManager(13, 4, new Insets(5, 5, 5, 5), -1, -1));
         Font panel10Font = this.$$$getFont$$$(null, Font.BOLD, 16, panel10.getFont());
         if (panel10Font != null) panel10.setFont(panel10Font);
         tabbedPane3.addTab("Create Rack", panel10);
-        panel10.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5), null, TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, null, null));
+        panel10.setBorder(BorderFactory.createTitledBorder(BorderFactory.createRaisedBevelBorder(), null, TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, null, null));
         final JLabel label9 = new JLabel();
         Font label9Font = this.$$$getFont$$$(null, Font.BOLD, 12, label9.getFont());
         if (label9Font != null) label9.setFont(label9Font);
@@ -1158,27 +1187,23 @@ public class frmMain {
         tabbedPane4 = new JTabbedPane();
         panel11.add(tabbedPane4, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, new Dimension(200, 200), null, 0, false));
         final JPanel panel12 = new JPanel();
-        panel12.setLayout(new GridLayoutManager(5, 4, new Insets(0, 0, 0, 0), -1, -1));
+        panel12.setLayout(new GridLayoutManager(5, 5, new Insets(5, 5, 5, 5), -1, -1));
         tabbedPane4.addTab("Front End Simulation", panel12);
+        panel12.setBorder(BorderFactory.createTitledBorder(BorderFactory.createRaisedBevelBorder(), null, TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, null, null));
         btnStartSimulation = new JButton();
         btnStartSimulation.setBackground(new Color(-515537));
         btnStartSimulation.setText("START Simulation");
         panel12.add(btnStartSimulation, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final Spacer spacer7 = new Spacer();
-        panel12.add(spacer7, new GridConstraints(0, 3, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
+        panel12.add(spacer7, new GridConstraints(0, 4, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
         lbSysTime = new JLabel();
         lbSysTime.setText("Label");
         panel12.add(lbSysTime, new GridConstraints(4, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         chkFrontendConnectRack = new JCheckBox();
         chkFrontendConnectRack.setText("Connect to rack ID:");
         panel12.add(chkFrontendConnectRack, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        txFrontendRackId = new JTextField();
-        Font txFrontendRackIdFont = this.$$$getFont$$$(null, -1, 12, txFrontendRackId.getFont());
-        if (txFrontendRackIdFont != null) txFrontendRackId.setFont(txFrontendRackIdFont);
-        txFrontendRackId.setText("1");
-        panel12.add(txFrontendRackId, new GridConstraints(0, 2, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         final JScrollPane scrollPane4 = new JScrollPane();
-        panel12.add(scrollPane4, new GridConstraints(3, 0, 1, 4, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
+        panel12.add(scrollPane4, new GridConstraints(3, 0, 1, 5, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
         tblFrontendRacks = new JTable();
         scrollPane4.setViewportView(tblFrontendRacks);
         final JLabel label27 = new JLabel();
@@ -1190,7 +1215,7 @@ public class frmMain {
         Font txFrontEndLastResponseFont = this.$$$getFont$$$(null, -1, 12, txFrontEndLastResponse.getFont());
         if (txFrontEndLastResponseFont != null) txFrontEndLastResponse.setFont(txFrontEndLastResponseFont);
         txFrontEndLastResponse.setText("");
-        panel12.add(txFrontEndLastResponse, new GridConstraints(1, 1, 1, 3, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(244, 26), null, 0, false));
+        panel12.add(txFrontEndLastResponse, new GridConstraints(1, 1, 1, 4, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(244, 26), null, 0, false));
         final JLabel label28 = new JLabel();
         Font label28Font = this.$$$getFont$$$(null, Font.BOLD, 12, label28.getFont());
         if (label28Font != null) label28.setFont(label28Font);
@@ -1201,19 +1226,22 @@ public class frmMain {
         if (txFrontEndLastSingleResponseFont != null)
             txFrontEndLastSingleResponse.setFont(txFrontEndLastSingleResponseFont);
         txFrontEndLastSingleResponse.setText("");
-        panel12.add(txFrontEndLastSingleResponse, new GridConstraints(2, 1, 1, 3, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(244, 26), null, 0, false));
+        panel12.add(txFrontEndLastSingleResponse, new GridConstraints(2, 1, 1, 4, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(244, 26), null, 0, false));
+        cbFesimRacks = new JComboBox();
+        panel12.add(cbFesimRacks, new GridConstraints(0, 3, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final JPanel panel13 = new JPanel();
         panel13.setLayout(new GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
         tabbedPane1.addTab("Signal Server", panel13);
         tabbedPane5 = new JTabbedPane();
         panel13.add(tabbedPane5, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, new Dimension(200, 200), null, 0, false));
         final JPanel panel14 = new JPanel();
-        panel14.setLayout(new GridLayoutManager(1, 2, new Insets(0, 0, 0, 0), -1, -1));
+        panel14.setLayout(new GridLayoutManager(1, 2, new Insets(5, 5, 5, 5), -1, -1));
         tabbedPane5.addTab("Main", panel14);
+        panel14.setBorder(BorderFactory.createTitledBorder(BorderFactory.createRaisedBevelBorder(), null, TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, null, null));
         final JSplitPane splitPane1 = new JSplitPane();
         splitPane1.setDividerLocation(365);
         splitPane1.setOrientation(0);
-        panel14.add(splitPane1, new GridConstraints(0, 0, 1, 2, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, new Dimension(200, 200), null, 1, false));
+        panel14.add(splitPane1, new GridConstraints(0, 0, 1, 2, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, new Dimension(200, 200), null, 0, false));
         final JPanel panel15 = new JPanel();
         panel15.setLayout(new GridLayoutManager(2, 2, new Insets(0, 0, 0, 0), -1, -1));
         splitPane1.setLeftComponent(panel15);
@@ -1241,8 +1269,9 @@ public class frmMain {
         if (lbLogSignalFont != null) lbLogSignal.setFont(lbLogSignalFont);
         scrollPane6.setViewportView(lbLogSignal);
         final JPanel panel17 = new JPanel();
-        panel17.setLayout(new GridLayoutManager(3, 5, new Insets(0, 0, 0, 0), -1, -1));
+        panel17.setLayout(new GridLayoutManager(3, 5, new Insets(5, 5, 5, 5), -1, -1));
         tabbedPane5.addTab("Devices Management", panel17);
+        panel17.setBorder(BorderFactory.createTitledBorder(BorderFactory.createRaisedBevelBorder(), null, TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, null, null));
         final JLabel label29 = new JLabel();
         Font label29Font = this.$$$getFont$$$(null, Font.BOLD, 12, label29.getFont());
         if (label29Font != null) label29.setFont(label29Font);
@@ -1370,75 +1399,133 @@ public class frmMain {
         final JPanel panel21 = new JPanel();
         panel21.setLayout(new GridLayoutManager(2, 2, new Insets(0, 0, 0, 0), -1, -1));
         splitPane2.setRightComponent(panel21);
-        txaUserFeedback = new JTextArea();
-        Font txaUserFeedbackFont = this.$$$getFont$$$("JetBrains Mono", -1, -1, txaUserFeedback.getFont());
-        if (txaUserFeedbackFont != null) txaUserFeedback.setFont(txaUserFeedbackFont);
-        txaUserFeedback.setLineWrap(true);
-        panel21.add(txaUserFeedback, new GridConstraints(0, 1, 2, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_WANT_GROW, null, new Dimension(150, 155), null, 0, false));
         btnUserClearText = new JButton();
         btnUserClearText.setText("Clear Text");
         panel21.add(btnUserClearText, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final Spacer spacer13 = new Spacer();
         panel21.add(spacer13, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL, 1, GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
+        final JScrollPane scrollPane8 = new JScrollPane();
+        panel21.add(scrollPane8, new GridConstraints(0, 1, 2, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
+        scrollPane8.setBorder(BorderFactory.createTitledBorder(BorderFactory.createRaisedBevelBorder(), null, TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, null, null));
+        txaUserFeedback = new JTextArea();
+        Font txaUserFeedbackFont = this.$$$getFont$$$("JetBrains Mono", -1, -1, txaUserFeedback.getFont());
+        if (txaUserFeedbackFont != null) txaUserFeedback.setFont(txaUserFeedbackFont);
+        txaUserFeedback.setLineWrap(true);
+        scrollPane8.setViewportView(txaUserFeedback);
         final JPanel panel22 = new JPanel();
-        panel22.setLayout(new GridLayoutManager(3, 5, new Insets(0, 0, 0, 0), -1, -1));
+        panel22.setLayout(new GridLayoutManager(3, 1, new Insets(5, 5, 5, 5), -1, -1));
         tabbedPane1.addTab("Configuration", panel22);
+        panel22.setBorder(BorderFactory.createTitledBorder(BorderFactory.createRaisedBevelBorder(), null, TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, null, null));
+        final JPanel panel23 = new JPanel();
+        panel23.setLayout(new GridLayoutManager(4, 7, new Insets(0, 0, 0, 0), -1, -1));
+        panel22.add(panel23, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
+        panel23.setBorder(BorderFactory.createTitledBorder(BorderFactory.createRaisedBevelBorder(), "   Configuration / Connection Parameters   ", TitledBorder.CENTER, TitledBorder.DEFAULT_POSITION, this.$$$getFont$$$(null, Font.BOLD, 11, panel23.getFont()), new Color(-14672672)));
         final JLabel label38 = new JLabel();
         Font label38Font = this.$$$getFont$$$(null, Font.BOLD, 12, label38.getFont());
         if (label38Font != null) label38.setFont(label38Font);
         label38.setText("BE IP Address");
-        panel22.add(label38, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        final Spacer spacer14 = new Spacer();
-        panel22.add(spacer14, new GridConstraints(0, 4, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
-        final Spacer spacer15 = new Spacer();
-        panel22.add(spacer15, new GridConstraints(2, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL, 1, GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
+        panel23.add(label38, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         txBeIpAddress = new JTextField();
         Font txBeIpAddressFont = this.$$$getFont$$$(null, -1, 12, txBeIpAddress.getFont());
         if (txBeIpAddressFont != null) txBeIpAddress.setFont(txBeIpAddressFont);
         txBeIpAddress.setText("localhost");
-        panel22.add(txBeIpAddress, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
+        panel23.add(txBeIpAddress, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         final JLabel label39 = new JLabel();
         Font label39Font = this.$$$getFont$$$(null, Font.BOLD, 12, label39.getFont());
         if (label39Font != null) label39.setFont(label39Font);
         label39.setText("BE Port");
-        panel22.add(label39, new GridConstraints(0, 2, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        panel23.add(label39, new GridConstraints(0, 2, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         txBePort = new JTextField();
         Font txBePortFont = this.$$$getFont$$$(null, -1, 12, txBePort.getFont());
         if (txBePortFont != null) txBePort.setFont(txBePortFont);
         txBePort.setText("8089");
-        panel22.add(txBePort, new GridConstraints(0, 3, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
+        panel23.add(txBePort, new GridConstraints(0, 3, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
+        final Spacer spacer14 = new Spacer();
+        panel23.add(spacer14, new GridConstraints(0, 6, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
         final JLabel label40 = new JLabel();
         Font label40Font = this.$$$getFont$$$(null, Font.BOLD, 12, label40.getFont());
         if (label40Font != null) label40.setFont(label40Font);
         label40.setText("Signal Server Port");
-        panel22.add(label40, new GridConstraints(1, 2, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        panel23.add(label40, new GridConstraints(0, 4, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         txConfigSignalServerPort = new JTextField();
         Font txConfigSignalServerPortFont = this.$$$getFont$$$(null, -1, 12, txConfigSignalServerPort.getFont());
         if (txConfigSignalServerPortFont != null) txConfigSignalServerPort.setFont(txConfigSignalServerPortFont);
         txConfigSignalServerPort.setText("8890");
-        panel22.add(txConfigSignalServerPort, new GridConstraints(1, 3, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
+        panel23.add(txConfigSignalServerPort, new GridConstraints(0, 5, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
+        final JLabel label41 = new JLabel();
+        Font label41Font = this.$$$getFont$$$(null, Font.BOLD, 10, label41.getFont());
+        if (label41Font != null) label41.setFont(label41Font);
+        label41.setText("  ");
+        panel23.add(label41, new GridConstraints(3, 3, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         btnUpdateConfig = new JButton();
+        btnUpdateConfig.setMargin(new Insets(5, 5, 5, 5));
         btnUpdateConfig.setText("Update Configuration");
-        panel22.add(btnUpdateConfig, new GridConstraints(1, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        final JPanel panel23 = new JPanel();
-        panel23.setLayout(new GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
-        tabbedPane1.addTab("System", panel23);
-        tabbedPane6 = new JTabbedPane();
-        panel23.add(tabbedPane6, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, new Dimension(200, 200), null, 0, false));
+        panel23.add(btnUpdateConfig, new GridConstraints(2, 2, 1, 2, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        final JLabel label42 = new JLabel();
+        Font label42Font = this.$$$getFont$$$(null, -1, 6, label42.getFont());
+        if (label42Font != null) label42.setFont(label42Font);
+        label42.setText("      ");
+        panel23.add(label42, new GridConstraints(1, 3, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final JPanel panel24 = new JPanel();
-        panel24.setLayout(new GridLayoutManager(2, 2, new Insets(0, 0, 0, 0), -1, -1));
-        tabbedPane6.addTab("System Info", panel24);
+        panel24.setLayout(new GridLayoutManager(2, 5, new Insets(5, 5, 5, 5), -1, -1));
+        panel22.add(panel24, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
+        panel24.setBorder(BorderFactory.createTitledBorder(BorderFactory.createRaisedBevelBorder(), "   SW Version   ", TitledBorder.CENTER, TitledBorder.DEFAULT_POSITION, this.$$$getFont$$$(null, Font.BOLD, 11, panel24.getFont()), new Color(-14672672)));
+        final JLabel label43 = new JLabel();
+        Font label43Font = this.$$$getFont$$$(null, Font.BOLD, 12, label43.getFont());
+        if (label43Font != null) label43.setFont(label43Font);
+        label43.setHorizontalAlignment(4);
+        label43.setText("SW Version: ");
+        panel24.add(label43, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_EAST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        final JTextField textField1 = new JTextField();
+        textField1.setEditable(false);
+        Font textField1Font = this.$$$getFont$$$(null, -1, 12, textField1.getFont());
+        if (textField1Font != null) textField1.setFont(textField1Font);
+        textField1.setHorizontalAlignment(2);
+        textField1.setText("1.0.1.14");
+        panel24.add(textField1, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
+        final JLabel label44 = new JLabel();
+        Font label44Font = this.$$$getFont$$$(null, Font.BOLD, 12, label44.getFont());
+        if (label44Font != null) label44.setFont(label44Font);
+        label44.setHorizontalAlignment(4);
+        label44.setHorizontalTextPosition(4);
+        label44.setText("Build Date:");
+        panel24.add(label44, new GridConstraints(0, 2, 1, 1, GridConstraints.ANCHOR_EAST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        final JTextField textField2 = new JTextField();
+        textField2.setEditable(false);
+        Font textField2Font = this.$$$getFont$$$(null, -1, 12, textField2.getFont());
+        if (textField2Font != null) textField2.setFont(textField2Font);
+        textField2.setText("2020-11-11");
+        panel24.add(textField2, new GridConstraints(0, 3, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
+        final Spacer spacer15 = new Spacer();
+        panel24.add(spacer15, new GridConstraints(0, 4, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
+        final JLabel label45 = new JLabel();
+        Font label45Font = this.$$$getFont$$$(null, Font.BOLD, 8, label45.getFont());
+        if (label45Font != null) label45.setFont(label45Font);
+        label45.setHorizontalAlignment(4);
+        label45.setText("    ");
+        panel24.add(label45, new GridConstraints(1, 2, 1, 1, GridConstraints.ANCHOR_EAST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        final Spacer spacer16 = new Spacer();
+        panel22.add(spacer16, new GridConstraints(2, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL, 1, GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
+        final JPanel panel25 = new JPanel();
+        panel25.setLayout(new GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
+        tabbedPane1.addTab("System", panel25);
+        tabbedPane6 = new JTabbedPane();
+        panel25.add(tabbedPane6, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, new Dimension(200, 200), null, 0, false));
+        final JPanel panel26 = new JPanel();
+        panel26.setLayout(new GridLayoutManager(2, 2, new Insets(5, 5, 5, 5), -1, -1));
+        tabbedPane6.addTab("System Info", panel26);
+        panel26.setBorder(BorderFactory.createTitledBorder(BorderFactory.createRaisedBevelBorder(), null, TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, null, null));
         btnGetSysInfo = new JButton();
         btnGetSysInfo.setText("Get System Info");
-        panel24.add(btnGetSysInfo, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        final Spacer spacer16 = new Spacer();
-        panel24.add(spacer16, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
-        final JScrollPane scrollPane8 = new JScrollPane();
-        panel24.add(scrollPane8, new GridConstraints(1, 0, 1, 2, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
+        panel26.add(btnGetSysInfo, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        final Spacer spacer17 = new Spacer();
+        panel26.add(spacer17, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
+        final JScrollPane scrollPane9 = new JScrollPane();
+        panel26.add(scrollPane9, new GridConstraints(1, 0, 1, 2, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
         lbSysInfo = new JList();
-        Font lbSysInfoFont = this.$$$getFont$$$("Courier New", -1, 12, lbSysInfo.getFont());
+        Font lbSysInfoFont = this.$$$getFont$$$("Courier New", -1, 14, lbSysInfo.getFont());
         if (lbSysInfoFont != null) lbSysInfo.setFont(lbSysInfoFont);
-        scrollPane8.setViewportView(lbSysInfo);
+        scrollPane9.setViewportView(lbSysInfo);
     }
 
     /**
