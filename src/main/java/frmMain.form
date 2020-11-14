@@ -1341,7 +1341,7 @@
                           <component id="4eef6" class="javax.swing.JList" binding="lbUserLog">
                             <constraints/>
                             <properties>
-                              <font name="Courier New" size="13"/>
+                              <font name="JetBrains Mono"/>
                             </properties>
                           </component>
                         </children>

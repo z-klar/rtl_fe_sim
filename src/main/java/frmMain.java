@@ -1406,7 +1406,7 @@ public class frmMain {
         final JScrollPane scrollPane7 = new JScrollPane();
         panel20.add(scrollPane7, new GridConstraints(1, 0, 1, 2, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, null, new Dimension(0, 135), null, 0, false));
         lbUserLog = new JList();
-        Font lbUserLogFont = this.$$$getFont$$$("Courier New", -1, 13, lbUserLog.getFont());
+        Font lbUserLogFont = this.$$$getFont$$$("JetBrains Mono", -1, -1, lbUserLog.getFont());
         if (lbUserLogFont != null) lbUserLog.setFont(lbUserLogFont);
         scrollPane7.setViewportView(lbUserLog);
         final Spacer spacer12 = new Spacer();
