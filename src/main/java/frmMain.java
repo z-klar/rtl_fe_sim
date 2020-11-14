@@ -108,6 +108,7 @@ public class frmMain {
     private JTabbedPane tabbedPane6;
     private JList lbSysInfo;
     private JComboBox cbFesimRacks;
+    private JCheckBox chkVerboseLogging;
 
 
     private DefaultListModel<String> dlmUserLog = new DefaultListModel<>();
@@ -320,7 +321,10 @@ public class frmMain {
     }
 
     private void RackAddDisplay() {
-        int rackpos = GetRackOrderByName(cbHeartbeatRacks.getSelectedItem().toString());
+        String rackName = cbHeartbeatRacks.getSelectedItem().toString();
+        int rackId = Integer.parseInt(parseRackId(rackName));
+        int rackpos = GetRackOrderById(rackId);
+
         if (rackpos >= 0) {
             TestrackDTO rack = globalData.testracks.get(rackpos);
 
@@ -355,7 +359,10 @@ public class frmMain {
     }
 
     private void RackRemoveDisplay() {
-        int rackpos = GetRackOrderByName(cbHeartbeatRacks.getSelectedItem().toString());
+        String rackName = cbHeartbeatRacks.getSelectedItem().toString();
+        int rackId = Integer.parseInt(parseRackId(rackName));
+        int rackpos = GetRackOrderById(rackId);
+
         if (rackpos >= 0) {
             TestrackDTO rack = globalData.testracks.get(rackpos);
 
@@ -412,7 +419,9 @@ public class frmMain {
 
 
     private void GetRackDetails() {
-        int rackpos = GetRackOrderByName(cbHeartbeatRacks.getSelectedItem().toString());
+        String rackName = cbHeartbeatRacks.getSelectedItem().toString();
+        int rackId = Integer.parseInt(parseRackId(rackName));
+        int rackpos = GetRackOrderById(rackId);
         if (rackpos >= 0) {
             TestrackDTO rack = globalData.testracks.get(rackpos);
             dlmRackData.addElement("===  Displays ===");
@@ -429,11 +438,13 @@ public class frmMain {
                 i++;
             }
         }
+        else {
+            dlmUserLog.addElement("GetRackDetails: Rack=" + rackName + "   -> Unknown POS !");
+        }
     }
 
     private void DeleteTestrack() {
-
-        String rackId = GetRackIdByName(cbHeartbeatRacks.getSelectedItem().toString());
+        String rackId = parseRackId(cbHeartbeatRacks.getSelectedItem().toString());
         if (rackId.length() > 0) {
             RestCallOutput res = restCall.deleteTestrack(rackId, globalData.token.getToken(), true);
             int iRes = res.getResultCode();
@@ -618,6 +629,15 @@ public class frmMain {
     private int GetRackOrderByName(String name) {
         for (int i = 0; i < globalData.testracks.size(); i++) {
             if (globalData.testracks.get(i).getName().equals(name)) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    private int GetRackOrderById(int id) {
+        for (int i = 0; i < globalData.testracks.size(); i++) {
+            if (globalData.testracks.get(i).getId() == (long)id) {
                 return i;
             }
         }
@@ -1461,6 +1481,9 @@ public class frmMain {
         if (label41Font != null) label41.setFont(label41Font);
         label41.setText("      ");
         panel23.add(label41, new GridConstraints(1, 3, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        chkVerboseLogging = new JCheckBox();
+        chkVerboseLogging.setText("Verbose Logging");
+        panel23.add(chkVerboseLogging, new GridConstraints(3, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final JPanel panel24 = new JPanel();
         panel24.setLayout(new GridLayoutManager(2, 5, new Insets(5, 5, 5, 5), -1, -1));
         panel22.add(panel24, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
@@ -1476,7 +1499,7 @@ public class frmMain {
         Font textField1Font = this.$$$getFont$$$(null, -1, 12, textField1.getFont());
         if (textField1Font != null) textField1.setFont(textField1Font);
         textField1.setHorizontalAlignment(2);
-        textField1.setText("1.0.1.15");
+        textField1.setText("1.0.2.0");
         panel24.add(textField1, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         final JLabel label43 = new JLabel();
         Font label43Font = this.$$$getFont$$$(null, Font.BOLD, 12, label43.getFont());
@@ -1489,7 +1512,7 @@ public class frmMain {
         textField2.setEditable(false);
         Font textField2Font = this.$$$getFont$$$(null, -1, 12, textField2.getFont());
         if (textField2Font != null) textField2.setFont(textField2Font);
-        textField2.setText("2020-11-11");
+        textField2.setText("2020-11-14");
         panel24.add(textField2, new GridConstraints(0, 3, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         final Spacer spacer15 = new Spacer();
         panel24.add(spacer15, new GridConstraints(0, 4, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));

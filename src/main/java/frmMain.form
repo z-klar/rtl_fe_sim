@@ -1507,6 +1507,14 @@
                       <text value="      "/>
                     </properties>
                   </component>
+                  <component id="ad852" class="javax.swing.JCheckBox" binding="chkVerboseLogging">
+                    <constraints>
+                      <grid row="3" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                    <properties>
+                      <text value="Verbose Logging"/>
+                    </properties>
+                  </component>
                 </children>
               </grid>
               <grid id="c060a" layout-manager="GridLayoutManager" row-count="2" column-count="5" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
@@ -1540,7 +1548,7 @@
                       <editable value="false"/>
                       <font size="12"/>
                       <horizontalAlignment value="2"/>
-                      <text value="1.0.1.15"/>
+                      <text value="1.0.2.0"/>
                     </properties>
                   </component>
                   <component id="f55ba" class="javax.swing.JLabel">
@@ -1563,7 +1571,7 @@
                     <properties>
                       <editable value="false"/>
                       <font size="12"/>
-                      <text value="2020-11-11"/>
+                      <text value="2020-11-14"/>
                     </properties>
                   </component>
                   <hspacer id="47b19">
