@@ -13,4 +13,5 @@ public class TestrackDisplayDTO {
     private int width;
     private int height;
     private int mgbport;
+    private String version;
 }

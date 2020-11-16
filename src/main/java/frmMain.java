@@ -435,6 +435,7 @@ public class frmMain {
                 dlmRackData.addElement("    Width:    " + disp.getWidth());
                 dlmRackData.addElement("    Height:   " + disp.getHeight());
                 dlmRackData.addElement("    MGB Port: " + disp.getMgbport());
+                dlmRackData.addElement("    Version:  " + disp.getVersion());
                 i++;
             }
         }
@@ -1499,7 +1500,7 @@ public class frmMain {
         Font textField1Font = this.$$$getFont$$$(null, -1, 12, textField1.getFont());
         if (textField1Font != null) textField1.setFont(textField1Font);
         textField1.setHorizontalAlignment(2);
-        textField1.setText("1.0.2.0");
+        textField1.setText("1.0.2.1");
         panel24.add(textField1, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         final JLabel label43 = new JLabel();
         Font label43Font = this.$$$getFont$$$(null, Font.BOLD, 12, label43.getFont());
@@ -1512,7 +1513,7 @@ public class frmMain {
         textField2.setEditable(false);
         Font textField2Font = this.$$$getFont$$$(null, -1, 12, textField2.getFont());
         if (textField2Font != null) textField2.setFont(textField2Font);
-        textField2.setText("2020-11-14");
+        textField2.setText("2020-11-16");
         panel24.add(textField2, new GridConstraints(0, 3, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         final Spacer spacer15 = new Spacer();
         panel24.add(spacer15, new GridConstraints(0, 4, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
