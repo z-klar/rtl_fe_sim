@@ -21,4 +21,11 @@ public class RestCallOutput {
         InfoMsg = info;
         ResultCode = code;
     }
+    /**
+     *
+     */
+    public void AddErrorText(String text) {
+        ErrorMsg += "\n";
+        ErrorMsg += text;
+    }
 }

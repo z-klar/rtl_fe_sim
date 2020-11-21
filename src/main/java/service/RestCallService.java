@@ -10,10 +10,7 @@ import javax.swing.*;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.net.ConnectException;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.URLEncoder;
+import java.net.*;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.List;
@@ -24,14 +21,17 @@ public class RestCallService {
 
     private String BeIp;
     private int BePort;
+    private int SignalPort;
     private DefaultListModel dlmUserLog;
 
 
 
-    public RestCallService(String ip, int port, DefaultListModel dlm) {
+    public RestCallService(String ip, int port,
+                           DefaultListModel dlm, int sig) {
         this.BeIp = ip;
         this.BePort = port;
         this.dlmUserLog = dlm;
+        this.SignalPort = sig;
     }
 
     public void UpdateUrl(String url, int port) {
@@ -93,7 +93,12 @@ public class RestCallService {
         }
         catch(ConnectException ex) {
             ro.setResultCode(1000);
-            ro.setErrorMsg("Exception: " + ex.getMessage());
+            ro.setErrorMsg("ConnectException: " + ex.getMessage());
+            return(ro);
+        }
+        catch(UnknownHostException ex) {
+            ro.setResultCode(1000);
+            ro.setErrorMsg("UnknownHostException: " + ex.getMessage());
             return(ro);
         }
         catch(Exception ex) {
@@ -157,18 +162,22 @@ public class RestCallService {
             return(ro);
         }
     }
-
+    /**
+     *
+     * @param token
+     * @param verbose
+     * @return
+     */
     public RestCallOutput readAllTestracks(String token, boolean verbose ) {
         if(verbose) dlmUserLog.addElement("Getting testrack list ....");
         String surl = "http://" + BeIp + ":" + BePort + "/testrack/";
         if(verbose) dlmUserLog.addElement("URL: " + surl);
-
+        RestCallOutput ro = new RestCallOutput();
         try {
             Map<String, String> props = new HashMap<>();
             props.put("Accept", "*/*");
             props.put("Authorization", "Bearer " + token);
-            RestCallOutput ro = SendRestApiRequest("GET", props, null, surl);
-
+            ro = SendRestApiRequest("GET", props, null, surl);
             // API returns pageable result:
             // {  "content" : [ testrack_data],
             //   "pageable" : .....
@@ -179,8 +188,10 @@ public class RestCallService {
             ro.setOutputData(racks.getContent());
             return (ro);
         }
-        catch(Exception ro) {
-            return(null);
+        catch(Exception ex) {
+            ro.AddErrorText("Exception: " + ex.getClass().toString());
+            ro.AddErrorText("Message: " + ex.getMessage());
+            return(ro);
         }
     }
 
@@ -316,6 +327,14 @@ public class RestCallService {
         Map<String, String> props = new HashMap<>();
         props.put("Content-Type", "application/json");
         props.put("Authorization", "Bearer " + token);
+        RestCallOutput res = SendRestApiRequest("GET", props,null, surl);
+        return res;
+    }
+
+    public RestCallOutput getSignalServerInfo() {
+        String surl = "http://" + BeIp + ":" + SignalPort + "/devices/heartbeat";
+        Map<String, String> props = new HashMap<>();
+        props.put("Content-Type", "application/json");
         RestCallOutput res = SendRestApiRequest("GET", props,null, surl);
         return res;
     }
