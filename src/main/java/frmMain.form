@@ -515,7 +515,7 @@
                                   <component id="ff00d" class="javax.swing.JList" binding="lbTestrackData">
                                     <constraints/>
                                     <properties>
-                                      <font name="Courier New" size="12"/>
+                                      <font name="Courier New" size="12" style="0"/>
                                     </properties>
                                   </component>
                                 </children>
@@ -1157,7 +1157,7 @@
                                   <component id="8358" class="javax.swing.JList" binding="lbLogSignal">
                                     <constraints/>
                                     <properties>
-                                      <font name="Courier New" size="12"/>
+                                      <font name="Courier New" size="12" style="0"/>
                                     </properties>
                                   </component>
                                 </children>
@@ -1437,7 +1437,7 @@
                           <component id="4eef6" class="javax.swing.JList" binding="lbUserLog">
                             <constraints/>
                             <properties>
-                              <font name="Courier New"/>
+                              <font name="Courier New" style="0"/>
                             </properties>
                           </component>
                         </children>
@@ -1480,7 +1480,7 @@
                           <component id="82894" class="javax.swing.JTextArea" binding="txaUserFeedback">
                             <constraints/>
                             <properties>
-                              <font name="JetBrains Mono"/>
+                              <font name="Courier New" style="0"/>
                               <lineWrap value="true"/>
                             </properties>
                           </component>
@@ -1742,7 +1742,7 @@
                           <component id="30069" class="javax.swing.JList" binding="lbSysInfo">
                             <constraints/>
                             <properties>
-                              <font name="Courier New" size="14"/>
+                              <font name="Courier New" size="14" style="0"/>
                             </properties>
                           </component>
                         </children>
@@ -1810,7 +1810,8 @@
                 </constraints>
                 <properties>
                   <background color="-2368028"/>
-                  <editable value="true"/>
+                  <editable value="false"/>
+                  <enabled value="true"/>
                   <font size="11"/>
                   <text value="RTL FrontEnd Simulator"/>
                 </properties>

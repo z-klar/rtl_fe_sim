@@ -1030,7 +1030,7 @@ public class frmMain {
         final JScrollPane scrollPane3 = new JScrollPane();
         panel10.add(scrollPane3, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
         lbTestrackData = new JList();
-        Font lbTestrackDataFont = this.$$$getFont$$$("Courier New", -1, 12, lbTestrackData.getFont());
+        Font lbTestrackDataFont = this.$$$getFont$$$("Courier New", Font.PLAIN, 12, lbTestrackData.getFont());
         if (lbTestrackDataFont != null) lbTestrackData.setFont(lbTestrackDataFont);
         scrollPane3.setViewportView(lbTestrackData);
         final JPanel panel11 = new JPanel();
@@ -1309,7 +1309,7 @@ public class frmMain {
         final JScrollPane scrollPane6 = new JScrollPane();
         panel19.add(scrollPane6, new GridConstraints(1, 0, 1, 2, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
         lbLogSignal = new JList();
-        Font lbLogSignalFont = this.$$$getFont$$$("Courier New", -1, 12, lbLogSignal.getFont());
+        Font lbLogSignalFont = this.$$$getFont$$$("Courier New", Font.PLAIN, 12, lbLogSignal.getFont());
         if (lbLogSignalFont != null) lbLogSignal.setFont(lbLogSignalFont);
         scrollPane6.setViewportView(lbLogSignal);
         final JPanel panel20 = new JPanel();
@@ -1430,7 +1430,7 @@ public class frmMain {
         final JScrollPane scrollPane7 = new JScrollPane();
         panel23.add(scrollPane7, new GridConstraints(1, 0, 1, 2, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, null, new Dimension(0, 135), null, 0, false));
         lbUserLog = new JList();
-        Font lbUserLogFont = this.$$$getFont$$$("Courier New", -1, -1, lbUserLog.getFont());
+        Font lbUserLogFont = this.$$$getFont$$$("Courier New", Font.PLAIN, -1, lbUserLog.getFont());
         if (lbUserLogFont != null) lbUserLog.setFont(lbUserLogFont);
         scrollPane7.setViewportView(lbUserLog);
         final Spacer spacer14 = new Spacer();
@@ -1447,7 +1447,7 @@ public class frmMain {
         panel24.add(scrollPane8, new GridConstraints(0, 1, 2, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
         scrollPane8.setBorder(BorderFactory.createTitledBorder(BorderFactory.createRaisedBevelBorder(), null, TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, null, null));
         txaUserFeedback = new JTextArea();
-        Font txaUserFeedbackFont = this.$$$getFont$$$("JetBrains Mono", -1, -1, txaUserFeedback.getFont());
+        Font txaUserFeedbackFont = this.$$$getFont$$$("Courier New", Font.PLAIN, -1, txaUserFeedback.getFont());
         if (txaUserFeedbackFont != null) txaUserFeedback.setFont(txaUserFeedbackFont);
         txaUserFeedback.setLineWrap(true);
         scrollPane8.setViewportView(txaUserFeedback);
@@ -1565,7 +1565,7 @@ public class frmMain {
         final JScrollPane scrollPane9 = new JScrollPane();
         panel29.add(scrollPane9, new GridConstraints(1, 0, 1, 3, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
         lbSysInfo = new JList();
-        Font lbSysInfoFont = this.$$$getFont$$$("Courier New", -1, 14, lbSysInfo.getFont());
+        Font lbSysInfoFont = this.$$$getFont$$$("Courier New", Font.PLAIN, 14, lbSysInfo.getFont());
         if (lbSysInfoFont != null) lbSysInfo.setFont(lbSysInfoFont);
         scrollPane9.setViewportView(lbSysInfo);
         btnGetSignalServerInfo = new JButton();
@@ -1591,7 +1591,8 @@ public class frmMain {
         panel32.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLoweredBevelBorder(), null, TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, null, null));
         txStatusBar0 = new JTextField();
         txStatusBar0.setBackground(new Color(-2368028));
-        txStatusBar0.setEditable(true);
+        txStatusBar0.setEditable(false);
+        txStatusBar0.setEnabled(true);
         Font txStatusBar0Font = this.$$$getFont$$$(null, -1, 11, txStatusBar0.getFont());
         if (txStatusBar0Font != null) txStatusBar0.setFont(txStatusBar0Font);
         txStatusBar0.setText("RTL FrontEnd Simulator");

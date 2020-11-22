@@ -41,6 +41,7 @@ public class ToolFunctions {
         dlmSysInfo.clear();
         if(globalData.token == null) {
             dlmSysInfo.addElement("User NOT logged !!!");
+            SetErrMsgInStatusBar("User NOT logged !!!");
             return;
         }
         RestCallOutput res = restService.getSignalServerInfo();
@@ -75,6 +76,7 @@ public class ToolFunctions {
         dlmSysInfo.clear();
         if(globalData.token == null) {
             dlmSysInfo.addElement("User NOT logged !!!");
+            SetErrMsgInStatusBar("User NOT logged !!!");
             return;
         }
         RestCallOutput res = restService.getSystemInfo(globalData.token.getToken());
