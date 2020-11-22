@@ -20,6 +20,8 @@ import javax.swing.border.TitledBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.time.temporal.TemporalUnit;
@@ -115,6 +117,8 @@ public class frmMain {
     private JTextField txTestrackDisplayVersion;
     private JButton btnGetSignalServerInfo;
     private JTextField txStatusBar1;
+    private JTextField txStatusBar2;
+    private JTextField txStatusBar0;
 
 
     private DefaultListModel<String> dlmUserLog = new DefaultListModel<>();
@@ -151,7 +155,7 @@ public class frmMain {
                 Integer.parseInt(txConfigSignalServerPort.getText())
         );
 
-        tools = new ToolFunctions(globalData, restCall);
+        tools = new ToolFunctions(globalData, restCall, txStatusBar1);
 
         jsonProcessing = new JsonProcessing(dlmSignal);
 
@@ -195,8 +199,19 @@ public class frmMain {
         cbHeartbeatRacks.addActionListener(e -> SelectedTestrackChanged());
         cbTestrackDisplayType.addActionListener(e -> TestrackDisplayTypeChanged());
         btnGetSignalServerInfo.addActionListener(e -> tools.GetSignalServerInfo(dlmSysInfo));
+
+        txStatusBar1.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                StatusBarMouseClicked();
+            }
+        });
     }
 
+    private void StatusBarMouseClicked() {
+        tools.ClearErrMessages();
+    }
     /**
      *
      */
@@ -649,6 +664,10 @@ public class frmMain {
      *
      */
     private void GetAllTestracks() {
+        if(globalData.token == null) {
+            tools.SetErrMsgInStatusBar("GetAllTestracks: NO LOGIN token !");
+            return;
+        }
         RestCallOutput res = restCall.readAllTestracks(globalData.token.getToken(), true);
         if(res.getResultCode() > 299) {
             dlmUserLog.addElement("Get all testracks:  Error=" + res.getResultCode());
@@ -748,6 +767,10 @@ public class frmMain {
                 globalData.token = (AccessTokenDto) res.getOutputData();
             }
             //---------  EACH SECOND  -----------
+            if(globalData.token == null) {
+                tools.SetErrMsgInStatusBar("GetAllTestracks: NO LOGIN token !");
+                return;
+            }
             RestCallOutput res = restCall.readAllTestracks(globalData.token.getToken(), false);
             globalData.testracks = (List<TestrackDTO>) res.getOutputData();
             UpdateRackTable();
@@ -811,9 +834,10 @@ public class frmMain {
      */
     private void $$$setupUI$$$() {
         panelMain = new JPanel();
-        panelMain.setLayout(new GridLayoutManager(2, 2, new Insets(0, 0, 0, 0), -1, -1));
+        panelMain.setLayout(new GridLayoutManager(2, 3, new Insets(0, 0, 0, 0), -1, -1));
         tabbedPane1 = new JTabbedPane();
-        panelMain.add(tabbedPane1, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, new Dimension(200, 200), null, 0, false));
+        panelMain.add(tabbedPane1, new GridConstraints(0, 0, 1, 2, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, new Dimension(200, 200), null, 0, false));
+        tabbedPane1.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLoweredBevelBorder(), null, TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, null, null));
         final JPanel panel1 = new JPanel();
         panel1.setLayout(new GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
         tabbedPane1.addTab("User Functions", panel1);
@@ -1499,7 +1523,7 @@ public class frmMain {
         Font textField1Font = this.$$$getFont$$$(null, -1, 12, textField1.getFont());
         if (textField1Font != null) textField1.setFont(textField1Font);
         textField1.setHorizontalAlignment(2);
-        textField1.setText("1.0.2.3");
+        textField1.setText("1.0.2.4");
         panel27.add(textField1, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         final JLabel label45 = new JLabel();
         Font label45Font = this.$$$getFont$$$(null, Font.BOLD, 12, label45.getFont());
@@ -1512,7 +1536,7 @@ public class frmMain {
         textField2.setEditable(false);
         Font textField2Font = this.$$$getFont$$$(null, -1, 12, textField2.getFont());
         if (textField2Font != null) textField2.setFont(textField2Font);
-        textField2.setText("2020-11-21");
+        textField2.setText("2020-11-22");
         panel27.add(textField2, new GridConstraints(0, 3, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         final Spacer spacer17 = new Spacer();
         panel27.add(spacer17, new GridConstraints(0, 4, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
@@ -1549,9 +1573,7 @@ public class frmMain {
         panel29.add(btnGetSignalServerInfo, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final JPanel panel30 = new JPanel();
         panel30.setLayout(new GridLayoutManager(1, 3, new Insets(0, 0, 0, 0), -1, -1));
-        panelMain.add(panel30, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
-        final Spacer spacer20 = new Spacer();
-        panel30.add(spacer20, new GridConstraints(0, 2, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
+        panelMain.add(panel30, new GridConstraints(1, 0, 1, 3, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         final JPanel panel31 = new JPanel();
         panel31.setLayout(new GridLayoutManager(1, 1, new Insets(3, 3, 3, 3), -1, -1));
         panel30.add(panel31, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
@@ -1559,16 +1581,33 @@ public class frmMain {
         txStatusBar1 = new JTextField();
         txStatusBar1.setBackground(new Color(-11282636));
         txStatusBar1.setEditable(false);
+        Font txStatusBar1Font = this.$$$getFont$$$(null, -1, 11, txStatusBar1.getFont());
+        if (txStatusBar1Font != null) txStatusBar1.setFont(txStatusBar1Font);
+        txStatusBar1.setText("[0] Ready");
         panel31.add(txStatusBar1, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         final JPanel panel32 = new JPanel();
         panel32.setLayout(new GridLayoutManager(1, 1, new Insets(3, 3, 3, 3), -1, -1));
         panel30.add(panel32, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         panel32.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLoweredBevelBorder(), null, TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, null, null));
-        final JLabel label47 = new JLabel();
-        label47.setText("RTL FrontEnd Simulator");
-        panel32.add(label47, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        final Spacer spacer21 = new Spacer();
-        panelMain.add(spacer21, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL, 1, GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
+        txStatusBar0 = new JTextField();
+        txStatusBar0.setBackground(new Color(-2368028));
+        txStatusBar0.setEditable(true);
+        Font txStatusBar0Font = this.$$$getFont$$$(null, -1, 11, txStatusBar0.getFont());
+        if (txStatusBar0Font != null) txStatusBar0.setFont(txStatusBar0Font);
+        txStatusBar0.setText("RTL FrontEnd Simulator");
+        panel32.add(txStatusBar0, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
+        final JPanel panel33 = new JPanel();
+        panel33.setLayout(new GridLayoutManager(1, 1, new Insets(3, 3, 3, 3), -1, -1));
+        panel30.add(panel33, new GridConstraints(0, 2, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
+        panel33.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLoweredBevelBorder(), null, TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, null, null));
+        txStatusBar2 = new JTextField();
+        txStatusBar2.setBackground(new Color(-4012853));
+        txStatusBar2.setEditable(false);
+        Font txStatusBar2Font = this.$$$getFont$$$(null, -1, 11, txStatusBar2.getFont());
+        if (txStatusBar2Font != null) txStatusBar2.setFont(txStatusBar2Font);
+        panel33.add(txStatusBar2, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
+        final Spacer spacer20 = new Spacer();
+        panelMain.add(spacer20, new GridConstraints(0, 2, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL, 1, GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
     }
 
     /**

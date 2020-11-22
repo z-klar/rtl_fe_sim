@@ -11,6 +11,7 @@ import javafx.scene.control.ComboBox;
 import service.RestCallService;
 
 import javax.swing.*;
+import java.awt.*;
 import java.util.Iterator;
 import java.util.Map;
 
@@ -18,11 +19,16 @@ public class ToolFunctions {
 
     private GlobalData globalData;
     private RestCallService restService;
+    private JTextField txStatusBar;
+
+    private int NoErrors1 = 0;
 
     public ToolFunctions(GlobalData gd,
-                         RestCallService rs) {
+                         RestCallService rs,
+                         JTextField sts) {
          this.globalData = gd;
          this.restService = rs;
+         this.txStatusBar = sts;
     }
 
     /**
@@ -207,9 +213,22 @@ public class ToolFunctions {
         long id = Long.parseLong(spom1);
         return(String.format("%d", id));
     }
-
-
-
+    /**
+     *
+     */
+    public void SetErrMsgInStatusBar(String msg) {
+        NoErrors1++;
+        txStatusBar.setText(String.format("[%d] %s               ", NoErrors1, msg));
+        txStatusBar.setBackground(new Color(255, 100, 100));
+    }
+    /**
+     *
+     */
+    public void ClearErrMessages() {
+        NoErrors1 = 0;
+        txStatusBar.setText("[0] Ready");
+        txStatusBar.setBackground(new Color(100, 255, 100));
+    }
 
 
 
