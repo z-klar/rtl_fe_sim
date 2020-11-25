@@ -1,10 +1,15 @@
 package tools;
 
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.interfaces.Claim;
+import com.auth0.jwt.interfaces.DecodedJWT;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import common.GlobalData;
 import common.RestCallOutput;
 import commonEnum.DisplayType;
+import dto.ConfigurationData;
 import dto.TestrackDTO;
 import dto.TestrackDisplayDTO;
 import javafx.scene.control.ComboBox;
@@ -12,6 +17,8 @@ import service.RestCallService;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.*;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.Map;
 
@@ -20,15 +27,18 @@ public class ToolFunctions {
     private GlobalData globalData;
     private RestCallService restService;
     private JTextField txStatusBar;
+    private DefaultListModel<String> dlmLog;
 
     private int NoErrors1 = 0;
 
     public ToolFunctions(GlobalData gd,
                          RestCallService rs,
-                         JTextField sts) {
+                         JTextField sts,
+                         DefaultListModel<String> dlm) {
          this.globalData = gd;
          this.restService = rs;
          this.txStatusBar = sts;
+         this.dlmLog = dlm;
     }
 
     /**
@@ -232,6 +242,53 @@ public class ToolFunctions {
         txStatusBar.setBackground(new Color(100, 255, 100));
     }
 
+    public ConfigurationData LoadConfiguration(JComboBox<String> cbUrls) {
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            BufferedReader vstup = new BufferedReader(new FileReader("RTL_FE_SIM.json"));
+            ConfigurationData c = mapper.readValue(vstup, ConfigurationData.class);
+            Collections.sort(c.getHostUrls());
+            cbUrls.removeAllItems();
+            for (String url : c.getHostUrls()) {
+                cbUrls.addItem(url);
+            }
+            vstup.close();
+            return(c);
+        }
+        catch (IOException e) {
+            dlmLog.addElement("Error Reading Config File !");
+            dlmLog.addElement(e.getLocalizedMessage());
+            ConfigurationData c = new ConfigurationData();
+            c.getHostUrls().add("localhost");
+            cbUrls.removeAllItems();
+            cbUrls.addItem("localhost");
+            return(c);
+        }
+    }
 
+    public void SaveConfiguration(ConfigurationData cfg) {
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            PrintWriter vystup = new PrintWriter(new FileOutputStream("RTL_FE_SIM.json"));
+            String json = mapper.writeValueAsString(cfg);
+            vystup.write(json);
+            vystup.close();
+        }
+        catch(IOException e) {
+            System.out.println("Error saving config:");
+            System.out.println(e.getLocalizedMessage());
+        }
+    }
 
+    public void ParseToken(String token, DefaultListModel<String> dlm) {
+        String spom;
+
+        dlm.clear();
+        DecodedJWT jwt = JWT.decode(token);
+        Map<String, Claim> claims = jwt.getClaims();
+        for (Map.Entry<String,Claim> entry : claims.entrySet()) {
+            spom = String.format("%20s : %s", entry.getKey(), entry.getValue().asString());
+            dlm.addElement(spom);
+        }
+    }
 }
