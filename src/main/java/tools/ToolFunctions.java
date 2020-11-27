@@ -10,6 +10,7 @@ import common.GlobalData;
 import common.RestCallOutput;
 import commonEnum.DisplayType;
 import dto.ConfigurationData;
+import dto.RelayDefinitionDTO;
 import dto.TestrackDTO;
 import dto.TestrackDisplayDTO;
 import javafx.scene.control.ComboBox;
@@ -153,7 +154,7 @@ public class ToolFunctions {
         if (rackpos >= 0) {
             TestrackDTO rack = globalData.testracks.get(rackpos);
             dlmRackData.clear();
-            dlmRackData.addElement("===  Displays ===");
+            dlmRackData.addElement("======  Displays ======");
             int i = 0;
             Iterator<TestrackDisplayDTO> it = rack.getTestrackDisplays().iterator();
             while (it.hasNext()) {
@@ -165,6 +166,20 @@ public class ToolFunctions {
                 dlmRackData.addElement("    Height:   " + disp.getHeight());
                 dlmRackData.addElement("    MGB Port: " + disp.getMgbport());
                 dlmRackData.addElement("    Version:  " + disp.getVersion());
+                i++;
+            }
+
+            dlmRackData.addElement("=======  Relays ========");
+            i = 0;
+            Iterator<RelayDefinitionDTO> ir = rack.getRelayDefinitions().iterator();
+            while (ir.hasNext()) {
+                RelayDefinitionDTO rel = ir.next();
+                dlmRackData.addElement(" [" + i + "]");
+                dlmRackData.addElement("    ID:       " + rel.getId());
+                dlmRackData.addElement("    Name:     " + rel.getName());
+                dlmRackData.addElement("    Type:     " + rel.getType());
+                dlmRackData.addElement("    Position: " + rel.getPosition());
+                dlmRackData.addElement("    Editable: " + rel.getValueeditable());
                 i++;
             }
         }
@@ -241,30 +256,6 @@ public class ToolFunctions {
         NoErrors1 = 0;
         txStatusBar.setText("[0] Ready");
         txStatusBar.setBackground(new Color(100, 255, 100));
-    }
-
-    public ConfigurationData LoadConfiguration(JComboBox<String> cbUrls) {
-        try {
-            ObjectMapper mapper = new ObjectMapper();
-            BufferedReader vstup = new BufferedReader(new FileReader("RTL_FE_SIM.json"));
-            ConfigurationData c = mapper.readValue(vstup, ConfigurationData.class);
-            Collections.sort(c.getHostUrls());
-            cbUrls.removeAllItems();
-            for (String url : c.getHostUrls()) {
-                cbUrls.addItem(url);
-            }
-            vstup.close();
-            return(c);
-        }
-        catch (IOException e) {
-            dlmLog.addElement("Error Reading Config File !");
-            dlmLog.addElement(e.getLocalizedMessage());
-            ConfigurationData c = new ConfigurationData();
-            c.getHostUrls().add("localhost");
-            cbUrls.removeAllItems();
-            cbUrls.addItem("localhost");
-            return(c);
-        }
     }
 
     public void SaveConfiguration(ConfigurationData cfg) {

@@ -22,6 +22,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
@@ -163,9 +166,6 @@ public class frmMain extends JFrame {
 
         dlmUserLog.addElement("Start log .....");
 
-        tools = new ToolFunctions(globalData, restCall,
-                                  txStatusBar1, dlmUserLog);
-
         jsonProcessing = new JsonProcessing(dlmSignal);
 
         cbCreateRackPlatform.removeAllItems();
@@ -215,7 +215,7 @@ public class frmMain extends JFrame {
             }
         });
 
-        Config = tools.LoadConfiguration(cbConfigUrl);
+        Config = LoadConfiguration(cbConfigUrl);
         restCall = new RestCallService(
                 cbConfigUrl.getSelectedItem().toString(),
                 Integer.parseInt(txBePort.getText()),
@@ -223,6 +223,9 @@ public class frmMain extends JFrame {
                 Integer.parseInt(txConfigSignalServerPort.getText())
         );
         frame.setTitle("RTL FrontEnd Simulator: " + cbConfigUrl.getSelectedItem().toString());
+
+        tools = new ToolFunctions(globalData, restCall,
+                txStatusBar1, dlmUserLog);
 
 
         btnConfigAddUrl.addActionListener(e -> AddUrlToList());
@@ -236,6 +239,34 @@ public class frmMain extends JFrame {
             }
         }));
     }
+    /**
+     * @param cbUrls
+     * @return
+     */
+    public ConfigurationData LoadConfiguration(JComboBox<String> cbUrls) {
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            BufferedReader vstup = new BufferedReader(new FileReader("RTL_FE_SIM.json"));
+            ConfigurationData c = mapper.readValue(vstup, ConfigurationData.class);
+            Collections.sort(c.getHostUrls());
+            cbUrls.removeAllItems();
+            for (String url : c.getHostUrls()) {
+                cbUrls.addItem(url);
+            }
+            vstup.close();
+            return(c);
+        }
+        catch (IOException e) {
+            dlmUserLog.addElement("Error Reading Config File !");
+            dlmUserLog.addElement(e.getLocalizedMessage());
+            ConfigurationData c = new ConfigurationData();
+            c.getHostUrls().add("localhost");
+            cbUrls.removeAllItems();
+            cbUrls.addItem("localhost");
+            return(c);
+        }
+    }
+
 
     /**
      *
@@ -1700,7 +1731,7 @@ public class frmMain extends JFrame {
         Font textField1Font = this.$$$getFont$$$(null, -1, 12, textField1.getFont());
         if (textField1Font != null) textField1.setFont(textField1Font);
         textField1.setHorizontalAlignment(2);
-        textField1.setText("1.0.4.2");
+        textField1.setText("1.0.4.3");
         panel34.add(textField1, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         final JLabel label45 = new JLabel();
         Font label45Font = this.$$$getFont$$$(null, Font.BOLD, 12, label45.getFont());
