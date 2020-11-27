@@ -247,10 +247,12 @@ public class frmMain extends JFrame {
         }
         String strAccess = globalData.token.getToken();
         txaTokensAccessToken.setText(strAccess);
-        tools.ParseToken(strAccess, dlmAccessToken);
+        tools.ParseToken(strAccess, dlmAccessToken, txaTokensRefreshToken);
+
         strAccess = globalData.token.getRefreshToken();
         txaTokensRefreshToken.setText(strAccess);
-        tools.ParseToken(strAccess, dlmRefreshToken);
+        tools.ParseToken(strAccess, dlmRefreshToken, txaTokensRefreshToken);
+
     }
     /**
      *
@@ -853,31 +855,35 @@ public class frmMain extends JFrame {
     }
 
     private void TimerEvent() {
-
-        if (Running) {
-            lbSysTime.setText(LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS).toLocalTime().toString());
-            Counter1++;
-            if (Counter1 >= 3600) {  // EACH 3600 seconds
-                Counter1 = 0;
-                RestCallOutput res = restCall.getLoginToken(txUserUserName.getText(), txUserPassword.getText(), false);
-                globalData.token = (AccessTokenDto) res.getOutputData();
+        try {
+            if (Running) {
+                lbSysTime.setText(LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS).toLocalTime().toString());
+                Counter1++;
+                if (Counter1 >= 3600) {  // EACH 3600 seconds
+                    Counter1 = 0;
+                    RestCallOutput res = restCall.getLoginToken(txUserUserName.getText(), txUserPassword.getText(), false);
+                    globalData.token = (AccessTokenDto) res.getOutputData();
+                }
+                //---------  EACH SECOND  -----------
+                if (globalData.token == null) {
+                    tools.SetErrMsgInStatusBar("GetAllTestracks: NO LOGIN token !");
+                    return;
+                }
+                RestCallOutput res = restCall.readAllTestracks(globalData.token.getToken(), false);
+                globalData.testracks = (List<TestrackDTO>) res.getOutputData();
+                UpdateRackTable();
+                if (chkFrontendConnectRack.isSelected()) {
+                    RestCallOutput ro = restCall.sendHeartbeat(
+                            tools.parseRackId(cbFesimRacks.getSelectedItem().toString()),
+                            globalData.token.getToken(), false);
+                    txFrontEndLastResponse.setText("Send HB:  RESULT=" + ro.getResultCode());
+                }
+            } else {
+                lbSysTime.setText("Stopped ....");
             }
-            //---------  EACH SECOND  -----------
-            if(globalData.token == null) {
-                tools.SetErrMsgInStatusBar("GetAllTestracks: NO LOGIN token !");
-                return;
-            }
-            RestCallOutput res = restCall.readAllTestracks(globalData.token.getToken(), false);
-            globalData.testracks = (List<TestrackDTO>) res.getOutputData();
-            UpdateRackTable();
-            if (chkFrontendConnectRack.isSelected()) {
-                RestCallOutput ro = restCall.sendHeartbeat(
-                        tools.parseRackId(cbFesimRacks.getSelectedItem().toString()),
-                        globalData.token.getToken(), false);
-                txFrontEndLastResponse.setText("Send HB:  RESULT=" + ro.getResultCode());
-            }
-        } else {
-            lbSysTime.setText("Stopped ....");
+        }
+        catch(Exception ex) {
+            dlmUserLog.addElement(ex.getMessage());
         }
     }
 
@@ -1065,7 +1071,7 @@ public class frmMain extends JFrame {
         final JPanel panel8 = new JPanel();
         panel8.setLayout(new GridLayoutManager(1, 1, new Insets(5, 5, 5, 5), -1, -1));
         splitPane1.setLeftComponent(panel8);
-        panel8.setBorder(BorderFactory.createTitledBorder(BorderFactory.createRaisedBevelBorder(), "Access Token", TitledBorder.CENTER, TitledBorder.DEFAULT_POSITION, this.$$$getFont$$$(null, Font.BOLD, 12, panel8.getFont()), new Color(-14672672)));
+        panel8.setBorder(BorderFactory.createTitledBorder(BorderFactory.createRaisedBevelBorder(), "  Access Token  ", TitledBorder.CENTER, TitledBorder.DEFAULT_POSITION, this.$$$getFont$$$(null, Font.BOLD, 12, panel8.getFont()), new Color(-14672672)));
         final JSplitPane splitPane2 = new JSplitPane();
         splitPane2.setDividerSize(8);
         panel8.add(splitPane2, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, new Dimension(200, 200), null, 0, false));
@@ -1096,7 +1102,7 @@ public class frmMain extends JFrame {
         final JPanel panel11 = new JPanel();
         panel11.setLayout(new GridLayoutManager(1, 1, new Insets(5, 5, 5, 5), -1, -1));
         splitPane1.setRightComponent(panel11);
-        panel11.setBorder(BorderFactory.createTitledBorder(BorderFactory.createRaisedBevelBorder(), "Refresh Token", TitledBorder.CENTER, TitledBorder.DEFAULT_POSITION, this.$$$getFont$$$(null, Font.BOLD, 12, panel11.getFont()), new Color(-14672672)));
+        panel11.setBorder(BorderFactory.createTitledBorder(BorderFactory.createRaisedBevelBorder(), "  Refresh Token  ", TitledBorder.CENTER, TitledBorder.DEFAULT_POSITION, this.$$$getFont$$$(null, Font.BOLD, 12, panel11.getFont()), new Color(-14672672)));
         final JSplitPane splitPane3 = new JSplitPane();
         splitPane3.setDividerSize(8);
         panel11.add(splitPane3, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, new Dimension(200, 200), null, 0, false));
@@ -1106,6 +1112,8 @@ public class frmMain extends JFrame {
         final JScrollPane scrollPane4 = new JScrollPane();
         panel12.add(scrollPane4, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
         txaTokensRefreshToken = new JTextArea();
+        Font txaTokensRefreshTokenFont = this.$$$getFont$$$("Courier New", Font.PLAIN, 12, txaTokensRefreshToken.getFont());
+        if (txaTokensRefreshTokenFont != null) txaTokensRefreshToken.setFont(txaTokensRefreshTokenFont);
         txaTokensRefreshToken.setLineWrap(true);
         scrollPane4.setViewportView(txaTokensRefreshToken);
         final JPanel panel13 = new JPanel();
@@ -1390,7 +1398,7 @@ public class frmMain extends JFrame {
         tabbedPane4 = new JTabbedPane();
         panel21.add(tabbedPane4, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, new Dimension(200, 200), null, 0, false));
         final JPanel panel22 = new JPanel();
-        panel22.setLayout(new GridLayoutManager(5, 5, new Insets(5, 5, 5, 5), -1, -1));
+        panel22.setLayout(new GridLayoutManager(5, 4, new Insets(5, 5, 5, 5), -1, -1));
         tabbedPane4.addTab("Front End Simulation", panel22);
         panel22.setBorder(BorderFactory.createTitledBorder(BorderFactory.createRaisedBevelBorder(), null, TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, null, null));
         btnStartSimulation = new JButton();
@@ -1398,7 +1406,7 @@ public class frmMain extends JFrame {
         btnStartSimulation.setText("START Simulation");
         panel22.add(btnStartSimulation, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final Spacer spacer9 = new Spacer();
-        panel22.add(spacer9, new GridConstraints(0, 4, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
+        panel22.add(spacer9, new GridConstraints(0, 3, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
         lbSysTime = new JLabel();
         lbSysTime.setText("Label");
         panel22.add(lbSysTime, new GridConstraints(4, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
@@ -1406,7 +1414,7 @@ public class frmMain extends JFrame {
         chkFrontendConnectRack.setText("Connect to rack ID:");
         panel22.add(chkFrontendConnectRack, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final JScrollPane scrollPane8 = new JScrollPane();
-        panel22.add(scrollPane8, new GridConstraints(3, 0, 1, 5, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
+        panel22.add(scrollPane8, new GridConstraints(3, 0, 1, 4, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
         tblFrontendRacks = new JTable();
         scrollPane8.setViewportView(tblFrontendRacks);
         final JLabel label29 = new JLabel();
@@ -1418,7 +1426,7 @@ public class frmMain extends JFrame {
         Font txFrontEndLastResponseFont = this.$$$getFont$$$(null, -1, 12, txFrontEndLastResponse.getFont());
         if (txFrontEndLastResponseFont != null) txFrontEndLastResponse.setFont(txFrontEndLastResponseFont);
         txFrontEndLastResponse.setText("");
-        panel22.add(txFrontEndLastResponse, new GridConstraints(1, 1, 1, 4, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(244, 26), null, 0, false));
+        panel22.add(txFrontEndLastResponse, new GridConstraints(1, 1, 1, 3, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(244, 26), null, 0, false));
         final JLabel label30 = new JLabel();
         Font label30Font = this.$$$getFont$$$(null, Font.BOLD, 12, label30.getFont());
         if (label30Font != null) label30.setFont(label30Font);
@@ -1429,9 +1437,9 @@ public class frmMain extends JFrame {
         if (txFrontEndLastSingleResponseFont != null)
             txFrontEndLastSingleResponse.setFont(txFrontEndLastSingleResponseFont);
         txFrontEndLastSingleResponse.setText("");
-        panel22.add(txFrontEndLastSingleResponse, new GridConstraints(2, 1, 1, 4, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(244, 26), null, 0, false));
+        panel22.add(txFrontEndLastSingleResponse, new GridConstraints(2, 1, 1, 3, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(244, 26), null, 0, false));
         cbFesimRacks = new JComboBox();
-        panel22.add(cbFesimRacks, new GridConstraints(0, 3, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        panel22.add(cbFesimRacks, new GridConstraints(0, 2, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final JPanel panel23 = new JPanel();
         panel23.setLayout(new GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
         tabbedPane1.addTab("Signal Server", panel23);
@@ -1692,7 +1700,7 @@ public class frmMain extends JFrame {
         Font textField1Font = this.$$$getFont$$$(null, -1, 12, textField1.getFont());
         if (textField1Font != null) textField1.setFont(textField1Font);
         textField1.setHorizontalAlignment(2);
-        textField1.setText("1.0.3.1");
+        textField1.setText("1.0.4.2");
         panel34.add(textField1, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         final JLabel label45 = new JLabel();
         Font label45Font = this.$$$getFont$$$(null, Font.BOLD, 12, label45.getFont());
@@ -1705,7 +1713,7 @@ public class frmMain extends JFrame {
         textField2.setEditable(false);
         Font textField2Font = this.$$$getFont$$$(null, -1, 12, textField2.getFont());
         if (textField2Font != null) textField2.setFont(textField2Font);
-        textField2.setText("2020-11-22");
+        textField2.setText("2020-11-27");
         panel34.add(textField2, new GridConstraints(0, 3, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         final Spacer spacer17 = new Spacer();
         panel34.add(spacer17, new GridConstraints(0, 4, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));

@@ -18,6 +18,7 @@ import service.RestCallService;
 import javax.swing.*;
 import java.awt.*;
 import java.io.*;
+import java.util.Base64;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.Map;
@@ -280,15 +281,66 @@ public class ToolFunctions {
         }
     }
 
-    public void ParseToken(String token, DefaultListModel<String> dlm) {
-        String spom;
+    public void ParseToken(String token, DefaultListModel<String> dlm, JTextArea txa) {
+        String spom, spom2;
+        Object value;
 
         dlm.clear();
         DecodedJWT jwt = JWT.decode(token);
         Map<String, Claim> claims = jwt.getClaims();
         for (Map.Entry<String,Claim> entry : claims.entrySet()) {
-            spom = String.format("%20s : %s", entry.getKey(), entry.getValue().asString());
+            Claim cl = entry.getValue();
+            value = cl.asBoolean();
+            if(value != null) spom2 = (boolean)value ? "TRUE" : "FALSE";
+            else {
+                value = cl.asInt();
+                if(value != null) spom2 = value.toString();
+                else {
+                    value = cl.asArray(String.class);
+                    if(value != null) {
+                        String [] arr = (String [])value;
+                        spom2 = "["; boolean first = true;
+                        for(String a : arr) {
+                            if (first) {
+                                spom2 += a;
+                                first = false;
+                            } else {
+                                spom2 += ("," + a);
+                            }
+                        }
+                        spom2 += "]";
+                    }
+                    else {
+                        value = cl.asMap();
+                        if(value != null) {
+                            Map<String,Object> mapka = (Map<String, Object>)value;
+                            spom2 = "["; boolean first = true;
+                            for(Map.Entry<String,Object> ee : mapka.entrySet()) {
+                                if(first) {
+                                    first = false;
+                                    spom2 += (ee.getKey() + "{}");
+                                }
+                                else {
+                                    spom2 += ("," + ee.getKey() + "{}");
+                                }
+                            }
+                            spom2 += "]";
+                        }
+                        else {
+                            spom2 = cl.asString();
+                        }
+                    }
+                }
+            }
+            spom = String.format("%20s : %s", entry.getKey(), spom2);
             dlm.addElement(spom);
         }
+
+        /*
+        spom = jwt.getPayload();
+        byte[] decodedBytes = Base64.getDecoder().decode(spom);
+        String decodedString = new String(decodedBytes);
+        txa.setText(decodedString);
+         */
     }
 }
