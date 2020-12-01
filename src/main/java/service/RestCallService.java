@@ -162,6 +162,30 @@ public class RestCallService {
             return(ro);
         }
     }
+
+    /**
+     *
+     * @param token
+     * @param verbose
+     * @return
+     */
+    public RestCallOutput readUserProfile(String token, boolean verbose ) {
+        if(verbose) dlmUserLog.addElement("Getting user profile ....");
+        String surl = "http://" + BeIp + ":" + BePort + "/user/profile";
+        if(verbose) dlmUserLog.addElement("URL: " + surl);
+
+        RestCallOutput ro = new RestCallOutput();
+        try {
+            Map<String, String> props = new HashMap<>();
+            props.put("Accept", "*/*");
+            props.put("Authorization", "Bearer " + token);
+            ro = SendRestApiRequest("GET", props, null, surl);
+            return (ro);
+        }
+        catch(Exception ex) {
+            return(ro);
+        }
+    }
     /**
      *
      * @param token

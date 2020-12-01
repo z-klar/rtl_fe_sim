@@ -25,21 +25,41 @@ public class JsonProcessing {
             ObjectMapper mapper = new ObjectMapper();
             JsonNode actualObj = mapper.readTree(JsonString);
             Iterator<Map.Entry<String, JsonNode>> root = actualObj.fields();
-            while(root.hasNext()) {
+            while (root.hasNext()) {
                 Map.Entry<String, JsonNode> entry = root.next();
                 String fieldName = entry.getKey();
                 //ObjectMapper mapper2 = new ObjectMapper();
-                MmDevice dev = mapper.treeToValue( entry.getValue(), MmDevice.class);
+                MmDevice dev = mapper.treeToValue(entry.getValue(), MmDevice.class);
                 dlmLog.addElement(" - Field: " + fieldName + "  NAME:" + dev.getName() + "   PORT:" + dev.getPortIncomingVideo());
                 devices.add(dev);
             }
-            return(devices);
+            return (devices);
+        } catch (Exception ex) {
+            dlmLog.addElement("Error: " + ex.getMessage());
+            return (null);
+        }
+    }
+    /**
+     *
+     */
+    public ArrayList<String> ParseJsonObject(String JsonString) {
+        String spom;
+        ArrayList<String> output = new ArrayList<>();
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            JsonNode actualObj = mapper.readTree(JsonString);
+            Iterator<Map.Entry<String, JsonNode>> root = actualObj.fields();
+            while(root.hasNext()) {
+                Map.Entry<String, JsonNode> entry = root.next();
+                spom = String.format("%-23s %s", entry.getKey(), entry.getValue().asText());
+                output.add(spom);
+            }
+            return(output);
         }
         catch(Exception ex) {
-            dlmLog.addElement("Error: " + ex.getMessage());
-            return(null);
+            output.add("Error: " + ex.getMessage());
+            return(output);
         }
-
     }
 
 
