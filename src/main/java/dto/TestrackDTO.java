@@ -3,6 +3,7 @@ package dto;
 import commonEnum.DisplayType;
 import commonEnum.TestrackAvailability;
 import commonEnum.TestrackPlatform;
+import commonEnum.TestrackVehicle;
 import lombok.Data;
 
 import java.util.HashSet;
@@ -15,7 +16,7 @@ public class TestrackDTO {
     private String name;
     private String description;
     private String address;
-    private TestrackPlatform platform;
+    private TestrackVehicle vehicle;
     private TestrackAvailability availability;
     private NetworkDTO network;
     private Set<RelayDefinitionDTO> relayDefinitions = new HashSet<>();

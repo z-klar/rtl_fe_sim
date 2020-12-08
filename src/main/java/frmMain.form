@@ -1918,7 +1918,7 @@
                       <editable value="false"/>
                       <font size="12"/>
                       <horizontalAlignment value="2"/>
-                      <text value="1.0.4.4"/>
+                      <text value="1.0.5.0"/>
                     </properties>
                   </component>
                   <component id="f55ba" class="javax.swing.JLabel">
@@ -1941,7 +1941,7 @@
                     <properties>
                       <editable value="false"/>
                       <font size="12"/>
-                      <text value="2020-12-01"/>
+                      <text value="2020-12-08"/>
                     </properties>
                   </component>
                   <hspacer id="47b19">

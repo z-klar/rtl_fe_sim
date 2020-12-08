@@ -9,6 +9,7 @@ import common.JsonProcessing;
 import common.RestCallOutput;
 import commonEnum.DisplayType;
 import commonEnum.TestrackPlatform;
+import commonEnum.TestrackVehicle;
 import dto.*;
 import service.RestCallService;
 import tables.*;
@@ -727,7 +728,7 @@ public class frmMain extends JFrame {
         rack.setName(txCreateRackName.getText());
         rack.setDescription(txCreateRackDescr.getText());
         rack.setAddress(txCreateRackAddr.getText());
-        rack.setPlatform((TestrackPlatform) cbCreateRackPlatform.getSelectedItem());
+        rack.setVehicle((TestrackVehicle) cbCreateRackPlatform.getSelectedItem());
         rack.setNetwork(network);
         rack.setTestrackDisplays(new HashSet<TestrackDisplayDTO>(displays));
         rack.setRelayDefinitions(new HashSet<RelayDefinitionDTO>(relays));
@@ -889,7 +890,7 @@ public class frmMain extends JFrame {
                 TestrackDTO rack = racks.get(i);
                 ArrayList<TestrackDisplayDTO> dl = new ArrayList<TestrackDisplayDTO>(rack.getTestrackDisplays());
                 rows.add(new TestrackTable1(rack.getId(), rack.getName(), rack.getDescription(),
-                        rack.getAddress(), rack.getPlatform(), rack.getAvailability(),
+                        rack.getAddress(), rack.getVehicle(), rack.getAvailability(),
                         rack.getNetwork().getIp(),
                         dl.size() == 0 ? 0 : leastPort(dl)));
             }
@@ -1015,7 +1016,7 @@ public class frmMain extends JFrame {
             TestrackDTO rack = globalData.testracks.get(i);
             ArrayList<TestrackDisplayDTO> dl = new ArrayList<TestrackDisplayDTO>(rack.getTestrackDisplays());
             rows.add(new TestrackTable1(rack.getId(), rack.getName(), rack.getDescription(),
-                    rack.getAddress(), rack.getPlatform(), rack.getAvailability(),
+                    rack.getAddress(), rack.getVehicle(), rack.getAvailability(),
                     rack.getNetwork().getIp(),
                     dl.size() == 0 ? 0 : dl.get(0).getMgbport()));
         }

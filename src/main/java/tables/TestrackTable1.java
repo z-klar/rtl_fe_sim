@@ -2,6 +2,7 @@ package tables;
 
 import commonEnum.TestrackAvailability;
 import commonEnum.TestrackPlatform;
+import commonEnum.TestrackVehicle;
 import dto.NetworkDTO;
 
 public class TestrackTable1 {
@@ -9,19 +10,19 @@ public class TestrackTable1 {
     public String name;
     public String description;
     public String address;
-    public TestrackPlatform platform;
+    public TestrackVehicle vehicle;
     public TestrackAvailability availability;
     public String IpAddr;
     public int videoPort;
 
     public TestrackTable1(Long id, String name, String decr, String addr,
-                          TestrackPlatform platform, TestrackAvailability avail,
+                          TestrackVehicle vehicle, TestrackAvailability avail,
                           String ip, int port) {
         this.id = id;
         this.name = name;
         this.description = decr;
         this.address = addr;
-        this.platform = platform;
+        this.vehicle = vehicle;
         this.availability = avail;
         this.IpAddr = ip;
         this.videoPort = port;
@@ -29,6 +30,6 @@ public class TestrackTable1 {
 
     public Object[] toObject() {
         return new Object[]{id, name, description, address,
-                            platform, availability, IpAddr, videoPort};
+                            vehicle, availability, IpAddr, videoPort};
     }
 }

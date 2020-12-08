@@ -6,7 +6,7 @@ import java.util.Vector;
 public class TestrackTable1Model extends AbstractTableModel {
     private String[] columnNames =
             { "ID", "Name", "Description", "Address",
-              "Platform", "Availability", "IP Address",
+              "Vehicle", "Availability", "IP Address",
               "MGB Port[0]"};
 
     private Object[][] data;
