@@ -8,6 +8,9 @@
 *.ear
 *.nar
 hs_err_pid*
+*.android_data_binding
+*.lock
+*.bin
 
 ##############################
 ## Maven
