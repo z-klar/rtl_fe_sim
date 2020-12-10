@@ -20,6 +20,8 @@ import javax.swing.Timer;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import javax.swing.plaf.FontUIResource;
+import javax.swing.text.StyleContext;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.BufferedReader;
@@ -175,8 +177,8 @@ public class frmMain extends JFrame {
         jsonProcessing = new JsonProcessing(dlmSignal);
 
         cbCreateRackPlatform.removeAllItems();
-        for (TestrackPlatform p : TestrackPlatform.values())
-            cbCreateRackPlatform.addItem(p);
+        for (TestrackVehicle v : TestrackVehicle.values())
+            cbCreateRackPlatform.addItem(v);
         cbCreateRackDispType.removeAllItems();
         for (DisplayType p : DisplayType.values())
             cbCreateRackDispType.addItem(p);
@@ -1842,7 +1844,7 @@ public class frmMain extends JFrame {
         Font textField1Font = this.$$$getFont$$$(null, -1, 12, textField1.getFont());
         if (textField1Font != null) textField1.setFont(textField1Font);
         textField1.setHorizontalAlignment(2);
-        textField1.setText("1.0.4.4");
+        textField1.setText("1.0.5.0");
         panel35.add(textField1, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         final JLabel label44 = new JLabel();
         Font label44Font = this.$$$getFont$$$(null, Font.BOLD, 12, label44.getFont());
@@ -1855,7 +1857,7 @@ public class frmMain extends JFrame {
         textField2.setEditable(false);
         Font textField2Font = this.$$$getFont$$$(null, -1, 12, textField2.getFont());
         if (textField2Font != null) textField2.setFont(textField2Font);
-        textField2.setText("2020-12-01");
+        textField2.setText("2020-12-08");
         panel35.add(textField2, new GridConstraints(0, 3, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         final Spacer spacer18 = new Spacer();
         panel35.add(spacer18, new GridConstraints(0, 4, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
@@ -1946,7 +1948,10 @@ public class frmMain extends JFrame {
                 resultName = currentFont.getName();
             }
         }
-        return new Font(resultName, style >= 0 ? style : currentFont.getStyle(), size >= 0 ? size : currentFont.getSize());
+        Font font = new Font(resultName, style >= 0 ? style : currentFont.getStyle(), size >= 0 ? size : currentFont.getSize());
+        boolean isMac = System.getProperty("os.name", "").toLowerCase(Locale.ENGLISH).startsWith("mac");
+        Font fontWithFallback = isMac ? new Font(font.getFamily(), font.getStyle(), font.getSize()) : new StyleContext().getFont(font.getFamily(), font.getStyle(), font.getSize());
+        return fontWithFallback instanceof FontUIResource ? fontWithFallback : new FontUIResource(fontWithFallback);
     }
 
     /**
