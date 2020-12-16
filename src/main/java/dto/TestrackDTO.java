@@ -16,6 +16,7 @@ public class TestrackDTO {
     private String name;
     private String description;
     private String address;
+    private String vin;
     private TestrackVehicle vehicle;
     private TestrackAvailability availability;
     private NetworkDTO network;

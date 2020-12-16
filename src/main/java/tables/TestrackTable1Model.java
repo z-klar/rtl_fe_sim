@@ -7,7 +7,7 @@ public class TestrackTable1Model extends AbstractTableModel {
     private String[] columnNames =
             { "ID", "Name", "Description", "Address",
               "Vehicle", "Availability", "IP Address",
-              "MGB Port[0]"};
+              "MGB Port[0]", "VIN"};
 
     private Object[][] data;
 

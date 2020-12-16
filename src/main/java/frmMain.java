@@ -138,6 +138,7 @@ public class frmMain extends JFrame {
     private JButton btnCreateRackRemoveRelay;
     private JButton btnUserProfileGetProfile;
     private JTextArea txaUserProfileUserProfile;
+    private JTextField txCreateRackVin;
 
     static JFrame frame;
 
@@ -730,6 +731,7 @@ public class frmMain extends JFrame {
         rack.setName(txCreateRackName.getText());
         rack.setDescription(txCreateRackDescr.getText());
         rack.setAddress(txCreateRackAddr.getText());
+        rack.setVin(txCreateRackVin.getText());
         rack.setVehicle((TestrackVehicle) cbCreateRackPlatform.getSelectedItem());
         rack.setNetwork(network);
         rack.setTestrackDisplays(new HashSet<TestrackDisplayDTO>(displays));
@@ -894,7 +896,7 @@ public class frmMain extends JFrame {
                 rows.add(new TestrackTable1(rack.getId(), rack.getName(), rack.getDescription(),
                         rack.getAddress(), rack.getVehicle(), rack.getAvailability(),
                         rack.getNetwork().getIp(),
-                        dl.size() == 0 ? 0 : leastPort(dl)));
+                        dl.size() == 0 ? 0 : leastPort(dl), rack.getVin()));
             }
             TestrackTable1Model model = new TestrackTable1Model(rows);
             tblTestracks.setModel(model);
@@ -1020,7 +1022,7 @@ public class frmMain extends JFrame {
             rows.add(new TestrackTable1(rack.getId(), rack.getName(), rack.getDescription(),
                     rack.getAddress(), rack.getVehicle(), rack.getAvailability(),
                     rack.getNetwork().getIp(),
-                    dl.size() == 0 ? 0 : dl.get(0).getMgbport()));
+                    dl.size() == 0 ? 0 : dl.get(0).getMgbport(), rack.getVin()));
         }
         TestrackTable1Model model = new TestrackTable1Model(rows);
         tblFrontendRacks.setModel(model);
@@ -1844,7 +1846,7 @@ public class frmMain extends JFrame {
         Font textField1Font = this.$$$getFont$$$(null, -1, 12, textField1.getFont());
         if (textField1Font != null) textField1.setFont(textField1Font);
         textField1.setHorizontalAlignment(2);
-        textField1.setText("1.0.5.0");
+        textField1.setText("1.0.5.1");
         panel35.add(textField1, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         final JLabel label44 = new JLabel();
         Font label44Font = this.$$$getFont$$$(null, Font.BOLD, 12, label44.getFont());
@@ -1857,7 +1859,7 @@ public class frmMain extends JFrame {
         textField2.setEditable(false);
         Font textField2Font = this.$$$getFont$$$(null, -1, 12, textField2.getFont());
         if (textField2Font != null) textField2.setFont(textField2Font);
-        textField2.setText("2020-12-08");
+        textField2.setText("2020-12-10");
         panel35.add(textField2, new GridConstraints(0, 3, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         final Spacer spacer18 = new Spacer();
         panel35.add(spacer18, new GridConstraints(0, 4, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
