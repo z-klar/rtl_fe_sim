@@ -260,6 +260,8 @@ public class frmMain extends JFrame {
         btnButtonsUpdateRacks.addActionListener(e -> HeartbeatUpdateRacks());
         btnButtonsSendFpk.addActionListener(e -> SendFpkButton(1));
         btnButtonsSendFpk2.addActionListener(e -> SendFpkButton(2));
+        btnButtonsSendFpkSeq.addActionListener(e -> SendFpkSequence());
+        btnButtonsSendTouch.addActionListener(e -> SendTouchCommand());
 
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             System.out.println("Bye, bye !!!");
@@ -275,9 +277,24 @@ public class frmMain extends JFrame {
 
         tblRealys.getParent().setSize(500,200);
         tools.InitButtonCommand(cbButtonsAbt, cbButtonsFpk, cbButtonsFpk2);
-        btnButtonsSendFpkSeq.addActionListener(e -> SendFpkSequence());
     }
 
+    /**
+     *
+     */
+    private void SendTouchCommand() {
+        if (globalData.token == null) {
+            JOptionPane.showMessageDialog(null, "No Access token available !");
+            return;
+        }
+        String rackId = tools.parseRackId(cbButtonsRacks.getSelectedItem().toString());
+        int x = Integer.parseInt(txButtonsCoordX.getText());
+        int y = Integer.parseInt(txButtonsCoordY.getText());
+        RestCallOutput res = restCall.sendTouchCommand(rackId, x, y, globalData.token.getToken());
+        if (res.getResultCode() > 299) {
+            JOptionPane.showMessageDialog(null, "Error:\n" + res.getErrorMsg());
+        }
+    }
     /**
      *
      */
@@ -2061,7 +2078,7 @@ public class frmMain extends JFrame {
         Font textField1Font = this.$$$getFont$$$(null, -1, 12, textField1.getFont());
         if (textField1Font != null) textField1.setFont(textField1Font);
         textField1.setHorizontalAlignment(2);
-        textField1.setText("1.0.6.0");
+        textField1.setText("1.0.7.1");
         panel45.add(textField1, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         final JLabel label51 = new JLabel();
         Font label51Font = this.$$$getFont$$$(null, Font.BOLD, 12, label51.getFont());
@@ -2074,7 +2091,7 @@ public class frmMain extends JFrame {
         textField2.setEditable(false);
         Font textField2Font = this.$$$getFont$$$(null, -1, 12, textField2.getFont());
         if (textField2Font != null) textField2.setFont(textField2Font);
-        textField2.setText("2020-12-16");
+        textField2.setText("2020-12-23");
         panel45.add(textField2, new GridConstraints(0, 3, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         final Spacer spacer26 = new Spacer();
         panel45.add(spacer26, new GridConstraints(0, 4, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));

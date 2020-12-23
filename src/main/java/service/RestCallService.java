@@ -387,4 +387,16 @@ public class RestCallService {
         return res;
     }
 
+    public RestCallOutput sendTouchCommand(String RackId, int x, int y, String token) {
+        String surl = "http://" + BeIp + ":" + BePort + "/can/display/";
+        surl += RackId + "/press?x=" + x + "&y=" + y + "&displayType=ABT" ;
+        dlmUserLog.addElement("*** sendTOUCHCommand ***");
+        dlmUserLog.addElement(surl);
+        Map<String, String> props = new HashMap<>();
+        props.put("Content-Type", "application/json");
+        props.put("Authorization", "Bearer " + token);
+        RestCallOutput res = SendRestApiRequest("POST", props,null, surl);
+        return res;
+    }
+
 }
