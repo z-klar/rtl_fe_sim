@@ -19,10 +19,7 @@ import service.RestCallService;
 import javax.swing.*;
 import java.awt.*;
 import java.io.*;
-import java.util.Base64;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.Map;
+import java.util.*;
 
 public class ToolFunctions {
 
@@ -334,4 +331,72 @@ public class ToolFunctions {
         txa.setText(decodedString);
          */
     }
+
+    /**
+     *
+     */
+    public void InitButtonCommand(JComboBox<String> cbAbt,
+                                  JComboBox<String> cbFpk,
+                                  JComboBox<String> cbFpk2) {
+        globalData.abtCommands = new ArrayList<>();
+        globalData.abtCommands.add("HOME_PRESSED");
+        globalData.abtCommands.add("HOME_RELEASED");
+        globalData.abtCommands.add("MENU_PRESSED");
+        globalData.abtCommands.add("MENU_RELEASED");
+        globalData.abtCommands.add("POWER_PRESSED");
+        globalData.abtCommands.add("POWER_RELEASED");
+
+        cbAbt.removeAllItems();
+        for(String btn : globalData.abtCommands) cbAbt.addItem(btn);
+        cbAbt.setSelectedIndex(0);
+
+        globalData.fpkCommands = new ArrayList<>();
+        globalData.fpkCommands.add("KEY_RELEASED_NO_KEY");
+        globalData.fpkCommands.add("CONTEXT_MENU");
+        globalData.fpkCommands.add("MENU_UP_NEXT_SCREEN");
+        globalData.fpkCommands.add("MENU_DOWN_NEXT_SCREEN");
+        globalData.fpkCommands.add("UP");
+        globalData.fpkCommands.add("DOWN");
+        globalData.fpkCommands.add("UP_THUMBWHEEL");
+        globalData.fpkCommands.add("DOWN_THUMBWHEEL");
+        globalData.fpkCommands.add("OK_THUMBWHEEL_BUTTON");
+        globalData.fpkCommands.add("CANCEL_ESCAPE");
+        globalData.fpkCommands.add("MAIN_MENU");
+        globalData.fpkCommands.add("SIDE_MENU_LEFT");
+        globalData.fpkCommands.add("SIDE_MENU_RIGHT");
+        globalData.fpkCommands.add("FAS_MENU");
+        globalData.fpkCommands.add("LEFT_RIGHT_THUMBWHEEL");
+        globalData.fpkCommands.add("VOLUME_UP");
+        globalData.fpkCommands.add("VOLUME_DOWN");
+        globalData.fpkCommands.add("VOLUME_UP_THUMBWHEEL");
+        globalData.fpkCommands.add("VOLUME_DOWN_THUMBWHEEL");
+        globalData.fpkCommands.add("VOLUME_THUMBWHEEL_BUTTON");
+        globalData.fpkCommands.add("AUDIO_SOURCE");
+        globalData.fpkCommands.add("ARROW_A_UP_RIGHT");
+        globalData.fpkCommands.add("ARROW_A_DOWN_LEFT");
+        globalData.fpkCommands.add("ARROW_B_UP_RIGHT");
+        globalData.fpkCommands.add("ARROW_B_DOWN_LEFT");
+        globalData.fpkCommands.add("PTT_PUSHTOTALK");
+        globalData.fpkCommands.add("PTT_CANCEL");
+        globalData.fpkCommands.add("ROUT_INFO");
+        globalData.fpkCommands.add("HOOK");
+        globalData.fpkCommands.add("HANG_UP");
+        globalData.fpkCommands.add("OFF_HOOK");
+        globalData.fpkCommands.add("LIGHT_ON_OFF");
+        globalData.fpkCommands.add("MUTE");
+        globalData.fpkCommands.add("JOKER1");
+        globalData.fpkCommands.add("JOKER2");
+        globalData.fpkCommands.add("LENKRAD_HEIZUNG");
+        globalData.fpkCommands.add("TRAVEL_ASSIST");
+        Collections.sort(globalData.fpkCommands);
+
+        cbFpk.removeAllItems();
+        for(String btn : globalData.fpkCommands) cbFpk.addItem(btn);
+        cbFpk.setSelectedIndex(0);
+        cbFpk2.removeAllItems();
+        for(String btn : globalData.fpkCommands) cbFpk2.addItem(btn);
+        cbFpk2.setSelectedIndex(0);
+
+    }
+
 }

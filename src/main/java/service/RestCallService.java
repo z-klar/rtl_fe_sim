@@ -362,4 +362,29 @@ public class RestCallService {
         RestCallOutput res = SendRestApiRequest("GET", props,null, surl);
         return res;
     }
+
+    public RestCallOutput sendAbtCommand(String RackId, String cmd, String token) {
+        String surl = "http://" + BeIp + ":" + BePort + "/can/display/";
+        surl += RackId + "/execute?command=" + cmd;
+        dlmUserLog.addElement("*** sendAbtCommand ***");
+        dlmUserLog.addElement(surl);
+        Map<String, String> props = new HashMap<>();
+        props.put("Content-Type", "application/json");
+        props.put("Authorization", "Bearer " + token);
+        RestCallOutput res = SendRestApiRequest("GET", props,null, surl);
+        return res;
+    }
+
+    public RestCallOutput sendFpkCommand(String RackId, String cmd, String token) {
+        String surl = "http://" + BeIp + ":" + BePort + "/can/display/";
+        surl += RackId + "/executemfl?command=" + cmd;
+        dlmUserLog.addElement("*** sendFpkCommand ***");
+        dlmUserLog.addElement(surl);
+        Map<String, String> props = new HashMap<>();
+        props.put("Content-Type", "application/json");
+        props.put("Authorization", "Bearer " + token);
+        RestCallOutput res = SendRestApiRequest("GET", props,null, surl);
+        return res;
+    }
+
 }

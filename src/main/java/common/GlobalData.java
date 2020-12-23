@@ -14,4 +14,7 @@ public class GlobalData {
     public List<TestrackDTO> testracks;
     public List<MmDevice> mmDevices;
 
+    public List<String> abtCommands;
+    public List<String> fpkCommands;
+
 }
