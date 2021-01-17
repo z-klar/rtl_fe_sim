@@ -23,12 +23,12 @@ public class JanusHandleInfoDTO {
     private JanusPluginSpecsDTO plugin_specific;
     private JanusHandleFlagsDTO flags;
     @JsonAlias("agent-created")
-    private int agent_created;
+    private long agent_created;
     @JsonAlias("ice-mode")
     private String ice_mode;
     @JsonAlias("ice-role")
     private String ice_role;
-    //private JanusSdpDTO sdps;
+    private JanusSdpDTO sdps;
     private int queued_packets;
     private JanusStreamDTO [] streams;
 }

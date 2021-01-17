@@ -5,6 +5,7 @@ import common.GlobalData;
 import common.JsonProcessing;
 import common.RestCallOutput;
 import dto.janus.*;
+import tools.ToolFunctions;
 
 import javax.swing.*;
 import java.io.BufferedReader;
@@ -21,12 +22,14 @@ import java.util.Map;
 public class JanusService {
     private JsonProcessing jsonProcessing;
     private DefaultListModel<String> lbModel;
+    private DefaultListModel<String> lbJanus;
 
     private GlobalData globalData;
     private String TRANSACTION_ID;
 
-    public JanusService(DefaultListModel<String> dlm, GlobalData globalData) {
+    public JanusService(DefaultListModel<String> dlm, GlobalData globalData, DefaultListModel<String> dlmJanus) {
         lbModel = dlm;
+        lbJanus = dlmJanus;
         jsonProcessing = new JsonProcessing(dlm);
         this.globalData = globalData;
         TRANSACTION_ID = globalData.TRANSACTION_ID;
@@ -71,6 +74,7 @@ public class JanusService {
         }
         String surl = url + "/" + session_id;
         RestCallOutput ro = SendRestApiRequest("POST", props, jsonString, surl);
+        ToolFunctions.logSplit(lbModel, ro.getDataMsg(), 140, "  getHandles  ");
         JanusHandlesResponseDTO resp = new JanusHandlesResponseDTO();
         if(ro.getResultCode() > 299) {
             resp.setJanus("error");
@@ -107,6 +111,7 @@ public class JanusService {
         }
         String surl = url + "/" + session_id + "/" + handle_id;
         RestCallOutput ro = SendRestApiRequest("POST", props, jsonString, surl);
+        ToolFunctions.logSplit(lbJanus, ro.getDataMsg(), 140, "   getHandleInfo   ");
         JanusHandlesInfoResponseDTO resp = new JanusHandlesInfoResponseDTO();
         if(ro.getResultCode() > 299) {
             resp.setJanus("error");

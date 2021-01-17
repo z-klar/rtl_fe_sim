@@ -12,10 +12,10 @@ import lombok.NoArgsConstructor;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class JanusPluginSpecsDTO {
     private String state;
-    private int hangingup;
-    private int started;
-    private int dataready;
-    private int paused;
-    private int stopping;
-    private int destroyed;
+    private long hangingup;
+    private long started;
+    private long dataready;
+    private long paused;
+    private long stopping;
+    private long destroyed;
 }

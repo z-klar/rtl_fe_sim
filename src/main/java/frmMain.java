@@ -27,9 +27,7 @@ import javax.swing.plaf.FontUIResource;
 import javax.swing.text.StyleContext;
 import java.awt.*;
 import java.awt.event.*;
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.net.URL;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
@@ -163,6 +161,8 @@ public class frmMain extends JFrame {
     private JButton btnJanusGetSessions;
     private JList lbJanusMainLog;
     private JButton btnJanusClearMainLog;
+    private JCheckBox chkJanusRemoveMainLog;
+    private JButton btnJanusSaveLog;
 
     static JFrame frame;
 
@@ -265,7 +265,7 @@ public class frmMain extends JFrame {
         tools = new ToolFunctions(globalData, restCall,
                 txStatusBar1, dlmUserLog);
 
-        janusService = new JanusService(dlmJanusRawLog, globalData);
+        janusService = new JanusService(dlmJanusRawLog, globalData, dlmJanusRawLog);
 
         btnConfigAddUrl.addActionListener(e -> AddUrlToList());
         btnConfigDeleteUrl.addActionListener(e -> DeleteUrl());
@@ -297,14 +297,32 @@ public class frmMain extends JFrame {
         btnClearJanusLog.addActionListener(e -> dlmJanusRawLog.clear());
         btnJanusClearMainLog.addActionListener(e -> dlmJanusMainLog.clear());
         btnJanusGetSessions.addActionListener(e ->  JanusGetSessions());
+        btnJanusSaveLog.addActionListener(e -> SaveJanusLog());
     }
 
+    /**
+     *
+     */
+    private void SaveJanusLog() {
+        try {
+            PrintWriter vystup = new PrintWriter(new FileOutputStream("JanusLog.log"));
+            for(int i=0; i<dlmJanusRawLog.getSize(); i++) vystup.println(dlmJanusRawLog.get(i));
+            vystup.close();
+        }
+        catch(IOException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
+    }
     /**
      *
      */
     private void JanusGetSessions() {
        String url = txJanusBaseUrl.getText();
        String pwd = txJanusAdminPwd.getText();
+       if(chkJanusRemoveMainLog.isSelected()) {
+           dlmJanusMainLog.clear();
+           dlmJanusRawLog.clear();
+       }
        RestCallOutput ro = janusService.getSession(url, pwd);
        if (ro.getResultCode() > 299) {
            JOptionPane.showMessageDialog(null, "Error:\n" + ro.getErrorMsg());
@@ -322,9 +340,8 @@ public class frmMain extends JFrame {
            for(String sess : resp.getSessions())
                dlmJanusMainLog.addElement(String.format("    - %s", sess));
        }
-        dlmJanusMainLog.addElement("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-
         for(String sess : resp.getSessions()) {
+            dlmJanusMainLog.addElement(".............................................................................");
             dlmJanusMainLog.addElement(String.format("Session:  %s", sess));
             JanusHandlesResponseDTO handleList = janusService.getHandles(url, pwd, sess);
             if(!handleList.getJanus().contains("success")) {
@@ -336,25 +353,16 @@ public class frmMain extends JFrame {
                 dlmJanusMainLog.addElement(String.format("  - %-20s:%s", "transaction", handleList.getTransaction()));
                 dlmJanusMainLog.addElement(String.format("  - %-20s:", "handles"));
 
-                dlmJanusMainLog.addElement("-----------------------------------------------------------");
                 for(String handle : handleList.getHandles()) {
+                    dlmJanusMainLog.addElement("     . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .");
                     dlmJanusMainLog.addElement(String.format("    - %-20s", handle));
                     JanusHandlesInfoResponseDTO handleObj = janusService.getHandleInfo(url, pwd, sess, handle);
+                    tools.dumpHandleInfoResponse(handleObj, dlmJanusRawLog);
                     JanusHandleInfoDTO hi = handleObj.getInfo();
                     if(hi == null) {
                         dlmJanusMainLog.addElement("              NULL !!!!");
                     }
                     else {
-
-                        /*
-                        String jsonString = "";
-                        try {
-                            ObjectMapper mapper = new ObjectMapper();
-                            jsonString = mapper.writeValueAsString(hi);
-                        } catch(Exception ex) {}
-                        dlmJanusMainLog.addElement(jsonString);
-                         */
-
                         dlmJanusMainLog.addElement(String.format("     - %-20s:%s", "transport", hi.getSession_transport()));
                         dlmJanusMainLog.addElement(String.format("     - %-20s:%s", "plugin", hi.getPlugin()));
                         dlmJanusMainLog.addElement(String.format("     - %-20s:%s", "ice-mode", hi.getIce_mode()));
@@ -2029,15 +2037,15 @@ public class frmMain extends JFrame {
         tabbedPane8 = new JTabbedPane();
         panel38.add(tabbedPane8, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, new Dimension(200, 200), null, 0, false));
         final JPanel panel39 = new JPanel();
-        panel39.setLayout(new GridLayoutManager(3, 2, new Insets(0, 0, 0, 0), -1, -1));
+        panel39.setLayout(new GridLayoutManager(3, 3, new Insets(0, 0, 0, 0), -1, -1));
         tabbedPane8.addTab("Get Data", panel39);
         btnJanusGetSessions = new JButton();
         btnJanusGetSessions.setText("Get Sessions");
         panel39.add(btnJanusGetSessions, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final Spacer spacer22 = new Spacer();
-        panel39.add(spacer22, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
+        panel39.add(spacer22, new GridConstraints(0, 2, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
         final JScrollPane scrollPane13 = new JScrollPane();
-        panel39.add(scrollPane13, new GridConstraints(2, 0, 1, 2, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
+        panel39.add(scrollPane13, new GridConstraints(2, 0, 1, 3, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
         lbJanusMainLog = new JList();
         Font lbJanusMainLogFont = this.$$$getFont$$$("Courier New", -1, 14, lbJanusMainLog.getFont());
         if (lbJanusMainLogFont != null) lbJanusMainLog.setFont(lbJanusMainLogFont);
@@ -2045,6 +2053,10 @@ public class frmMain extends JFrame {
         btnJanusClearMainLog = new JButton();
         btnJanusClearMainLog.setText("Clear Log");
         panel39.add(btnJanusClearMainLog, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        chkJanusRemoveMainLog = new JCheckBox();
+        chkJanusRemoveMainLog.setSelected(true);
+        chkJanusRemoveMainLog.setText("Clear Log Before Query");
+        panel39.add(chkJanusRemoveMainLog, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final JPanel panel40 = new JPanel();
         panel40.setLayout(new GridLayoutManager(2, 6, new Insets(0, 0, 0, 0), -1, -1));
         tabbedPane8.addTab("Raw Data", panel40);
@@ -2073,6 +2085,9 @@ public class frmMain extends JFrame {
         txJanusAdminPwd = new JPasswordField();
         txJanusAdminPwd.setText("janusoverlord");
         panel40.add(txJanusAdminPwd, new GridConstraints(0, 4, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
+        btnJanusSaveLog = new JButton();
+        btnJanusSaveLog.setText("Save Log");
+        panel40.add(btnJanusSaveLog, new GridConstraints(0, 5, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final JPanel panel41 = new JPanel();
         panel41.setLayout(new GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
         tabbedPane1.addTab("System", panel41);

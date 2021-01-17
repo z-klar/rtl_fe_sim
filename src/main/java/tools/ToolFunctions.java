@@ -13,6 +13,7 @@ import dto.ConfigurationData;
 import dto.RelayDefinitionDTO;
 import dto.TestrackDTO;
 import dto.TestrackDisplayDTO;
+import dto.janus.JanusHandlesInfoResponseDTO;
 import javafx.scene.control.ComboBox;
 import service.RestCallService;
 
@@ -399,4 +400,59 @@ public class ToolFunctions {
 
     }
 
+    /**
+     *
+     * @param src
+     * @param dlm
+     */
+    public static void dumpHandleInfoResponse(JanusHandlesInfoResponseDTO src, DefaultListModel dlm) {
+        String jsonString = "";
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            jsonString = mapper.writeValueAsString(src);
+            logSplit(dlm, jsonString, 140);
+        }
+        catch(Exception ex) {
+            logSplit(dlm, ex.getMessage(), 140);
+        }
+    }
+
+    /**
+     *
+     * @param target
+     * @param text
+     * @param width
+     */
+    public static void logSplit(DefaultListModel target, String text, int width) {
+        ArrayList<String> al = new ArrayList<>();
+        al.add("****************");
+        String spom1 = text;
+        while(spom1.length() > width) {
+            String spom2 = spom1.substring(0, width);
+            al.add(spom2);
+            spom1 = spom1.substring(width);
+        }
+        al.add(spom1);
+        for(String s : al) target.addElement(s);
+    }
+
+    /**
+     *
+     * @param target
+     * @param text
+     * @param width
+     * @param title
+     */
+    public static void logSplit(DefaultListModel target, String text, int width, String title) {
+        ArrayList<String> al = new ArrayList<>();
+        al.add("****************" + title + "***************");
+        String spom1 = text;
+        while(spom1.length() > width) {
+            String spom2 = spom1.substring(0, width);
+            al.add(spom2);
+            spom1 = spom1.substring(width);
+        }
+        al.add(spom1);
+        for(String s : al) target.addElement(s);
+    }
 }
