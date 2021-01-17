@@ -4,10 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import common.GlobalData;
 import common.JsonProcessing;
 import common.RestCallOutput;
-import dto.janus.JanusHandlesRequestDTO;
-import dto.janus.JanusHandlesResponseDTO;
-import dto.janus.JanusSessionsRequestDTO;
-import dto.janus.JanusSessionsResponseDTO;
+import dto.janus.*;
 
 import javax.swing.*;
 import java.io.BufferedReader;
@@ -83,6 +80,42 @@ public class JanusService {
             try {
                 ObjectMapper mapper = new ObjectMapper();
                 resp = mapper.readValue(ro.getDataMsg(), JanusHandlesResponseDTO.class);
+            }
+            catch(Exception ex) {
+                resp.setJanus("error");
+                resp.setTransaction(ex.getMessage());
+            }
+        }
+        return resp;
+    }
+
+    public JanusHandlesInfoResponseDTO getHandleInfo(String url, String password,
+                                            String session_id, String handle_id) {
+        Map<String, String> props = null;
+        String jsonString = "";
+        try {
+            props = new HashMap<>();
+            props.put("Content-Type", "application/json");
+
+            ObjectMapper mapper = new ObjectMapper();
+            JanusHandlesInfoRequestDTO req = new JanusHandlesInfoRequestDTO(
+                                                "handle_info", "TRANSACTION_ID",
+                                                      session_id, handle_id,  password);
+            jsonString = mapper.writeValueAsString(req);
+        }
+        catch (Exception ex) {
+        }
+        String surl = url + "/" + session_id + "/" + handle_id;
+        RestCallOutput ro = SendRestApiRequest("POST", props, jsonString, surl);
+        JanusHandlesInfoResponseDTO resp = new JanusHandlesInfoResponseDTO();
+        if(ro.getResultCode() > 299) {
+            resp.setJanus("error");
+            resp.setTransaction(ro.getErrorMsg());
+        }
+        else {
+            try {
+                ObjectMapper mapper = new ObjectMapper();
+                resp = mapper.readValue(ro.getDataMsg(), JanusHandlesInfoResponseDTO.class);
             }
             catch(Exception ex) {
                 resp.setJanus("error");

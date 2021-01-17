@@ -11,5 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class JanusSdpDTO {
-    private int id;
+    private String profile;
+    private String local;
+    private String remote;
 }
