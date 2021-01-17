@@ -17,4 +17,6 @@ public class GlobalData {
     public List<String> abtCommands;
     public List<String> fpkCommands;
 
+    public final String TRANSACTION_ID = "abcdef";
+
 }

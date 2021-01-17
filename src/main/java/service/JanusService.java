@@ -1,9 +1,13 @@
 package service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import common.GlobalData;
 import common.JsonProcessing;
 import common.RestCallOutput;
+import dto.janus.JanusHandlesRequestDTO;
+import dto.janus.JanusHandlesResponseDTO;
 import dto.janus.JanusSessionsRequestDTO;
+import dto.janus.JanusSessionsResponseDTO;
 
 import javax.swing.*;
 import java.io.BufferedReader;
@@ -21,9 +25,14 @@ public class JanusService {
     private JsonProcessing jsonProcessing;
     private DefaultListModel<String> lbModel;
 
-    public JanusService(DefaultListModel<String> dlm) {
+    private GlobalData globalData;
+    private String TRANSACTION_ID;
+
+    public JanusService(DefaultListModel<String> dlm, GlobalData globalData) {
         lbModel = dlm;
         jsonProcessing = new JsonProcessing(dlm);
+        this.globalData = globalData;
+        TRANSACTION_ID = globalData.TRANSACTION_ID;
     }
 
     public RestCallOutput getSession(String url, String password) {
@@ -34,7 +43,7 @@ public class JanusService {
             props.put("Content-Type", "application/json");
 
             ObjectMapper mapper = new ObjectMapper();
-            JanusSessionsRequestDTO req = new JanusSessionsRequestDTO("list_sessions", "abcdef", password);
+            JanusSessionsRequestDTO req = new JanusSessionsRequestDTO("list_sessions", "TRANSACTION_ID", password);
             jsonString = mapper.writeValueAsString(req);
         }
         catch (Exception ex) {
@@ -43,6 +52,46 @@ public class JanusService {
         RestCallOutput ro = SendRestApiRequest("POST", props, jsonString, surl);
         return ro;
     }
+
+    /**
+     *
+     * @param url
+     * @param password
+     * @return
+     */
+    public JanusHandlesResponseDTO getHandles(String url, String password, String session_id) {
+        Map<String, String> props = null;
+        String jsonString = "";
+        try {
+            props = new HashMap<>();
+            props.put("Content-Type", "application/json");
+
+            ObjectMapper mapper = new ObjectMapper();
+            JanusHandlesRequestDTO req = new JanusHandlesRequestDTO("list_handles", "TRANSACTION_ID", session_id, password);
+            jsonString = mapper.writeValueAsString(req);
+        }
+        catch (Exception ex) {
+        }
+        String surl = url + "/" + session_id;
+        RestCallOutput ro = SendRestApiRequest("POST", props, jsonString, surl);
+        JanusHandlesResponseDTO resp = new JanusHandlesResponseDTO();
+        if(ro.getResultCode() > 299) {
+            resp.setJanus("error");
+            resp.setTransaction(ro.getErrorMsg());
+        }
+        else {
+            try {
+                ObjectMapper mapper = new ObjectMapper();
+                resp = mapper.readValue(ro.getDataMsg(), JanusHandlesResponseDTO.class);
+            }
+            catch(Exception ex) {
+                resp.setJanus("error");
+                resp.setTransaction(ex.getMessage());
+            }
+        }
+        return resp;
+    }
+
 
     /**
      *
