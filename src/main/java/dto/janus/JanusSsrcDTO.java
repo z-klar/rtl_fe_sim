@@ -11,11 +11,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class JanusSsrcDTO {
-    private int audio;
-    private int video;
+    private long audio;
+    private long video;
     @JsonAlias("audio-peer")
-    private int audio_peer;
+    private long audio_peer;
     @JsonAlias("video-peer")
-    private int video_peer;
+    private long video_peer;
 
 }

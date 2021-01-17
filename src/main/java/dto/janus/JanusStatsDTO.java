@@ -11,10 +11,14 @@ import lombok.NoArgsConstructor;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class JanusStatsDTO {
     private long audio_bytes;
+    private long audio_packets;
     private long video_bytes;
+    private long video_packets;
     private long data_bytes;
-    private int audio_nacks;
-    private int video_nacks;
-    private int audio_bytes_lastsec;
-    private int video_bytes_lastsec;
+    private boolean do_audio_nacks;
+    private boolean do_video_nacks;
+    private long audio_nacks;
+    private long video_nacks;
+    private long audio_bytes_lastsec;
+    private long video_bytes_lastsec;
 }
