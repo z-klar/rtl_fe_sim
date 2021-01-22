@@ -15,10 +15,11 @@ public class TestrackTable1 {
     public String IpAddr;
     public int videoPort;
     public  String vin;
+    public String lab;
 
     public TestrackTable1(Long id, String name, String decr, String addr,
                           TestrackVehicle vehicle, TestrackAvailability avail,
-                          String ip, int port, String vin) {
+                          String ip, int port, String vin, String lab) {
         this.id = id;
         this.name = name;
         this.description = decr;
@@ -28,10 +29,11 @@ public class TestrackTable1 {
         this.IpAddr = ip;
         this.videoPort = port;
         this.vin = vin;
+        this.lab = lab;
     }
 
     public Object[] toObject() {
         return new Object[]{id, name, description, address,
-                            vehicle, availability, IpAddr, videoPort, vin};
+                            vehicle, availability, IpAddr, videoPort, vin, lab};
     }
 }

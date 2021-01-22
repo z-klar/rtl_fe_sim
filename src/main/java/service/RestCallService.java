@@ -215,6 +215,7 @@ public class RestCallService {
         catch(Exception ex) {
             ro.AddErrorText("Exception: " + ex.getClass().toString());
             ro.AddErrorText("Message: " + ex.getMessage());
+            ro.setResultCode(1001);
             return(ro);
         }
     }
