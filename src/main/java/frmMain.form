@@ -2196,6 +2196,97 @@
               </tabbedpane>
             </children>
           </grid>
+          <grid id="fe1ed" layout-manager="GridLayoutManager" row-count="2" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+            <margin top="0" left="0" bottom="0" right="0"/>
+            <constraints>
+              <tabbedpane title="Spring Acruator"/>
+            </constraints>
+            <properties/>
+            <border type="none"/>
+            <children>
+              <component id="1909e" class="javax.swing.JButton" binding="btnActuatorGetLogs">
+                <constraints>
+                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <text value="Get Loggers"/>
+                </properties>
+              </component>
+              <hspacer id="2c0b4">
+                <constraints>
+                  <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+              </hspacer>
+              <splitpane id="dee63">
+                <constraints>
+                  <grid row="1" column="0" row-span="1" col-span="3" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                    <preferred-size width="200" height="200"/>
+                  </grid>
+                </constraints>
+                <properties>
+                  <dividerLocation value="800"/>
+                  <dividerSize value="6"/>
+                </properties>
+                <border type="none"/>
+                <children>
+                  <grid id="b3946" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                    <margin top="0" left="0" bottom="0" right="0"/>
+                    <constraints>
+                      <splitpane position="right"/>
+                    </constraints>
+                    <properties/>
+                    <border type="none"/>
+                    <children>
+                      <scrollpane id="38dd">
+                        <constraints>
+                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                        </constraints>
+                        <properties/>
+                        <border type="none"/>
+                        <children>
+                          <component id="ffd34" class="javax.swing.JList" binding="lbActuator">
+                            <constraints/>
+                            <properties/>
+                          </component>
+                        </children>
+                      </scrollpane>
+                    </children>
+                  </grid>
+                  <grid id="f4e04" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                    <margin top="0" left="0" bottom="0" right="0"/>
+                    <constraints>
+                      <splitpane position="left"/>
+                    </constraints>
+                    <properties/>
+                    <border type="none"/>
+                    <children>
+                      <scrollpane id="e14d8">
+                        <constraints>
+                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                        </constraints>
+                        <properties/>
+                        <border type="none"/>
+                        <children>
+                          <component id="f5778" class="javax.swing.JTable" binding="tblData1">
+                            <constraints/>
+                            <properties/>
+                          </component>
+                        </children>
+                      </scrollpane>
+                    </children>
+                  </grid>
+                </children>
+              </splitpane>
+              <component id="f9d3c" class="javax.swing.JButton" binding="btnActuatorClearLog">
+                <constraints>
+                  <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <text value="Clear Log"/>
+                </properties>
+              </component>
+            </children>
+          </grid>
           <grid id="813d0" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
             <margin top="0" left="0" bottom="0" right="0"/>
             <constraints>
@@ -2475,7 +2566,7 @@
                       <editable value="false"/>
                       <font size="12"/>
                       <horizontalAlignment value="2"/>
-                      <text value="1.0.8.0"/>
+                      <text value="1.1.0.0"/>
                     </properties>
                   </component>
                   <component id="f55ba" class="javax.swing.JLabel">
@@ -2498,7 +2589,7 @@
                     <properties>
                       <editable value="false"/>
                       <font size="12"/>
-                      <text value="2021-01-17"/>
+                      <text value="2021-01-22"/>
                     </properties>
                   </component>
                   <hspacer id="47b19">

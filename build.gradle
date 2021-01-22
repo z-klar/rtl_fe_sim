@@ -32,5 +32,7 @@ dependencies {
     // JWT decoder
     implementation 'com.auth0:java-jwt:3.10.2'
 
+    // logging
+    compile group: 'org.slf4j', name: 'slf4j-log4j12', version: '1.7.30'
 
 }

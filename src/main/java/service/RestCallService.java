@@ -399,4 +399,18 @@ public class RestCallService {
         return res;
     }
 
+    public RestCallOutput getAllLinks(String surl, boolean verbose) {
+        Map<String, String> props = new HashMap<>();
+        props.put("Accept", "*/*");
+
+        try {
+            RestCallOutput ro = SendRestApiRequest("GET", props, null, surl);
+            return (ro);
+        }
+        catch(Exception ex) {
+            return(null);
+        }
+    }
+
+
 }
