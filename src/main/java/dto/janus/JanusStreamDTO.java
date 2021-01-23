@@ -26,8 +26,8 @@ public class JanusStreamDTO {
     public ArrayList<String> toStringArray(int offset, int index) {
         ArrayList<String> al = new ArrayList<>();
         String format = String.format("%%%ds%%25s:%%s", offset);
-        String format2 = String.format("%%%ds******************************************** Stream[%d] ********************************************", offset, index);
-        String format3 = String.format("%%%ds........................................... Stream[%d] END .........................................", offset, index);
+        String format2 = String.format("%%%ds********************************************* Stream[%d] *********************************************", offset, index);
+        String format3 = String.format("%%%ds............................................ Stream[%d] END ..........................................", offset, index);
         al.add(String.format(format2, " "));
         al.add(String.format(format, " ", "id", id));
         al.add(String.format(format, " ", "ready", ready));
