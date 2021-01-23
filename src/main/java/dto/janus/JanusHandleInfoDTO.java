@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -31,4 +33,28 @@ public class JanusHandleInfoDTO {
     private JanusSdpDTO sdps;
     private int queued_packets;
     private JanusStreamDTO [] streams;
+
+
+    public ArrayList<String> toStringArray() {
+        ArrayList<String> al = new ArrayList<>();
+        al.add(String.format("%25s:%s", "session_id", session_id));
+        al.add(String.format("%25s:%s", "session_last_activity", session_last_activity));
+        al.add(String.format("%25s:%s", "session_transport", session_transport));
+        al.add(String.format("%25s:%s", "handle_id", handle_id));
+        al.add(String.format("%25s:%s", "loop_running", loop_running));
+        al.add(String.format("%25s:%d", "created", created));
+        al.add(String.format("%25s:%d", "current_time", current_time));
+        al.add(String.format("%25s:%s", "plugin", plugin));
+        al.addAll(plugin_specific.toStringArray(5));
+        al.addAll(flags.toStringArray(5));
+        al.add(String.format("%25s:%d", "agent_created", agent_created));
+        al.add(String.format("%25s:%s", "ice_mode", ice_mode));
+        al.addAll(sdps.toStringArray(5));
+        al.add(String.format("%25s:%d", "queued_packets", queued_packets));
+        for(int i=0; i<streams.length; i++)
+            al.addAll(streams[i].toStringArray(5, i));
+
+        return al;
+    }
+
 }

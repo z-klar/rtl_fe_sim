@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -17,5 +19,18 @@ public class JanusSsrcDTO {
     private long audio_peer;
     @JsonAlias("video-peer")
     private long video_peer;
+
+    public ArrayList<String> toStringArray(int offset) {
+        ArrayList<String> al = new ArrayList<>();
+        String format = String.format("%%%ds%%25s:%%s", offset);
+        al.add(String.format(format, " ", "------------------- SSRC --------------------", ""));
+        al.add(String.format(format, " ", "audio", audio));
+        al.add(String.format(format, " ", "video", video));
+        al.add(String.format(format, " ", "audio_peer", audio_peer));
+        al.add(String.format(format, " ", "video_peer", video_peer));
+        al.add(String.format(format, " ", "..............................................", ""));
+        return al;
+    }
+
 
 }

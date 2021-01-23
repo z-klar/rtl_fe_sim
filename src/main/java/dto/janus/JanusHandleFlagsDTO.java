@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -43,4 +45,24 @@ public class JanusHandleFlagsDTO {
     private boolean rfc4588_rtx;
     private boolean cleaning;
     private boolean e2ee;
+
+    public ArrayList<String> toStringArray(int offset) {
+        ArrayList<String> al = new ArrayList<>();
+        String format = String.format("%%%ds%%25s:%%s", offset);
+        al.add(String.format(format, " ", "-------------- HandleFlags ----------------", ""));
+        al.add(String.format(format, " ", "got_offer", got_offer));
+        al.add(String.format(format, " ", "got_answer", got_answer));
+        al.add(String.format(format, " ", "negotiated", negotiated));
+        al.add(String.format(format, " ", "starting", starting));
+        al.add(String.format(format, " ", "ice_restart", ice_restart));
+        al.add(String.format(format, " ", "ready", ready));
+        al.add(String.format(format, " ", "stopped", stopped));
+        al.add(String.format(format, " ", "trickle", trickle));
+        al.add(String.format(format, " ", "has_audio", has_audio));
+        al.add(String.format(format, " ", "has_video", has_video));
+        al.add(String.format(format, " ", "............................................", ""));
+        return al;
+    }
+
+
 }
