@@ -5,6 +5,8 @@ import common.GlobalData;
 import common.JsonProcessing;
 import common.RestCallOutput;
 import dto.janus.*;
+import tables.JanusOverviewTable;
+import tools.JanusTools;
 import tools.ToolFunctions;
 
 import javax.swing.*;
@@ -18,6 +20,7 @@ import java.net.UnknownHostException;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Vector;
 
 public class JanusService {
     private JsonProcessing jsonProcessing;
@@ -207,6 +210,81 @@ public class JanusService {
         }
     }
 
+    /**
+     *
+     * @return
+     */
+    public int getJanusOverviewData(Vector<JanusOverviewTable> rows,
+                                    String url, String pwd) {
+        RestCallOutput ro = getSession(url, pwd);
+        if (ro.getResultCode() > 299) {
+            JOptionPane.showMessageDialog(null, "Error:\n" + ro.getErrorMsg());
+            return -1;
+        }
+        JanusSessionsResponseDTO resp = JanusTools.getJanusSessionListResp(ro.getDataMsg());
+        if(!resp.getJanus().contains("success")) {
+            return -2;
+        }
+        else {
+            for(String sess : resp.getSessions()) {
+                rows.add(new JanusOverviewTable(sess, "", "", "", "", "",""));
+                JanusHandlesResponseDTO handleList = getHandles(url, pwd, sess);
+                if(!handleList.getJanus().contains("success")) {
+                    return -4;
+                }
+                else {
+                    for(String handle : handleList.getHandles()) {
+                        rows.add(new JanusOverviewTable("", handle, "", "", "","", ""));
+                        JanusHandlesInfoResponseDTO handleObj = getHandleInfo(url, pwd, sess, handle);
+                        if(handleObj.getJanus().contains("error")) {
+                            return -5;
+                        }
+                        else {
+                            JanusHandleInfoDTO hi = handleObj.getInfo();
+                            String data = "PG=" + hi.getPlugin() + " #stream:" + hi.getStreams().length;
+                            if(hi.getStreams().length == 0) {
+                                rows.add(new JanusOverviewTable("", "", data, "",
+                                                              "", "", ""));
+                            }
+                            else {
+                                for(int i=0; i<hi.getStreams().length; i++) {
+                                    JanusStreamDTO stream = hi.getStreams()[i];
+                                    String streamId = String.format("%d",stream.getId());
+                                    String streamData = String.format("Rdy=%d #comp=%d",
+                                            stream.getReady(), stream.getComponents().length);
+                                    if(stream.getComponents().length == 0) {
+                                        if (i == 0)
+                                            rows.add(new JanusOverviewTable("", "", data, streamId,
+                                                    streamData, "", ""));
+                                        else
+                                            rows.add(new JanusOverviewTable("", "", "", streamId,
+                                                    streamData, "", ""));
+                                    }
+                                    else {
+                                        for(int j=0; j<stream.getComponents().length; j++) {
+                                            JanusStreamComponentDTO comp = stream.getComponents()[j];
+                                            String compId = String.format("%d", comp.getId());
+                                            String compData = String.format("state=%s video_packets=%d video_nacks=%d",
+                                                    comp.getState(), comp.getOut_stats().getVideo_packets(),
+                                                    comp.getOut_stats().getVideo_nacks());
+                                            if (j == 0)
+                                                rows.add(new JanusOverviewTable("", "", data, streamId,
+                                                        streamData, compId, compData));
+                                            else
+                                                rows.add(new JanusOverviewTable("", "", "", streamId,
+                                                        streamData, compId, compData));
+                                        }
+                                    }
+                                }
+
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return 0;
+    }
 
 
 }
