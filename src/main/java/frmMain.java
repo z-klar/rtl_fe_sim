@@ -424,6 +424,13 @@ public class frmMain extends JFrame implements ActionListener {
         tblJanusOverview.getColumnModel().getColumn(3).setPreferredWidth(15);
         tblJanusOverview.getColumnModel().getColumn(4).setPreferredWidth(95);
         tblJanusOverview.getColumnModel().getColumn(5).setPreferredWidth(15);
+
+        Vector<JanusCommonTable> stream = new Vector<>();
+        Vector<JanusCommonTable> component = new Vector<>();
+        JanusCommonTableModel streamModel = new JanusCommonTableModel(stream);
+        tblJanusMainStream.setModel(streamModel);
+        JanusCommonTableModel compModel = new JanusCommonTableModel(component);
+        tblJanusMainComponent.setModel(compModel);
     }
     /**
      *
