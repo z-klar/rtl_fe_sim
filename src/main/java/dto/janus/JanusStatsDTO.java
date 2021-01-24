@@ -17,10 +17,12 @@ public class JanusStatsDTO {
     private long video_bytes;
     private long video_packets;
     private long data_bytes;
+    private long data_packets;
     private boolean do_audio_nacks;
     private boolean do_video_nacks;
     private long audio_nacks;
     private long video_nacks;
+    private long video_retransmissions;
     private long audio_bytes_lastsec;
     private long video_bytes_lastsec;
 
@@ -33,10 +35,12 @@ public class JanusStatsDTO {
         al.add(String.format(format, " ", "video_bytes", video_bytes));
         al.add(String.format(format, " ", "video_packets", video_packets));
         al.add(String.format(format, " ", "data_bytes", data_bytes));
+        al.add(String.format(format, " ", "data_packets", data_packets));
         al.add(String.format(format, " ", "do_audio_nacks", do_audio_nacks));
         al.add(String.format(format, " ", "do_video_nacks", do_video_nacks));
         al.add(String.format(format, " ", "audio_nacks", audio_nacks));
         al.add(String.format(format, " ", "video_nacks", video_nacks));
+        al.add(String.format(format, " ", "video_retransmissions", video_retransmissions));
         al.add(String.format(format, " ", "audio_bytes_lastsec", audio_bytes_lastsec));
         al.add(String.format(format, " ", "video_bytes_lastsec", video_bytes_lastsec));
         al.add(String.format(format, " ", "...............................................", ""));

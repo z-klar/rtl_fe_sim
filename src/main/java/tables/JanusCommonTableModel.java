@@ -3,14 +3,13 @@ package tables;
 import javax.swing.table.AbstractTableModel;
 import java.util.Vector;
 
-public class JanusOverviewTableModel extends AbstractTableModel {
+public class JanusCommonTableModel extends AbstractTableModel {
     private String[] columnNames =
-            { "Session", "Handle", "Handle Data", "Stream ID",
-              "Stream Data", "CompID", "Component Data"};
+            { "Parameter", "Value" };
 
     private Object[][] data;
 
-    public JanusOverviewTableModel(Vector<JanusOverviewTable> rowData) {
+    public JanusCommonTableModel(Vector<JanusCommonTable> rowData) {
         data = new Object[rowData.size()][columnNames.length];
         for (int i = 0; i < rowData.size(); i++) {
             data[i] = rowData.get(i).toObject();

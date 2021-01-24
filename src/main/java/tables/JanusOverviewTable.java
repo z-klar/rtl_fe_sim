@@ -13,15 +13,16 @@ public class JanusOverviewTable {
     public String componentData;
 
 
-    public JanusOverviewTable(String sessionId, String handleId, String handleData, String streamId,
-                              String streamData, String componentId, String componentData) {
+    public JanusOverviewTable(String sessionId, String handleId, String handleData,
+                              String streamId, String streamData,
+                              String componentId, String componentData) {
         this.sessionId = sessionId;
         this.handleId = handleId;
         this.handleData = handleData;
-        this.streamId = streamId;
         this.streamData = streamData;
-        this.componentId = componentId;
         this.componentData = componentData;
+        this.streamId = streamId;
+        this.componentId = componentId;
     }
 
     public Object[] toObject() {

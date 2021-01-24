@@ -15,6 +15,7 @@ import java.util.ArrayList;
 public class JanusStreamComponentDTO {
     private int id;
     private String state;
+    private long connected;
     @JsonAlias("local-candidates")
     private String [] local_candidates;
     @JsonAlias("remote-candidates")
@@ -33,6 +34,7 @@ public class JanusStreamComponentDTO {
         al.add(String.format(format2, " "));
         al.add(String.format(format, " ", "id", id));
         al.add(String.format(format, " ", "state", state));
+        al.add(String.format(format, " ", "connected", connected));
         al.add(String.format(format, " ", "   local_candidates", " "));
         for(String s : local_candidates) al.add(String.format(format, " ", " ", s));
         al.add(String.format(format, " ", "   remote_candidates", " "));
