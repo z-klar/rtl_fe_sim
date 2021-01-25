@@ -2046,7 +2046,7 @@
                       </component>
                     </children>
                   </grid>
-                  <grid id="989b3" layout-manager="GridLayoutManager" row-count="2" column-count="6" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                  <grid id="989b3" layout-manager="GridLayoutManager" row-count="2" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
                     <margin top="0" left="0" bottom="0" right="0"/>
                     <constraints>
                       <tabbedpane title="Raw Data"/>
@@ -2064,7 +2064,7 @@
                       </component>
                       <scrollpane id="440df">
                         <constraints>
-                          <grid row="1" column="0" row-span="1" col-span="6" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                          <grid row="1" column="0" row-span="1" col-span="3" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
                         </constraints>
                         <properties/>
                         <border type="none"/>
@@ -2077,52 +2077,19 @@
                           </component>
                         </children>
                       </scrollpane>
-                      <component id="26f56" class="javax.swing.JLabel">
-                        <constraints>
-                          <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-                        </constraints>
-                        <properties>
-                          <font size="12" style="1"/>
-                          <text value="Base URL:"/>
-                        </properties>
-                      </component>
-                      <component id="f4768" class="javax.swing.JTextField" binding="txJanusBaseUrl">
-                        <constraints>
-                          <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
-                            <preferred-size width="150" height="-1"/>
-                          </grid>
-                        </constraints>
-                        <properties>
-                          <text value="http://localhost:7088/admin"/>
-                        </properties>
-                      </component>
-                      <component id="fd3e1" class="javax.swing.JLabel">
-                        <constraints>
-                          <grid row="0" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-                        </constraints>
-                        <properties>
-                          <font size="12" style="1"/>
-                          <text value="Admin PWD:"/>
-                        </properties>
-                      </component>
-                      <component id="de719" class="javax.swing.JPasswordField" binding="txJanusAdminPwd">
-                        <constraints>
-                          <grid row="0" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
-                            <preferred-size width="150" height="-1"/>
-                          </grid>
-                        </constraints>
-                        <properties>
-                          <text value="janusoverlord"/>
-                        </properties>
-                      </component>
                       <component id="6fdcf" class="javax.swing.JButton" binding="btnJanusSaveLog">
                         <constraints>
-                          <grid row="0" column="5" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                          <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                         </constraints>
                         <properties>
                           <text value="Save Log"/>
                         </properties>
                       </component>
+                      <hspacer id="94fde">
+                        <constraints>
+                          <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                        </constraints>
+                      </hspacer>
                     </children>
                   </grid>
                   <grid id="2995f" layout-manager="GridLayoutManager" row-count="2" column-count="5" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
@@ -2381,17 +2348,10 @@
                                         <properties/>
                                         <border type="none"/>
                                         <children>
-                                          <scrollpane id="fddb5">
+                                          <component id="e9b94" class="javax.swing.JTable" binding="tblJanusMainStream">
                                             <constraints/>
                                             <properties/>
-                                            <border type="none"/>
-                                            <children>
-                                              <component id="b57b3" class="javax.swing.JTable" binding="tblJanusMainStream">
-                                                <constraints/>
-                                                <properties/>
-                                              </component>
-                                            </children>
-                                          </scrollpane>
+                                          </component>
                                         </children>
                                       </scrollpane>
                                     </children>
@@ -2411,17 +2371,10 @@
                                         <properties/>
                                         <border type="none"/>
                                         <children>
-                                          <scrollpane id="efd7e">
+                                          <component id="e5c49" class="javax.swing.JTable" binding="tblJanusMainComponent">
                                             <constraints/>
                                             <properties/>
-                                            <border type="none"/>
-                                            <children>
-                                              <component id="e0a3f" class="javax.swing.JTable" binding="tblJanusMainComponent">
-                                                <constraints/>
-                                                <properties/>
-                                              </component>
-                                            </children>
-                                          </scrollpane>
+                                          </component>
                                         </children>
                                       </scrollpane>
                                     </children>
@@ -2712,7 +2665,7 @@
             <properties/>
             <border type="bevel-raised"/>
             <children>
-              <grid id="4eda5" layout-manager="GridLayoutManager" row-count="4" column-count="9" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+              <grid id="4eda5" layout-manager="GridLayoutManager" row-count="4" column-count="8" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
                 <margin top="0" left="0" bottom="0" right="0"/>
                 <constraints>
                   <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
@@ -2734,16 +2687,18 @@
                   </component>
                   <component id="900b4" class="javax.swing.JLabel">
                     <constraints>
-                      <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                      <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false"/>
                     </constraints>
                     <properties>
                       <font size="12" style="1"/>
+                      <horizontalAlignment value="4"/>
+                      <horizontalTextPosition value="11"/>
                       <text value="BE Port"/>
                     </properties>
                   </component>
                   <component id="c571c" class="javax.swing.JTextField" binding="txBePort">
                     <constraints>
-                      <grid row="0" column="3" row-span="1" col-span="2" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                      <grid row="0" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                         <preferred-size width="150" height="-1"/>
                       </grid>
                     </constraints>
@@ -2754,12 +2709,12 @@
                   </component>
                   <hspacer id="f172b">
                     <constraints>
-                      <grid row="0" column="8" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                      <grid row="0" column="7" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                     </constraints>
                   </hspacer>
                   <component id="b3b62" class="javax.swing.JLabel">
                     <constraints>
-                      <grid row="0" column="5" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                      <grid row="0" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                     </constraints>
                     <properties>
                       <font size="12" style="1"/>
@@ -2768,7 +2723,7 @@
                   </component>
                   <component id="f10fc" class="javax.swing.JTextField" binding="txConfigSignalServerPort">
                     <constraints>
-                      <grid row="0" column="6" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                      <grid row="0" column="5" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                         <preferred-size width="150" height="-1"/>
                       </grid>
                     </constraints>
@@ -2779,20 +2734,11 @@
                   </component>
                   <component id="b6d6f" class="javax.swing.JLabel">
                     <constraints>
-                      <grid row="3" column="3" row-span="1" col-span="2" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                      <grid row="3" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                     </constraints>
                     <properties>
                       <font size="10" style="1"/>
                       <text value="  "/>
-                    </properties>
-                  </component>
-                  <component id="3984f" class="javax.swing.JLabel">
-                    <constraints>
-                      <grid row="1" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-                    </constraints>
-                    <properties>
-                      <font size="6"/>
-                      <text value="      "/>
                     </properties>
                   </component>
                   <component id="ad852" class="javax.swing.JCheckBox" binding="chkVerboseLogging">
@@ -2840,11 +2786,30 @@
                   </component>
                   <component id="515ad" class="javax.swing.JButton" binding="btnUpdateConfig">
                     <constraints>
-                      <grid row="0" column="7" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                      <grid row="0" column="6" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                     </constraints>
                     <properties>
                       <margin top="5" left="5" bottom="5" right="5"/>
                       <text value="Update Configuration"/>
+                    </properties>
+                  </component>
+                  <component id="755d4" class="javax.swing.JLabel">
+                    <constraints>
+                      <grid row="1" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                    <properties>
+                      <font size="12" style="1"/>
+                      <text value="Janus Admin API PWD:"/>
+                    </properties>
+                  </component>
+                  <component id="91a34" class="javax.swing.JPasswordField" binding="txJanusAdminPwd">
+                    <constraints>
+                      <grid row="1" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                        <preferred-size width="150" height="-1"/>
+                      </grid>
+                    </constraints>
+                    <properties>
+                      <text value="janusoverlord"/>
                     </properties>
                   </component>
                 </children>
@@ -2880,7 +2845,7 @@
                       <editable value="false"/>
                       <font size="12"/>
                       <horizontalAlignment value="2"/>
-                      <text value="1.1.0.2"/>
+                      <text value="1.1.0.3"/>
                     </properties>
                   </component>
                   <component id="f55ba" class="javax.swing.JLabel">
@@ -2903,7 +2868,7 @@
                     <properties>
                       <editable value="false"/>
                       <font size="12"/>
-                      <text value="2021-01-22"/>
+                      <text value="2021-01-25"/>
                     </properties>
                   </component>
                   <hspacer id="47b19">
