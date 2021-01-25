@@ -4,7 +4,9 @@ import dto.AccessTokenDto;
 import dto.MmDevice;
 import dto.TestrackDTO;
 import dto.UserDto;
+import dto.groups.LabDetailDTO;
 import lombok.Data;
+import model.Lab;
 import model.LoggerRecord;
 
 import java.util.ArrayList;
@@ -17,12 +19,16 @@ public class GlobalData {
     public List<UserDto> users;
     public List<TestrackDTO> testracks;
     public List<MmDevice> mmDevices;
-
+    public List<LabDetailDTO> labs;
     public List<String> abtCommands;
     public List<String> fpkCommands;
 
     public final String TRANSACTION_ID = "abcdef";
 
     private ArrayList<LoggerRecord> loggerRecords = new ArrayList<>();
+
+    private String BeIP;
+    private String BePort;
+    private int LastSelectedLabId;
 
 }

@@ -1,0 +1,268 @@
+package tools;
+
+import common.GlobalData;
+import common.RestCallOutput;
+import commonEnum.LabInvitationState;
+import commonEnum.RtlRoles;
+import dto.TestrackDTO;
+import dto.UserDto;
+import dto.groups.LabDetailDTO;
+import dto.groups.UserDetailPerLabDTO;
+import model.Lab;
+import service.LabService;
+import service.RestCallService;
+import tables.labs.*;
+
+import javax.swing.*;
+import java.sql.Timestamp;
+import java.time.Instant;
+import java.util.List;
+import java.util.Vector;
+
+public class LabTools {
+
+    private JTable tblMain, tblUsers, tblRacks;
+    private DefaultListModel<String> dlmLog;
+    private GlobalData globalData;
+    private LabService labService;
+    private RestCallService restCallService;
+    private JComboBox<String> cbUsers;
+    private JComboBox<String> cbRoles;
+    private JComboBox<String> cbStates;
+
+    /**
+     *
+     * @param main
+     * @param users
+     * @param racks
+     * @param dlm
+     * @param globalData
+     * @param labService
+     * @param restCallService
+     * @param cbUsers
+     */
+    public LabTools(JTable main, JTable users, JTable racks,
+                    DefaultListModel<String> dlm,
+                    GlobalData globalData,
+                    LabService labService,
+                    RestCallService restCallService,
+                    JComboBox<String> cbUsers,
+                    JComboBox<String> cbRoles,
+                    JComboBox<String> cbStates) {
+        this.tblMain = main;
+        this.tblRacks = racks;
+        this.tblUsers = users;
+        this.dlmLog = dlm;
+        this.globalData = globalData;
+        this.labService = labService;
+        this.restCallService = restCallService;
+        this.cbUsers = cbUsers;
+        this.cbRoles = cbRoles;
+        this.cbStates = cbStates;
+    }
+
+    public void ClearAllTabs() {
+        Vector<LabTableRow> rows = new Vector<>();
+        LabTableModel model = new LabTableModel(rows);
+        tblUsers.setModel(model);
+    }
+    public void ClearLabUserTab() {
+        Vector<LabUserTableRow> rows = new Vector<>();
+        LabUserTableModel model = new LabUserTableModel(rows);
+        tblUsers.setModel(model);
+    }
+    public void ClearLabRackTab() {
+        Vector<LabTestrackTableRow> rows = new Vector<>();
+        LabTestrackTableModel model = new LabTestrackTableModel(rows);
+        tblRacks.setModel(model);
+    }
+
+    /**
+     *
+     * @param row Index of selected row in tha main lab table
+     * @return
+     */
+    public int UpdateUserAndRacks(int row) {
+        int labId;
+
+        Object obj = tblMain.getValueAt(row, 0);
+        try { labId = Integer.parseInt(obj.toString()); }
+        catch(Exception ex) {
+            dlmLog.addElement("Error: " + ex.getMessage());
+            return -1;
+        }
+        globalData.setLastSelectedLabId(labId);
+        UpdateUserAndRacksByLabId(labId);
+        return 0;
+    }
+    /**
+     *
+     * @param labId
+     * @return
+     */
+    public int UpdateUserAndRacksByLabId(int labId) {
+        globalData.setLastSelectedLabId(labId);
+        ClearLabUserTab();
+        List<UserDetailPerLabDTO> labUsers = getUserList(labId);
+        Vector<LabUserTableRow> rows = new Vector<>();
+        for(UserDetailPerLabDTO user : labUsers) rows.add(user.convertToUserTableRow());
+        LabUserTableModel model = new LabUserTableModel(rows);
+        tblUsers.setModel(model);
+
+        ClearLabRackTab();
+        List<TestrackDTO> labRacks = getRackList(labId);
+        Vector<LabTestrackTableRow> trows = new Vector<>();
+        for(TestrackDTO rack : labRacks) trows.add(rack.convertToLabTableRow());
+        LabTestrackTableModel tmodel = new LabTestrackTableModel(trows);
+        tblRacks.setModel(tmodel);
+
+        return 0;
+    }
+    /**
+     *
+     * @return
+     */
+    public int RemoveRackFromLab() {
+        int selectedRow = tblRacks.getSelectedRow();
+        if(selectedRow < 0) {
+            JOptionPane.showMessageDialog(null, "No testrack selected !");
+            return -1;
+        }
+        int rackId = Integer.parseInt(tblRacks.getValueAt(selectedRow, 0).toString());
+        TestrackDTO rack = findRackById(rackId);
+        if(rack == null) {
+            dlmLog.addElement("Testrack NOT found !!!!");
+            return -2;
+        }
+        rack.setLab(null);
+        RestCallOutput ro = labService.UpdateTestrack(rack);
+        if(ro.getResultCode() > 299) {
+            dlmLog.addElement("Error: " + ro.getErrorMsg());
+            return -3;
+        }
+        UpdateUserAndRacksByLabId(globalData.getLastSelectedLabId());
+        return 0;
+    }
+    /**
+     *
+     * @param sRackId
+     * @return
+     */
+    public int AddTrackToLab(String sRackId) {
+        int rackId;
+        try { rackId = Integer.parseInt(sRackId); }
+        catch (Exception ex) {
+            dlmLog.addElement("Error: " + ex.getMessage());
+            return -1;
+        }
+        TestrackDTO rack = findRackById(rackId);
+        if(rack == null) {
+            dlmLog.addElement("Testrack NOT found !!!!");
+            return -2;
+        }
+        Lab lab = findLabById(globalData.getLastSelectedLabId());
+        rack.setLab(lab);
+        RestCallOutput ro = labService.UpdateTestrack(rack);
+        if(ro.getResultCode() > 299) {
+            dlmLog.addElement("Error: " + ro.getErrorMsg());
+            return -3;
+        }
+        UpdateUserAndRacksByLabId(globalData.getLastSelectedLabId());
+        return 0;
+    }
+    /**
+     *
+     * @return
+     */
+    public int AddUserToLab() {
+        String role = cbRoles.getSelectedItem().toString();
+        String state = cbStates.getSelectedItem().toString();
+        String spom = cbUsers.getSelectedItem().toString();
+        String userId = spom.substring(0, spom.indexOf(" "));
+        String labId = String.format("%d", globalData.getLastSelectedLabId());
+
+        UserDetailPerLabDTO assign = new UserDetailPerLabDTO(labId, userId, LabInvitationState.valueOf(state),
+                                                             RtlRoles.valueOf(role));
+
+        RestCallOutput ro = labService.AddUserToLab(assign);
+        if(ro.getResultCode() > 299) {
+            dlmLog.addElement("Error: " + ro.getErrorMsg());
+            return -3;
+        }
+        //UpdateUserAndRacksByLabId(globalData.getLastSelectedLabId());
+        return 0;
+    }
+    /**
+     *
+     */
+    public void UpdateDependencies() {
+        cbUsers.removeAllItems();
+        for(UserDto user : globalData.users) {
+            cbUsers.addItem(user.getId() + " " + user.getEmail());
+        }
+    }
+    /**
+     *
+     * @param labId
+     * @return
+     */
+    private List<UserDetailPerLabDTO> getUserList(int labId) {
+        RestCallOutput ro = labService.getUsersForLab(labId);
+        if(ro.getResultCode()>299) {
+            dlmLog.addElement("Error: " + ro.getErrorMsg());
+            return null;
+        }
+        else {
+            return (List<UserDetailPerLabDTO>) ro.getOutputData();
+        }
+    }
+    /**
+     *
+     * @param labId
+     * @return
+     */
+    private List<TestrackDTO> getRackList(int labId) {
+        RestCallOutput ro = labService.getRacksForLab(labId);
+        if(ro.getResultCode()>299) {
+            dlmLog.addElement("Error: " + ro.getErrorMsg());
+            return null;
+        }
+        else {
+            return (List<TestrackDTO>) ro.getOutputData();
+        }
+    }
+    /**
+     *
+     * @param labId
+     * @return
+     */
+    private Lab findLabById(int labId) {
+        for(LabDetailDTO lab : globalData.labs) {
+            if(lab.getId() == labId) {
+                return new Lab(labId, lab.getName(), ConvertToTimestamp(lab.getCreatedOn()));
+            }
+        }
+        return null;
+    }
+    /**
+     *
+     * @param seconds
+     * @return
+     */
+    private Timestamp ConvertToTimestamp(int seconds) {
+        Instant instant = Instant.ofEpochSecond(seconds);
+        return Timestamp.from(instant);
+    }
+    /**
+     *
+     * @param id
+     * @return
+     */
+    private TestrackDTO findRackById(int id) {
+       List<TestrackDTO> racks = globalData.testracks;
+       for(TestrackDTO rack : racks) {
+           if(rack.getId() == (long)id) return rack;
+       }
+       return null;
+    }
+}

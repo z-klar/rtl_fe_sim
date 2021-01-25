@@ -7,6 +7,8 @@ import commonEnum.TestrackPlatform;
 import commonEnum.TestrackVehicle;
 import lombok.Data;
 import model.Lab;
+import tables.labs.LabTestrackTableModel;
+import tables.labs.LabTestrackTableRow;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -27,4 +29,15 @@ public class TestrackDTO {
     private Set<RelayDefinitionDTO> relayDefinitions = new HashSet<>();
     private Set<TestrackDisplayDTO> testrackDisplays = new HashSet<>();
 
+
+    public LabTestrackTableRow convertToLabTableRow() {
+        return new LabTestrackTableRow(
+                String.format("%d", id),
+                name,
+                description,
+                address,
+                vehicle.name(),
+                vin
+        );
+    }
 }
