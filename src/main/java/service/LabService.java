@@ -239,7 +239,7 @@ public class LabService {
      * @param assign
      * @return
      */
-    public RestCallOutput AddUserToLab(UserDetailPerLabDTO assign) {
+    public RestCallOutput AddUserToLab(UserDetailPerLabDTO assign, String labId) {
         RestCallOutput ro = new RestCallOutput();
         Map<String, String> props = null;
         String token = globalData.token.getToken();
@@ -258,9 +258,27 @@ public class LabService {
             return ro;
         }
         String surl = String.format("http://%s:%s/lab/%s/users",
-                globalData.getBeIP(), globalData.getBePort(), assign.getId());
+                globalData.getBeIP(), globalData.getBePort(), labId);
 
         ro = SendRestApiRequest("POST", props, jsonString, surl);
+        return ro;
+    }
+    /**
+     *
+     * @param userId
+     * @param labId
+     * @return
+     */
+    public RestCallOutput RemoveUserFromLab(String userId, String labId) {
+        RestCallOutput ro = new RestCallOutput();
+        String token = globalData.token.getToken();
+        Map<String, String> props = null;
+        props = new HashMap<>();
+        props.put("Authorization", "Bearer " + token);
+        String surl = String.format("http://%s:%s/lab/%s/users/%s",
+                globalData.getBeIP(), globalData.getBePort(), labId, userId);
+
+        ro = SendRestApiRequest("DELETE", props, null, surl);
         return ro;
     }
 

@@ -406,6 +406,7 @@ public class frmMain extends JFrame implements ActionListener {
 
         btnLabUpdateDependencies.addActionListener(e -> labTools.UpdateDependencies());
         btnLabAddUser.addActionListener(e -> labTools.AddUserToLab());
+        btnLabRemoveUser.addActionListener(e -> labTools.RemoveUserFromLab());
     }
 
     /**

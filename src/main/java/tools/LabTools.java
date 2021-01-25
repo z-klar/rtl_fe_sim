@@ -145,6 +145,26 @@ public class LabTools {
     }
     /**
      *
+     * @return
+     */
+    public int RemoveUserFromLab() {
+        int selectedRow = tblUsers.getSelectedRow();
+        if(selectedRow < 0) {
+            JOptionPane.showMessageDialog(null, "No user selected !");
+            return -1;
+        }
+        String userId =tblUsers.getValueAt(selectedRow, 0).toString();
+        String labId = String.format("%d", globalData.getLastSelectedLabId());
+        RestCallOutput ro = labService.RemoveUserFromLab(userId, labId);
+        if(ro.getResultCode() > 299) {
+            dlmLog.addElement("Error: " + ro.getErrorMsg());
+            return -3;
+        }
+        UpdateUserAndRacksByLabId(globalData.getLastSelectedLabId());
+        return 0;
+    }
+    /**
+     *
      * @param sRackId
      * @return
      */
@@ -181,15 +201,15 @@ public class LabTools {
         String userId = spom.substring(0, spom.indexOf(" "));
         String labId = String.format("%d", globalData.getLastSelectedLabId());
 
-        UserDetailPerLabDTO assign = new UserDetailPerLabDTO(labId, userId, LabInvitationState.valueOf(state),
+        UserDetailPerLabDTO assign = new UserDetailPerLabDTO(userId, "", LabInvitationState.valueOf(state),
                                                              RtlRoles.valueOf(role));
 
-        RestCallOutput ro = labService.AddUserToLab(assign);
+        RestCallOutput ro = labService.AddUserToLab(assign, labId);
         if(ro.getResultCode() > 299) {
             dlmLog.addElement("Error: " + ro.getErrorMsg());
             return -3;
         }
-        //UpdateUserAndRacksByLabId(globalData.getLastSelectedLabId());
+        UpdateUserAndRacksByLabId(globalData.getLastSelectedLabId());
         return 0;
     }
     /**
