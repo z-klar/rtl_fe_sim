@@ -2237,6 +2237,8 @@ public class frmMain extends JFrame implements ActionListener {
         label33.setText("Role:");
         panel29.add(label33, new GridConstraints(1, 4, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         cbLabNewUser = new JComboBox();
+        Font cbLabNewUserFont = this.$$$getFont$$$("Courier New", -1, 12, cbLabNewUser.getFont());
+        if (cbLabNewUserFont != null) cbLabNewUser.setFont(cbLabNewUserFont);
         panel29.add(cbLabNewUser, new GridConstraints(2, 1, 1, 6, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final JPanel panel30 = new JPanel();
         panel30.setLayout(new GridLayoutManager(2, 6, new Insets(0, 0, 0, 0), -1, -1));
@@ -2864,7 +2866,7 @@ public class frmMain extends JFrame implements ActionListener {
         Font textField1Font = this.$$$getFont$$$(null, -1, 12, textField1.getFont());
         if (textField1Font != null) textField1.setFont(textField1Font);
         textField1.setHorizontalAlignment(2);
-        textField1.setText("1.1.0.3");
+        textField1.setText("1.1.0.5");
         panel69.add(textField1, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         final JLabel label56 = new JLabel();
         Font label56Font = this.$$$getFont$$$(null, Font.BOLD, 12, label56.getFont());

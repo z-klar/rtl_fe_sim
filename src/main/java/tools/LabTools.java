@@ -218,7 +218,7 @@ public class LabTools {
     public void UpdateDependencies() {
         cbUsers.removeAllItems();
         for(UserDto user : globalData.users) {
-            cbUsers.addItem(user.getId() + " " + user.getEmail());
+            cbUsers.addItem(user.getId() + "   " + user.getEmail());
         }
     }
     /**
@@ -266,11 +266,11 @@ public class LabTools {
     }
     /**
      *
-     * @param seconds
+     * @param millis
      * @return
      */
-    private Timestamp ConvertToTimestamp(int seconds) {
-        Instant instant = Instant.ofEpochSecond(seconds);
+    private Timestamp ConvertToTimestamp(long millis) {
+        Instant instant = Instant.ofEpochSecond(millis);
         return Timestamp.from(instant);
     }
     /**

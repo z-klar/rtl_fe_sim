@@ -51,6 +51,10 @@ public class JanusService {
             jsonString = mapper.writeValueAsString(req);
         }
         catch (Exception ex) {
+            RestCallOutput ro = new RestCallOutput();
+            ro.setResultCode(1001);
+            ro.setErrorMsg(ex.getMessage());
+            return ro;
         }
         String surl = url;
         RestCallOutput ro = SendRestApiRequest("POST", props, jsonString, surl);
@@ -201,11 +205,12 @@ public class JanusService {
             return(ro);
         }
         catch(UnknownHostException ex) {
-            ro.setResultCode(1000);
+            ro.setResultCode(1001);
             ro.setErrorMsg("UnknownHostException: " + ex.getMessage());
             return(ro);
         }
         catch(Exception ex) {
+            ro.setResultCode(1002);
             ro.setErrorMsg("Exception: " + ex.getMessage());
             return(ro);
         }

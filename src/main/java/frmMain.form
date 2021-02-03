@@ -1513,7 +1513,9 @@
                                                 <constraints>
                                                   <grid row="2" column="1" row-span="1" col-span="6" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
                                                 </constraints>
-                                                <properties/>
+                                                <properties>
+                                                  <font name="Courier New" size="12"/>
+                                                </properties>
                                               </component>
                                             </children>
                                           </grid>
@@ -3176,7 +3178,7 @@
                       <editable value="false"/>
                       <font size="12"/>
                       <horizontalAlignment value="2"/>
-                      <text value="1.1.0.5"/>
+                      <text value="1.1.0.6"/>
                     </properties>
                   </component>
                   <component id="f55ba" class="javax.swing.JLabel">
@@ -3199,7 +3201,7 @@
                     <properties>
                       <editable value="false"/>
                       <font size="12"/>
-                      <text value="2021-01-25"/>
+                      <text value="2021-02-03"/>
                     </properties>
                   </component>
                   <hspacer id="47b19">
