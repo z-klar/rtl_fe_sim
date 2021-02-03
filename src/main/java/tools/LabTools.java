@@ -82,6 +82,40 @@ public class LabTools {
 
     /**
      *
+     * @return
+     */
+    public int RemoveLab() {
+        int selectedRow = tblMain.getSelectedRow();
+        if(selectedRow < 0) {
+            JOptionPane.showMessageDialog(null, "No LAB selected !");
+            return -1;
+        }
+        int labId = Integer.parseInt(tblMain.getValueAt(selectedRow, 0).toString());
+        RestCallOutput ro = labService.removeLab(labId);
+        if(ro.getResultCode() > 299) {
+            JOptionPane.showMessageDialog(null, "Error deleting lab - see the logger !");
+            dlmLog.addElement(ro.getErrorMsg());
+            return -2;
+        }
+        return 0;
+    }
+
+    /**
+     *
+     * @param name
+     * @return
+     */
+    public int createLab(String name) {
+        RestCallOutput ro = labService.createNewLab(name);
+        if(ro.getResultCode() > 299) {
+            JOptionPane.showMessageDialog(null, "Error creating lab - see the logger !");
+            dlmLog.addElement(ro.getErrorMsg());
+            return -2;
+        }
+        return 0;
+    }
+    /**
+     *
      * @param row Index of selected row in tha main lab table
      * @return
      */

@@ -282,163 +282,43 @@ public class LabService {
         return ro;
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    public RestCallOutput getSession(String url, String password) {
+    /**
+     *
+     * @param labId
+     * @return
+     */
+    public RestCallOutput removeLab(int labId) {
         Map<String, String> props = null;
         String jsonString = "";
-        try {
-            props = new HashMap<>();
-            props.put("Content-Type", "application/json");
-
-            ObjectMapper mapper = new ObjectMapper();
-            JanusSessionsRequestDTO req = new JanusSessionsRequestDTO("list_sessions", "TRANSACTION_ID", password);
-            jsonString = mapper.writeValueAsString(req);
-        }
-        catch (Exception ex) {
-        }
-        String surl = url;
-        RestCallOutput ro = SendRestApiRequest("POST", props, jsonString, surl);
+        AccessTokenDto acc = globalData.token;
+        String token = acc.getToken();
+        props = new HashMap<>();
+        props.put("Authorization", "Bearer " + token);
+        String surl = String.format("http://%s:%s/lab/%d",
+                globalData.getBeIP(), globalData.getBePort(), labId);
+        RestCallOutput ro = SendRestApiRequest("DELETE", props, null, surl);
         return ro;
     }
 
     /**
      *
-     * @param url
-     * @param password
+     * @param labName
      * @return
      */
-    public JanusHandlesResponseDTO getHandles(String url, String password, String session_id) {
+    public RestCallOutput createNewLab(String labName) {
         Map<String, String> props = null;
         String jsonString = "";
-        try {
-            props = new HashMap<>();
-            props.put("Content-Type", "application/json");
+        AccessTokenDto acc = globalData.token;
+        String token = acc.getToken();
+        props = new HashMap<>();
+        props.put("Authorization", "Bearer " + token);
+        props.put("Content-Type", "application/json");
 
-            ObjectMapper mapper = new ObjectMapper();
-            JanusHandlesRequestDTO req = new JanusHandlesRequestDTO("list_handles", "TRANSACTION_ID", session_id, password);
-            jsonString = mapper.writeValueAsString(req);
-        }
-        catch (Exception ex) {
-        }
-        String surl = url + "/" + session_id;
+        String surl = String.format("http://%s:%s/lab/",
+                globalData.getBeIP(), globalData.getBePort());
+
+        jsonString = String.format("{ \"name\" : \"%s\" }", labName);
         RestCallOutput ro = SendRestApiRequest("POST", props, jsonString, surl);
-        ToolFunctions.logSplit(lbModel, ro.getDataMsg(), 140, "  getHandles  ");
-        JanusHandlesResponseDTO resp = new JanusHandlesResponseDTO();
-        if(ro.getResultCode() > 299) {
-            resp.setJanus("error");
-            resp.setTransaction(ro.getErrorMsg());
-        }
-        else {
-            try {
-                ObjectMapper mapper = new ObjectMapper();
-                resp = mapper.readValue(ro.getDataMsg(), JanusHandlesResponseDTO.class);
-            }
-            catch(Exception ex) {
-                resp.setJanus("error");
-                resp.setTransaction(ex.getMessage());
-            }
-        }
-        return resp;
+        return ro;
     }
-
-    public JanusHandlesInfoResponseDTO getHandleInfo(String url, String password,
-                                            String session_id, String handle_id) {
-        Map<String, String> props = null;
-        String jsonString = "";
-        try {
-            props = new HashMap<>();
-            props.put("Content-Type", "application/json");
-
-            ObjectMapper mapper = new ObjectMapper();
-            JanusHandlesInfoRequestDTO req = new JanusHandlesInfoRequestDTO(
-                                                "handle_info", "TRANSACTION_ID",
-                                                      session_id, handle_id,  password);
-            jsonString = mapper.writeValueAsString(req);
-        }
-        catch (Exception ex) {
-        }
-        String surl = url + "/" + session_id + "/" + handle_id;
-        RestCallOutput ro = SendRestApiRequest("POST", props, jsonString, surl);
-        JanusHandlesInfoResponseDTO resp = new JanusHandlesInfoResponseDTO();
-        if(ro.getResultCode() > 299) {
-            resp.setJanus("error");
-            resp.setTransaction(ro.getErrorMsg());
-        }
-        else {
-            try {
-                ObjectMapper mapper = new ObjectMapper();
-                resp = mapper.readValue(ro.getDataMsg(), JanusHandlesInfoResponseDTO.class);
-            }
-            catch(Exception ex) {
-                resp.setJanus("error");
-                resp.setTransaction(ex.getMessage());
-            }
-        }
-        return resp;
-    }
-
-
 }
