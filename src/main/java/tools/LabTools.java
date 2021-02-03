@@ -29,6 +29,7 @@ public class LabTools {
     private JComboBox<String> cbUsers;
     private JComboBox<String> cbRoles;
     private JComboBox<String> cbStates;
+    private DefaultListModel<String> dlmLabAdmins;
 
     /**
      *
@@ -48,7 +49,8 @@ public class LabTools {
                     RestCallService restCallService,
                     JComboBox<String> cbUsers,
                     JComboBox<String> cbRoles,
-                    JComboBox<String> cbStates) {
+                    JComboBox<String> cbStates,
+                    DefaultListModel<String> dlmLabAdmins) {
         this.tblMain = main;
         this.tblRacks = racks;
         this.tblUsers = users;
@@ -59,6 +61,7 @@ public class LabTools {
         this.cbUsers = cbUsers;
         this.cbRoles = cbRoles;
         this.cbStates = cbStates;
+        this.dlmLabAdmins = dlmLabAdmins;
     }
 
     public void ClearAllTabs() {
@@ -115,6 +118,10 @@ public class LabTools {
         for(TestrackDTO rack : labRacks) trows.add(rack.convertToLabTableRow());
         LabTestrackTableModel tmodel = new LabTestrackTableModel(trows);
         tblRacks.setModel(tmodel);
+
+        dlmLabAdmins.clear();
+        LabDetailDTO lab = globalData.labs.stream().filter(p -> p.getId() ==labId).findFirst().orElse(null);
+        for(String admin : lab.getAdministrators()) dlmLabAdmins.addElement(admin);
 
         return 0;
     }
