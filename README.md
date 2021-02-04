@@ -4,6 +4,13 @@
 ## Versions History  
 - 1.1.0.6
     - LAB DTO modified according to the lastes changes in BE: the CreatedOn field retyped to LONG, contains number of milliseconds since epoch start
+- 1.1.0.7
+    - LAB Creation / Deletion implemented
+- 1.1.0.8
+    - UI Improvements
+- 1.1.0.9
+    - In LAB section user role modification implemented
+  
 
 ## Environment specific configuration  
 As mentioned above various .

@@ -1383,12 +1383,15 @@
                                 <border type="none"/>
                                 <children>
                                   <grid id="b7ca2" layout-manager="GridLayoutManager" row-count="2" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-                                    <margin top="0" left="0" bottom="0" right="0"/>
+                                    <margin top="3" left="3" bottom="3" right="3"/>
                                     <constraints>
                                       <splitpane position="left"/>
                                     </constraints>
                                     <properties/>
-                                    <border type="none"/>
+                                    <border type="bevel-raised" title="   LAB List   " title-justification="2">
+                                      <font size="12" style="1"/>
+                                      <title-color color="-14672672"/>
+                                    </border>
                                     <children>
                                       <scrollpane id="90594">
                                         <constraints>
@@ -1446,17 +1449,20 @@
                                         </properties>
                                         <border type="none"/>
                                         <children>
-                                          <grid id="8944c" layout-manager="GridLayoutManager" row-count="3" column-count="7" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-                                            <margin top="0" left="0" bottom="0" right="0"/>
+                                          <grid id="8944c" layout-manager="GridLayoutManager" row-count="3" column-count="8" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                                            <margin top="3" left="3" bottom="3" right="3"/>
                                             <constraints>
                                               <splitpane position="right"/>
                                             </constraints>
                                             <properties/>
-                                            <border type="none"/>
+                                            <border type="bevel-raised" title="   LAB's User List   " title-justification="2">
+                                              <font size="12" style="1"/>
+                                              <title-color color="-14672672"/>
+                                            </border>
                                             <children>
                                               <component id="1c1b9" class="javax.swing.JButton" binding="btnLabRemoveUser">
                                                 <constraints>
-                                                  <grid row="1" column="0" row-span="1" col-span="2" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="1" use-parent-layout="false"/>
+                                                  <grid row="1" column="0" row-span="1" col-span="2" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                                                 </constraints>
                                                 <properties>
                                                   <margin top="0" left="0" bottom="0" right="0"/>
@@ -1465,7 +1471,7 @@
                                               </component>
                                               <scrollpane id="f6222">
                                                 <constraints>
-                                                  <grid row="0" column="0" row-span="1" col-span="7" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                                                  <grid row="0" column="0" row-span="1" col-span="8" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
                                                 </constraints>
                                                 <properties/>
                                                 <border type="none"/>
@@ -1478,7 +1484,7 @@
                                               </scrollpane>
                                               <component id="a2c03" class="javax.swing.JButton" binding="btnLabAddUser">
                                                 <constraints>
-                                                  <grid row="1" column="6" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="4" fill="0" indent="0" use-parent-layout="false"/>
+                                                  <grid row="1" column="7" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="4" fill="0" indent="0" use-parent-layout="false"/>
                                                 </constraints>
                                                 <properties>
                                                   <margin top="0" left="0" bottom="0" right="0"/>
@@ -1511,13 +1517,13 @@
                                               </component>
                                               <component id="d43b8" class="javax.swing.JComboBox" binding="cbLabNewRole">
                                                 <constraints>
-                                                  <grid row="1" column="5" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+                                                  <grid row="1" column="6" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
                                                 </constraints>
                                                 <properties/>
                                               </component>
                                               <component id="a512d" class="javax.swing.JLabel">
                                                 <constraints>
-                                                  <grid row="1" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                                                  <grid row="1" column="5" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                                                 </constraints>
                                                 <properties>
                                                   <font size="13" style="1"/>
@@ -1526,21 +1532,33 @@
                                               </component>
                                               <component id="4befe" class="javax.swing.JComboBox" binding="cbLabNewUser">
                                                 <constraints>
-                                                  <grid row="2" column="1" row-span="1" col-span="6" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+                                                  <grid row="2" column="1" row-span="1" col-span="7" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
                                                 </constraints>
                                                 <properties>
                                                   <font name="Courier New" size="12"/>
                                                 </properties>
                                               </component>
+                                              <component id="41424" class="javax.swing.JButton" binding="btnLabModifyUser">
+                                                <constraints>
+                                                  <grid row="1" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="4" fill="0" indent="0" use-parent-layout="false"/>
+                                                </constraints>
+                                                <properties>
+                                                  <margin top="0" left="0" bottom="0" right="0"/>
+                                                  <text value="Modify User"/>
+                                                </properties>
+                                              </component>
                                             </children>
                                           </grid>
                                           <grid id="569e9" layout-manager="GridLayoutManager" row-count="2" column-count="6" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-                                            <margin top="0" left="0" bottom="0" right="0"/>
+                                            <margin top="3" left="3" bottom="3" right="3"/>
                                             <constraints>
                                               <splitpane position="left"/>
                                             </constraints>
                                             <properties/>
-                                            <border type="none"/>
+                                            <border type="bevel-raised" title="   LAB's Testrack List   " title-justification="2">
+                                              <font size="12" style="1"/>
+                                              <title-color color="-14672672"/>
+                                            </border>
                                             <children>
                                               <scrollpane id="90789">
                                                 <constraints>
@@ -1604,12 +1622,12 @@
                             </children>
                           </grid>
                           <grid id="50515" layout-manager="GridLayoutManager" row-count="3" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-                            <margin top="0" left="0" bottom="0" right="0"/>
+                            <margin top="3" left="3" bottom="3" right="3"/>
                             <constraints>
                               <tabbedpane title="Create LAB"/>
                             </constraints>
                             <properties/>
-                            <border type="none"/>
+                            <border type="bevel-raised"/>
                             <children>
                               <component id="32a88" class="javax.swing.JLabel">
                                 <constraints>
@@ -1661,12 +1679,12 @@
                     </children>
                   </grid>
                   <grid id="b9a82" layout-manager="GridLayoutManager" row-count="2" column-count="4" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-                    <margin top="0" left="0" bottom="0" right="0"/>
+                    <margin top="3" left="3" bottom="3" right="3"/>
                     <constraints>
                       <splitpane position="right"/>
                     </constraints>
                     <properties/>
-                    <border type="none"/>
+                    <border type="bevel-raised"/>
                     <children>
                       <component id="4bc80" class="javax.swing.JButton" binding="btnLabClearLog">
                         <constraints>
@@ -1696,7 +1714,7 @@
                           </grid>
                         </constraints>
                         <properties>
-                          <dividerLocation value="600"/>
+                          <dividerLocation value="900"/>
                           <dividerSize value="6"/>
                         </properties>
                         <border type="none"/>
@@ -1707,7 +1725,10 @@
                               <splitpane position="left"/>
                             </constraints>
                             <properties/>
-                            <border type="none"/>
+                            <border type="bevel-raised" title="   Message / Error Log   " title-justification="2">
+                              <font size="12" style="1"/>
+                              <title-color color="-14672672"/>
+                            </border>
                             <children>
                               <scrollpane id="48e38">
                                 <constraints>
@@ -1726,17 +1747,20 @@
                               </scrollpane>
                             </children>
                           </grid>
-                          <grid id="e16c5" layout-manager="GridLayoutManager" row-count="2" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                          <grid id="e16c5" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
                             <margin top="0" left="0" bottom="0" right="0"/>
                             <constraints>
                               <splitpane position="right"/>
                             </constraints>
                             <properties/>
-                            <border type="none"/>
+                            <border type="bevel-raised" title="   LAB Administrators   " title-justification="2">
+                              <font size="12" style="1"/>
+                              <title-color color="-14672672"/>
+                            </border>
                             <children>
                               <scrollpane id="ceecb">
                                 <constraints>
-                                  <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
                                 </constraints>
                                 <properties/>
                                 <border type="none"/>
@@ -1744,20 +1768,11 @@
                                   <component id="4ee64" class="javax.swing.JList" binding="lbLabAdmins">
                                     <constraints/>
                                     <properties>
-                                      <font name="Courier New" size="13"/>
+                                      <font size="12" style="0"/>
                                     </properties>
                                   </component>
                                 </children>
                               </scrollpane>
-                              <component id="c6da" class="javax.swing.JLabel">
-                                <constraints>
-                                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
-                                </constraints>
-                                <properties>
-                                  <font size="13" style="1"/>
-                                  <text value="LAB Administrators"/>
-                                </properties>
-                              </component>
                             </children>
                           </grid>
                         </children>
@@ -2466,12 +2481,15 @@
                         <border type="none"/>
                         <children>
                           <grid id="7d95b" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-                            <margin top="0" left="0" bottom="0" right="0"/>
+                            <margin top="3" left="3" bottom="3" right="3"/>
                             <constraints>
                               <splitpane position="left"/>
                             </constraints>
                             <properties/>
-                            <border type="none"/>
+                            <border type="bevel-raised" title="   Session List   " title-justification="2">
+                              <font size="12" style="1"/>
+                              <title-color color="-14672672"/>
+                            </border>
                             <children>
                               <scrollpane id="c2458">
                                 <constraints>
@@ -2489,12 +2507,12 @@
                             </children>
                           </grid>
                           <grid id="1fe78" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-                            <margin top="0" left="0" bottom="0" right="0"/>
+                            <margin top="3" left="3" bottom="3" right="3"/>
                             <constraints>
                               <splitpane position="right"/>
                             </constraints>
                             <properties/>
-                            <border type="none"/>
+                            <border type="bevel-raised"/>
                             <children>
                               <splitpane id="52048">
                                 <constraints>
@@ -2503,18 +2521,21 @@
                                   </grid>
                                 </constraints>
                                 <properties>
-                                  <dividerLocation value="166"/>
+                                  <dividerLocation value="500"/>
                                   <dividerSize value="6"/>
                                 </properties>
                                 <border type="none"/>
                                 <children>
                                   <grid id="24f1d" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-                                    <margin top="0" left="0" bottom="0" right="0"/>
+                                    <margin top="3" left="3" bottom="3" right="3"/>
                                     <constraints>
                                       <splitpane position="left"/>
                                     </constraints>
                                     <properties/>
-                                    <border type="none"/>
+                                    <border type="bevel-raised" title="   Stream List   " title-justification="2">
+                                      <font size="12" style="1"/>
+                                      <title-color color="-14672672"/>
+                                    </border>
                                     <children>
                                       <scrollpane id="93098">
                                         <constraints>
@@ -2532,12 +2553,15 @@
                                     </children>
                                   </grid>
                                   <grid id="33283" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-                                    <margin top="0" left="0" bottom="0" right="0"/>
+                                    <margin top="3" left="3" bottom="3" right="3"/>
                                     <constraints>
                                       <splitpane position="right"/>
                                     </constraints>
                                     <properties/>
-                                    <border type="none"/>
+                                    <border type="bevel-raised" title="   Component List   " title-justification="2">
+                                      <font size="12" style="1"/>
+                                      <title-color color="-14672672"/>
+                                    </border>
                                     <children>
                                       <scrollpane id="9f43a">
                                         <constraints>
@@ -3117,7 +3141,7 @@
                 </constraints>
                 <properties/>
                 <border type="bevel-raised" title="   Configuration / Connection Parameters   " title-justification="2">
-                  <font size="11" style="1"/>
+                  <font size="12" style="1"/>
                   <title-color color="-14672672"/>
                 </border>
                 <children>
@@ -3266,7 +3290,7 @@
                 </constraints>
                 <properties/>
                 <border type="bevel-raised" title="   SW Version   " title-justification="2">
-                  <font size="11" style="1"/>
+                  <font size="12" style="1"/>
                   <title-color color="-14672672"/>
                 </border>
                 <children>
@@ -3290,7 +3314,7 @@
                       <editable value="false"/>
                       <font size="12"/>
                       <horizontalAlignment value="2"/>
-                      <text value="1.1.0.8"/>
+                      <text value="1.1.0.9"/>
                     </properties>
                   </component>
                   <component id="f55ba" class="javax.swing.JLabel">

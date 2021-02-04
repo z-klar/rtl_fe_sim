@@ -204,6 +204,30 @@ public class LabTools {
         UpdateUserAndRacksByLabId(globalData.getLastSelectedLabId());
         return 0;
     }
+
+    /**
+     *
+     * @return
+     */
+    public int ModifyUserInLab() {
+        int selectedRow = tblUsers.getSelectedRow();
+        if(selectedRow < 0) {
+            JOptionPane.showMessageDialog(null, "No user selected !");
+            return -1;
+        }
+        String userId =tblUsers.getValueAt(selectedRow, 0).toString();
+        String labId = String.format("%d", globalData.getLastSelectedLabId());
+        UserDetailPerLabDTO assign = new UserDetailPerLabDTO();
+        String role = cbRoles.getSelectedItem().toString();
+        assign.setRole(RtlRoles.valueOf(role));
+        RestCallOutput ro = labService.ModifyUserInLab(assign, labId, userId);
+        if(ro.getResultCode() > 299) {
+            dlmLog.addElement("Error: " + ro.getErrorMsg());
+            return -3;
+        }
+        UpdateUserAndRacksByLabId(globalData.getLastSelectedLabId());
+        return 0;
+    }
     /**
      *
      * @param sRackId

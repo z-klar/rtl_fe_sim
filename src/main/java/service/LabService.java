@@ -263,6 +263,37 @@ public class LabService {
         ro = SendRestApiRequest("POST", props, jsonString, surl);
         return ro;
     }
+
+    /**
+     *
+     * @param assign
+     * @param labId
+     * @return
+     */
+    public RestCallOutput ModifyUserInLab(UserDetailPerLabDTO assign, String labId, String userId) {
+        RestCallOutput ro = new RestCallOutput();
+        Map<String, String> props = null;
+        String token = globalData.token.getToken();
+        String jsonString = "";
+        try {
+            props = new HashMap<>();
+            props.put("Content-Type", "application/json");
+            props.put("Authorization", "Bearer " + token);
+
+            ObjectMapper mapper = new ObjectMapper();
+            jsonString = mapper.writeValueAsString(assign);
+        }
+        catch (Exception ex) {
+            ro.setResultCode(1001);
+            ro.setErrorMsg(ex.getMessage());
+            return ro;
+        }
+        String surl = String.format("http://%s:%s/lab/%s/users/%s",
+                globalData.getBeIP(), globalData.getBePort(), labId, userId);
+
+        ro = SendRestApiRequest("PUT", props, jsonString, surl);
+        return ro;
+    }
     /**
      *
      * @param userId
