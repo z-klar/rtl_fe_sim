@@ -10,7 +10,8 @@
     - UI Improvements
 - 1.1.0.9
     - In LAB section user role modification implemented
-  
+- 1.1.0.10
+    - GUI Improvements
 
 ## Environment specific configuration  
 As mentioned above various .
