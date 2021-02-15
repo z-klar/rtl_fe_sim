@@ -3365,7 +3365,7 @@
                       <editable value="false"/>
                       <font size="12"/>
                       <horizontalAlignment value="2"/>
-                      <text value="1.1.0.10"/>
+                      <text value="1.1.0.11"/>
                     </properties>
                   </component>
                   <component id="f55ba" class="javax.swing.JLabel">

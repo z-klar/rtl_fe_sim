@@ -1560,14 +1560,14 @@ public class frmMain extends JFrame implements ActionListener {
      */
     private void TimerEvent() {
         try {
+            lbSysTime.setText(LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS).toLocalTime().toString());
+            Counter1++;
+            if (Counter1 >= 3600) {  // EACH 3600 seconds
+                Counter1 = 0;
+                RestCallOutput res = restCall.getLoginToken(txUserUserName.getText(), txUserPassword.getText(), false);
+                globalData.token = (AccessTokenDto) res.getOutputData();
+            }
             if (Running) {
-                lbSysTime.setText(LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS).toLocalTime().toString());
-                Counter1++;
-                if (Counter1 >= 3600) {  // EACH 3600 seconds
-                    Counter1 = 0;
-                    RestCallOutput res = restCall.getLoginToken(txUserUserName.getText(), txUserPassword.getText(), false);
-                    globalData.token = (AccessTokenDto) res.getOutputData();
-                }
                 //---------  EACH SECOND  -----------
                 if (globalData.token == null) {
                     tools.SetErrMsgInStatusBar("GetAllTestracks: NO LOGIN token !");
@@ -1582,7 +1582,8 @@ public class frmMain extends JFrame implements ActionListener {
                             globalData.token.getToken(), false);
                     txFrontEndLastResponse.setText("Send HB:  RESULT=" + ro.getResultCode());
                 }
-            } else {
+            }
+            else {
                 lbSysTime.setText("Stopped ....");
             }
         }
@@ -2943,7 +2944,7 @@ public class frmMain extends JFrame implements ActionListener {
         Font textField1Font = this.$$$getFont$$$(null, -1, 12, textField1.getFont());
         if (textField1Font != null) textField1.setFont(textField1Font);
         textField1.setHorizontalAlignment(2);
-        textField1.setText("1.1.0.9");
+        textField1.setText("1.1.0.11");
         panel76.add(textField1, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         final JLabel label54 = new JLabel();
         Font label54Font = this.$$$getFont$$$(null, Font.BOLD, 12, label54.getFont());
