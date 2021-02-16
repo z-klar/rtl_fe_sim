@@ -24,6 +24,7 @@ import tables.labs.LabTableModel;
 import tables.labs.LabTableRow;
 import tools.JanusTools;
 import tools.LabTools;
+import tools.SortUserByEnmail;
 import tools.ToolFunctions;
 
 import javax.swing.*;
@@ -1517,6 +1518,7 @@ public class frmMain extends JFrame implements ActionListener {
                         Vector<UserTable1> rows = new Vector<>();
         if (users != null) {
             globalData.users = users;
+            Collections.sort(globalData.users, new SortUserByEnmail());
             StringBuilder result = new StringBuilder();
             cbUserMailUsers.removeAllItems();
             for (int i = 0; i < users.size(); i++) {

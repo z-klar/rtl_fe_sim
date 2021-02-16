@@ -16,6 +16,7 @@ import tables.labs.*;
 import javax.swing.*;
 import java.sql.Timestamp;
 import java.time.Instant;
+import java.util.Collections;
 import java.util.List;
 import java.util.Vector;
 
@@ -282,6 +283,7 @@ public class LabTools {
      */
     public void UpdateDependencies() {
         cbUsers.removeAllItems();
+        //Collections.sort(globalData.users, new SortUserByEnmail());
         for(UserDto user : globalData.users) {
             cbUsers.addItem(user.getId() + "   " + user.getEmail());
         }
