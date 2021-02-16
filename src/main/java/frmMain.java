@@ -75,7 +75,6 @@ public class frmMain extends JFrame implements ActionListener {
     private JButton btnHeartbeatUpdateRacks;
     private JComboBox cbHeartbeatRacks;
     private JButton btnHeartbeatSendHb;
-    private JTabbedPane tabbedPane4;
     private JButton btnStartSimulation;
     private JLabel lbSysTime;
     private JCheckBox chkFrontendConnectRack;
@@ -1518,7 +1517,7 @@ public class frmMain extends JFrame implements ActionListener {
                         Vector<UserTable1> rows = new Vector<>();
         if (users != null) {
             globalData.users = users;
-            Collections.sort(globalData.users, new SortUserByEnmail());
+            Collections.sort(globalData.users);
             StringBuilder result = new StringBuilder();
             cbUserMailUsers.removeAllItems();
             for (int i = 0; i < users.size(); i++) {
@@ -2145,12 +2144,10 @@ public class frmMain extends JFrame implements ActionListener {
         panel22.add(btnCreatRack, new GridConstraints(2, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final JPanel panel27 = new JPanel();
         panel27.setLayout(new GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
-        tabbedPane1.addTab("Front End", panel27);
-        tabbedPane4 = new JTabbedPane();
-        panel27.add(tabbedPane4, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, new Dimension(200, 200), null, 0, false));
+        tabbedPane3.addTab("FE SImulation", panel27);
         final JPanel panel28 = new JPanel();
         panel28.setLayout(new GridLayoutManager(5, 4, new Insets(5, 5, 5, 5), -1, -1));
-        tabbedPane4.addTab("Front End Simulation", panel28);
+        panel27.add(panel28, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         panel28.setBorder(BorderFactory.createTitledBorder(BorderFactory.createRaisedBevelBorder(), null, TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, null, null));
         btnStartSimulation = new JButton();
         btnStartSimulation.setBackground(new Color(-515537));
@@ -2946,7 +2943,7 @@ public class frmMain extends JFrame implements ActionListener {
         Font textField1Font = this.$$$getFont$$$(null, -1, 12, textField1.getFont());
         if (textField1Font != null) textField1.setFont(textField1Font);
         textField1.setHorizontalAlignment(2);
-        textField1.setText("1.1.0.11");
+        textField1.setText("1.1.0.12");
         panel76.add(textField1, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         final JLabel label54 = new JLabel();
         Font label54Font = this.$$$getFont$$$(null, Font.BOLD, 12, label54.getFont());
@@ -2959,7 +2956,7 @@ public class frmMain extends JFrame implements ActionListener {
         textField2.setEditable(false);
         Font textField2Font = this.$$$getFont$$$(null, -1, 12, textField2.getFont());
         if (textField2Font != null) textField2.setFont(textField2Font);
-        textField2.setText("2021-02-03");
+        textField2.setText("2021-02-16");
         panel76.add(textField2, new GridConstraints(0, 3, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         final Spacer spacer38 = new Spacer();
         panel76.add(spacer38, new GridConstraints(0, 4, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));

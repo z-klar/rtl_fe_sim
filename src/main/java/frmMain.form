@@ -1246,132 +1246,121 @@
                               </component>
                             </children>
                           </grid>
+                          <grid id="7967e" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                            <margin top="0" left="0" bottom="0" right="0"/>
+                            <constraints>
+                              <tabbedpane title="FE SImulation"/>
+                            </constraints>
+                            <properties/>
+                            <border type="none"/>
+                            <children>
+                              <grid id="5213e" layout-manager="GridLayoutManager" row-count="5" column-count="4" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                                <margin top="5" left="5" bottom="5" right="5"/>
+                                <constraints>
+                                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                                </constraints>
+                                <properties/>
+                                <border type="bevel-raised"/>
+                                <children>
+                                  <component id="80cd3" class="javax.swing.JButton" binding="btnStartSimulation">
+                                    <constraints>
+                                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                                    </constraints>
+                                    <properties>
+                                      <background color="-515537"/>
+                                      <text value="START Simulation"/>
+                                    </properties>
+                                  </component>
+                                  <hspacer id="cbf8b">
+                                    <constraints>
+                                      <grid row="0" column="3" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                                    </constraints>
+                                  </hspacer>
+                                  <component id="d6dd9" class="javax.swing.JLabel" binding="lbSysTime">
+                                    <constraints>
+                                      <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                                    </constraints>
+                                    <properties>
+                                      <text value="Label"/>
+                                    </properties>
+                                  </component>
+                                  <component id="373f2" class="javax.swing.JCheckBox" binding="chkFrontendConnectRack">
+                                    <constraints>
+                                      <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                                    </constraints>
+                                    <properties>
+                                      <text value="Connect to rack ID:"/>
+                                    </properties>
+                                  </component>
+                                  <scrollpane id="fbf16">
+                                    <constraints>
+                                      <grid row="3" column="0" row-span="1" col-span="4" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                                    </constraints>
+                                    <properties/>
+                                    <border type="none"/>
+                                    <children>
+                                      <component id="d1c39" class="javax.swing.JTable" binding="tblFrontendRacks">
+                                        <constraints/>
+                                        <properties/>
+                                      </component>
+                                    </children>
+                                  </scrollpane>
+                                  <component id="59ec9" class="javax.swing.JLabel">
+                                    <constraints>
+                                      <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                                    </constraints>
+                                    <properties>
+                                      <font size="12" style="1"/>
+                                      <text value="Last Cyclic Response:"/>
+                                    </properties>
+                                  </component>
+                                  <component id="cbc32" class="javax.swing.JTextField" binding="txFrontEndLastResponse">
+                                    <constraints>
+                                      <grid row="1" column="1" row-span="1" col-span="3" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                                        <preferred-size width="244" height="26"/>
+                                      </grid>
+                                    </constraints>
+                                    <properties>
+                                      <font size="12"/>
+                                      <text value=""/>
+                                    </properties>
+                                  </component>
+                                  <component id="84d0f" class="javax.swing.JLabel">
+                                    <constraints>
+                                      <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                                    </constraints>
+                                    <properties>
+                                      <font size="12" style="1"/>
+                                      <text value="Last Single Response:"/>
+                                    </properties>
+                                  </component>
+                                  <component id="803ec" class="javax.swing.JTextField" binding="txFrontEndLastSingleResponse">
+                                    <constraints>
+                                      <grid row="2" column="1" row-span="1" col-span="3" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                                        <preferred-size width="244" height="26"/>
+                                      </grid>
+                                    </constraints>
+                                    <properties>
+                                      <font size="12"/>
+                                      <text value=""/>
+                                    </properties>
+                                  </component>
+                                  <component id="60333" class="javax.swing.JComboBox" binding="cbFesimRacks">
+                                    <constraints>
+                                      <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+                                    </constraints>
+                                    <properties/>
+                                  </component>
+                                </children>
+                              </grid>
+                            </children>
+                          </grid>
                         </children>
                       </tabbedpane>
                     </children>
                   </grid>
                 </children>
               </splitpane>
-            </children>
-          </grid>
-          <grid id="91a8" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-            <margin top="0" left="0" bottom="0" right="0"/>
-            <constraints>
-              <tabbedpane title="Front End"/>
-            </constraints>
-            <properties/>
-            <border type="none"/>
-            <children>
-              <tabbedpane id="30061" binding="tabbedPane4" default-binding="true">
-                <constraints>
-                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
-                    <preferred-size width="200" height="200"/>
-                  </grid>
-                </constraints>
-                <properties/>
-                <border type="none"/>
-                <children>
-                  <grid id="5213e" layout-manager="GridLayoutManager" row-count="5" column-count="4" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-                    <margin top="5" left="5" bottom="5" right="5"/>
-                    <constraints>
-                      <tabbedpane title="Front End Simulation"/>
-                    </constraints>
-                    <properties/>
-                    <border type="bevel-raised"/>
-                    <children>
-                      <component id="80cd3" class="javax.swing.JButton" binding="btnStartSimulation">
-                        <constraints>
-                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-                        </constraints>
-                        <properties>
-                          <background color="-515537"/>
-                          <text value="START Simulation"/>
-                        </properties>
-                      </component>
-                      <hspacer id="cbf8b">
-                        <constraints>
-                          <grid row="0" column="3" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-                        </constraints>
-                      </hspacer>
-                      <component id="d6dd9" class="javax.swing.JLabel" binding="lbSysTime">
-                        <constraints>
-                          <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-                        </constraints>
-                        <properties>
-                          <text value="Label"/>
-                        </properties>
-                      </component>
-                      <component id="373f2" class="javax.swing.JCheckBox" binding="chkFrontendConnectRack">
-                        <constraints>
-                          <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-                        </constraints>
-                        <properties>
-                          <text value="Connect to rack ID:"/>
-                        </properties>
-                      </component>
-                      <scrollpane id="fbf16">
-                        <constraints>
-                          <grid row="3" column="0" row-span="1" col-span="4" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
-                        </constraints>
-                        <properties/>
-                        <border type="none"/>
-                        <children>
-                          <component id="d1c39" class="javax.swing.JTable" binding="tblFrontendRacks">
-                            <constraints/>
-                            <properties/>
-                          </component>
-                        </children>
-                      </scrollpane>
-                      <component id="59ec9" class="javax.swing.JLabel">
-                        <constraints>
-                          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-                        </constraints>
-                        <properties>
-                          <font size="12" style="1"/>
-                          <text value="Last Cyclic Response:"/>
-                        </properties>
-                      </component>
-                      <component id="cbc32" class="javax.swing.JTextField" binding="txFrontEndLastResponse">
-                        <constraints>
-                          <grid row="1" column="1" row-span="1" col-span="3" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
-                            <preferred-size width="244" height="26"/>
-                          </grid>
-                        </constraints>
-                        <properties>
-                          <font size="12"/>
-                          <text value=""/>
-                        </properties>
-                      </component>
-                      <component id="84d0f" class="javax.swing.JLabel">
-                        <constraints>
-                          <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-                        </constraints>
-                        <properties>
-                          <font size="12" style="1"/>
-                          <text value="Last Single Response:"/>
-                        </properties>
-                      </component>
-                      <component id="803ec" class="javax.swing.JTextField" binding="txFrontEndLastSingleResponse">
-                        <constraints>
-                          <grid row="2" column="1" row-span="1" col-span="3" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
-                            <preferred-size width="244" height="26"/>
-                          </grid>
-                        </constraints>
-                        <properties>
-                          <font size="12"/>
-                          <text value=""/>
-                        </properties>
-                      </component>
-                      <component id="60333" class="javax.swing.JComboBox" binding="cbFesimRacks">
-                        <constraints>
-                          <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
-                        </constraints>
-                        <properties/>
-                      </component>
-                    </children>
-                  </grid>
-                </children>
-              </tabbedpane>
             </children>
           </grid>
           <grid id="3889" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
@@ -3365,7 +3354,7 @@
                       <editable value="false"/>
                       <font size="12"/>
                       <horizontalAlignment value="2"/>
-                      <text value="1.1.0.12"/>
+                      <text value="1.1.0.13"/>
                     </properties>
                   </component>
                   <component id="f55ba" class="javax.swing.JLabel">

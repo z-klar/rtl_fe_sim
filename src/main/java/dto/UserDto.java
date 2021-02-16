@@ -10,7 +10,7 @@ import java.util.Comparator;
 @Setter
 @NoArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class UserDto {
+public class UserDto implements Comparable<UserDto> {
 
     private String id;
     private String username;
@@ -36,4 +36,8 @@ public class UserDto {
                 "}";
     }
 
+    @Override
+    public int compareTo(UserDto o) {
+        return getEmail().compareTo(o.getEmail());
+    }
 }

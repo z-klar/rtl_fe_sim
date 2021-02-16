@@ -14,7 +14,9 @@
     - GUI Improvements
 - 1.1.0.12
     - Sorting of users by Email added to their retrieving => big user lists are more user friendly
-  
+- 1.1.0.13
+    - UI Change: FE Simulation tab moved under Testrack tabs
+
 ## Environment specific configuration  
 As mentioned above various .
 
