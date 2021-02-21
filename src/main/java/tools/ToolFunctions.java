@@ -1,6 +1,7 @@
 package tools;
 
 import com.auth0.jwt.JWT;
+import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -270,15 +271,27 @@ public class ToolFunctions {
         }
     }
 
-    public void ParseToken(String token, DefaultListModel<String> dlm, JTextArea txa) {
+    public void ParseToken(String token, DefaultListModel<String> dlm, DefaultListModel<String> log) {
         String spom, spom2;
         Object value;
+        DecodedJWT jwt;
+        Map<String, Claim> claims = null;
 
         dlm.clear();
-        DecodedJWT jwt = JWT.decode(token);
-        Map<String, Claim> claims = jwt.getClaims();
+        log.addElement("ParseToken:  started .....");
+        try {
+            jwt = JWT.decode(token);
+            log.addElement("ParseToken:  token decoded .....");
+            claims = jwt.getClaims();
+            log.addElement("ParseToken:  claims retrieved - # = " + claims.size());
+        }
+        catch(JWTVerificationException ex) {
+            log.addElement("### JWT Error:");
+            log.addElement(ex.getMessage());
+        }
         for (Map.Entry<String,Claim> entry : claims.entrySet()) {
             Claim cl = entry.getValue();
+            log.addElement("   - " + entry.getKey() + " : " + cl.asString());
             value = cl.asBoolean();
             if(value != null) spom2 = (boolean)value ? "TRUE" : "FALSE";
             else {
