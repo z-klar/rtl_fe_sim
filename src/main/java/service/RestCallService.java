@@ -226,15 +226,44 @@ public class RestCallService {
         if(verbose) dlmUserLog.addElement("URL: " + surl);
 
         try {
-
             Map<String, String> props = new HashMap<>();
             props.put("Content-Type", "application/json");
             props.put("Authorization", "Bearer " + token);
-
             ObjectMapper mapper = new ObjectMapper();
             String jsonString = mapper.writeValueAsString(user);
-
             RestCallOutput ro = SendRestApiRequest("POST", props, jsonString, surl);
+            return(ro);
+        }
+        catch(Exception ex) {
+            return(null);
+        }
+    }
+
+    public RestCallOutput deleteUser(String userId, String token, boolean verbose) {
+        if(verbose) dlmUserLog.addElement("Deleting user: UsrId=" + userId);
+        String surl = "http://" + BeIp + ":" + BePort + "/user/" + userId;
+        if(verbose) dlmUserLog.addElement("URL: " + surl);
+
+        try {
+            Map<String, String> props = new HashMap<>();
+            props.put("Authorization", "Bearer " + token);
+            RestCallOutput ro = SendRestApiRequest("DELETE", props, null, surl);
+            return(ro);
+        }
+        catch(Exception ex) {
+            return(null);
+        }
+    }
+
+    public RestCallOutput setPassword(String userId, String token, boolean verbose, String pwd) {
+        if(verbose) dlmUserLog.addElement("Setting PWD for user: UsrId=" + userId);
+        String surl = "http://" + BeIp + ":" + BePort + "/user/" + userId + "/password";
+        if(verbose) dlmUserLog.addElement("URL: " + surl);
+
+        try {
+            Map<String, String> props = new HashMap<>();
+            props.put("Authorization", "Bearer " + token);
+            RestCallOutput ro = SendRestApiRequest("PUT", props, pwd, surl);
             return(ro);
         }
         catch(Exception ex) {

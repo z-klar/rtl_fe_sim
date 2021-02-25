@@ -16,6 +16,9 @@
     - Sorting of users by Email added to their retrieving => big user lists are more user friendly
 - 1.1.0.13
     - UI Change: FE Simulation tab moved under Testrack tabs
+- 1.1.0.16
+    - Fixe issue with JWT token decoding. Option for decoding token directly from the textbox added (token can be clipboarded directly to textarea)
+
 
 ## Environment specific configuration  
 As mentioned above various .

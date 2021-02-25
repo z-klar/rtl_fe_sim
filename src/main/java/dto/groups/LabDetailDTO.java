@@ -33,9 +33,11 @@ public class LabDetailDTO {
     }
     public String getAdminsString() {
         String spom = "";
-        for( String admin : administrators) {
-            spom += admin;
-            spom += " | ";
+        if(administrators != null) {
+            for (String admin : administrators) {
+                spom += admin;
+                spom += " | ";
+            }
         }
         return spom;
     }

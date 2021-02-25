@@ -8,6 +8,7 @@ import dto.TestrackDTO;
 import dto.UserDto;
 import dto.groups.LabDetailDTO;
 import dto.groups.UserDetailPerLabDTO;
+import dto.groups.UserDetailPerLabNewDTO;
 import model.Lab;
 import service.LabService;
 import service.RestCallService;
@@ -260,17 +261,17 @@ public class LabTools {
      *
      * @return
      */
-    public int AddUserToLab() {
+    public int AddUserToLab(boolean newUrl) {
         String role = cbRoles.getSelectedItem().toString();
         String state = cbStates.getSelectedItem().toString();
         String spom = cbUsers.getSelectedItem().toString();
-        String userId = spom.substring(0, spom.indexOf(" "));
+        String userId = spom;
+        //String userId = spom.substring(0, spom.indexOf(" "));
         String labId = String.format("%d", globalData.getLastSelectedLabId());
 
-        UserDetailPerLabDTO assign = new UserDetailPerLabDTO(userId, "", LabInvitationState.valueOf(state),
-                                                             RtlRoles.valueOf(role));
+        UserDetailPerLabNewDTO assign = new UserDetailPerLabNewDTO(userId, RtlRoles.valueOf(role));
 
-        RestCallOutput ro = labService.AddUserToLab(assign, labId);
+        RestCallOutput ro = labService.AddUserToLab(assign, labId, newUrl);
         if(ro.getResultCode() > 299) {
             dlmLog.addElement("Error: " + ro.getErrorMsg());
             return -3;
@@ -285,7 +286,8 @@ public class LabTools {
         cbUsers.removeAllItems();
         //Collections.sort(globalData.users, new SortUserByEnmail());
         for(UserDto user : globalData.users) {
-            cbUsers.addItem(user.getId() + "   " + user.getEmail());
+            //cbUsers.addItem(user.getId() + "   " + user.getEmail());
+            cbUsers.addItem(user.getEmail());
         }
     }
     /**

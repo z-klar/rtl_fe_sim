@@ -10,6 +10,7 @@ import dto.TestrackDTO;
 import dto.UserDto;
 import dto.groups.LabDetailDTO;
 import dto.groups.UserDetailPerLabDTO;
+import dto.groups.UserDetailPerLabNewDTO;
 import dto.janus.*;
 import tables.JanusCommonTable;
 import tables.JanusOverviewTable;
@@ -239,7 +240,7 @@ public class LabService {
      * @param assign
      * @return
      */
-    public RestCallOutput AddUserToLab(UserDetailPerLabDTO assign, String labId) {
+    public RestCallOutput AddUserToLab(UserDetailPerLabNewDTO assign, String labId, boolean newUrl) {
         RestCallOutput ro = new RestCallOutput();
         Map<String, String> props = null;
         String token = globalData.token.getToken();
@@ -257,8 +258,13 @@ public class LabService {
             ro.setErrorMsg(ex.getMessage());
             return ro;
         }
-        String surl = String.format("http://%s:%s/lab/%s/users",
+        String surl;
+        if(newUrl)
+            surl = String.format("http://%s:%s/lab/%s/users/invite/bypass",
                 globalData.getBeIP(), globalData.getBePort(), labId);
+        else
+            surl = String.format("http://%s:%s/lab/%s/users",
+                    globalData.getBeIP(), globalData.getBePort(), labId);
 
         ro = SendRestApiRequest("POST", props, jsonString, surl);
         return ro;
