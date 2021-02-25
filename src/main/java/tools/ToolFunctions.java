@@ -359,6 +359,8 @@ public class ToolFunctions {
         globalData.abtCommands.add("MENU_RELEASED");
         globalData.abtCommands.add("POWER_PRESSED");
         globalData.abtCommands.add("POWER_RELEASED");
+        globalData.abtCommands.add("ABT_VOLUME_UP");
+        globalData.abtCommands.add("ABT_VOLUME_DOWN");
 
         cbAbt.removeAllItems();
         for(String btn : globalData.abtCommands) cbAbt.addItem(btn);

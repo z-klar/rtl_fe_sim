@@ -351,7 +351,7 @@
                                 </properties>
                                 <border type="none"/>
                                 <children>
-                                  <grid id="4b336" layout-manager="GridLayoutManager" row-count="2" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                                  <grid id="4b336" layout-manager="GridLayoutManager" row-count="2" column-count="4" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
                                     <margin top="0" left="0" bottom="0" right="0"/>
                                     <constraints>
                                       <splitpane position="left"/>
@@ -369,7 +369,7 @@
                                       </component>
                                       <scrollpane id="6040f">
                                         <constraints>
-                                          <grid row="1" column="0" row-span="1" col-span="3" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                                          <grid row="1" column="0" row-span="1" col-span="4" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
                                         </constraints>
                                         <properties/>
                                         <border type="none"/>
@@ -400,6 +400,15 @@
                                         </constraints>
                                         <properties>
                                           <toolTipText value="File with a text representing token for decoding"/>
+                                        </properties>
+                                      </component>
+                                      <component id="43795" class="javax.swing.JButton" binding="btnGetTokenFormText">
+                                        <constraints>
+                                          <grid row="0" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                                        </constraints>
+                                        <properties>
+                                          <text value="Test from TextBox"/>
+                                          <toolTipText value="Read a token from given file and decode it"/>
                                         </properties>
                                       </component>
                                     </children>
@@ -3369,7 +3378,7 @@
                       <editable value="false"/>
                       <font size="12"/>
                       <horizontalAlignment value="2"/>
-                      <text value="1.1.0.15a"/>
+                      <text value="1.1.0.16"/>
                     </properties>
                   </component>
                   <component id="f55ba" class="javax.swing.JLabel">
@@ -3392,7 +3401,7 @@
                     <properties>
                       <editable value="false"/>
                       <font size="12"/>
-                      <text value="2021-02-21"/>
+                      <text value="2021-02-25"/>
                     </properties>
                   </component>
                   <hspacer id="47b19">

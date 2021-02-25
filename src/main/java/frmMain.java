@@ -214,6 +214,7 @@ public class frmMain extends JFrame implements ActionListener {
     private JButton btnLabModifyUser;
     private JButton btnTokenTest;
     private JTextField txTestTokenFile;
+    private JButton btnGetTokenFormText;
 
     static JFrame frame;
 
@@ -425,6 +426,12 @@ public class frmMain extends JFrame implements ActionListener {
                 TestToken();
             }
         });
+        btnGetTokenFormText.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                TestTokenFromTextBox();
+            }
+        });
     }
 
     /**
@@ -458,6 +465,13 @@ public class frmMain extends JFrame implements ActionListener {
         txaTokensAccessToken.setText(sOut);
         tools.ParseToken(sOut, dlmAccessToken, dlmUserLog);
     }
+    /**
+     *
+     */
+    private void TestTokenFromTextBox() {
+        tools.ParseToken(txaTokensAccessToken.getText(), dlmAccessToken, dlmUserLog);
+    }
+
     /**
      *
      */
@@ -1819,13 +1833,13 @@ public class frmMain extends JFrame implements ActionListener {
         splitPane2.setDividerSize(8);
         panel8.add(splitPane2, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, new Dimension(200, 200), null, 0, false));
         final JPanel panel9 = new JPanel();
-        panel9.setLayout(new GridLayoutManager(2, 3, new Insets(0, 0, 0, 0), -1, -1));
+        panel9.setLayout(new GridLayoutManager(2, 4, new Insets(0, 0, 0, 0), -1, -1));
         splitPane2.setLeftComponent(panel9);
         btnTokensUpdate = new JButton();
         btnTokensUpdate.setText("Update");
         panel9.add(btnTokensUpdate, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final JScrollPane scrollPane2 = new JScrollPane();
-        panel9.add(scrollPane2, new GridConstraints(1, 0, 1, 3, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
+        panel9.add(scrollPane2, new GridConstraints(1, 0, 1, 4, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
         txaTokensAccessToken = new JTextArea();
         Font txaTokensAccessTokenFont = this.$$$getFont$$$("Courier New", Font.PLAIN, -1, txaTokensAccessToken.getFont());
         if (txaTokensAccessTokenFont != null) txaTokensAccessToken.setFont(txaTokensAccessTokenFont);
@@ -1838,6 +1852,10 @@ public class frmMain extends JFrame implements ActionListener {
         txTestTokenFile = new JTextField();
         txTestTokenFile.setToolTipText("File with a text representing token for decoding");
         panel9.add(txTestTokenFile, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
+        btnGetTokenFormText = new JButton();
+        btnGetTokenFormText.setText("Test from TextBox");
+        btnGetTokenFormText.setToolTipText("Read a token from given file and decode it");
+        panel9.add(btnGetTokenFormText, new GridConstraints(0, 3, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final JPanel panel10 = new JPanel();
         panel10.setLayout(new GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
         splitPane2.setRightComponent(panel10);
@@ -2976,7 +2994,7 @@ public class frmMain extends JFrame implements ActionListener {
         Font textField1Font = this.$$$getFont$$$(null, -1, 12, textField1.getFont());
         if (textField1Font != null) textField1.setFont(textField1Font);
         textField1.setHorizontalAlignment(2);
-        textField1.setText("1.1.0.15");
+        textField1.setText("1.1.0.16a");
         panel76.add(textField1, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         final JLabel label54 = new JLabel();
         Font label54Font = this.$$$getFont$$$(null, Font.BOLD, 12, label54.getFont());

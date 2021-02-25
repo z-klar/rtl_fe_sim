@@ -3,7 +3,7 @@ plugins {
 }
 
 group 'xz.zk'
-version '0.1'
+version '1.1.0.16a'
 
 repositories {
     mavenCentral()
@@ -30,7 +30,7 @@ dependencies {
     compile 'com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.10.2'
 
     // JWT decoder
-    implementation 'com.auth0:java-jwt:3.10.2'
+    compile 'com.auth0:java-jwt:3.10.2'
 
     // logging
     compile group: 'org.slf4j', name: 'slf4j-log4j12', version: '1.7.30'
