@@ -30,5 +30,13 @@ public class GlobalData {
     private String BeIP;
     private String BePort;
     private int LastSelectedLabId;
+    private int LastSelectedTestrackId;
+
+    public void InitGlobalData() {
+        token = null;
+        users = new ArrayList<UserDto>();
+        testracks = new ArrayList<TestrackDTO>();
+        labs = new ArrayList<LabDetailDTO>();
+    }
 
 }

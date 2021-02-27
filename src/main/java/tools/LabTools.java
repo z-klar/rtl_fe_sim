@@ -141,10 +141,15 @@ public class LabTools {
      */
     public int UpdateUserAndRacksByLabId(int labId) {
         globalData.setLastSelectedLabId(labId);
+
+        dlmLabAdmins.clear();
         ClearLabUserTab();
         List<UserDetailPerLabDTO> labUsers = getUserList(labId);
         Vector<LabUserTableRow> rows = new Vector<>();
-        for(UserDetailPerLabDTO user : labUsers) rows.add(user.convertToUserTableRow());
+        for(UserDetailPerLabDTO user : labUsers) {
+            rows.add(user.convertToUserTableRow());
+            if(user.getRole() == RtlRoles.rtl_admin) dlmLabAdmins.addElement(user.getUsername());
+        }
         LabUserTableModel model = new LabUserTableModel(rows);
         tblUsers.setModel(model);
 
@@ -154,10 +159,6 @@ public class LabTools {
         for(TestrackDTO rack : labRacks) trows.add(rack.convertToLabTableRow());
         LabTestrackTableModel tmodel = new LabTestrackTableModel(trows);
         tblRacks.setModel(tmodel);
-
-        dlmLabAdmins.clear();
-        LabDetailDTO lab = globalData.labs.stream().filter(p -> p.getId() ==labId).findFirst().orElse(null);
-        for(String admin : lab.getAdministrators()) dlmLabAdmins.addElement(admin);
 
         return 0;
     }

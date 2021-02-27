@@ -1,17 +1,15 @@
 package tables;
 
 import javax.swing.table.AbstractTableModel;
-import javax.swing.table.DefaultTableModel;
-import java.util.List;
 import java.util.Vector;
 
-public class RelayTableModel  extends AbstractTableModel {
-    public static final  String[] columnNames =
-            { "Position", "Name", "Type" };
+public class DisplayTableModel extends AbstractTableModel {
+    private String[] columnNames =
+            { "Type", "Width", "Height", "Port" };
 
     private Object[][] data;
 
-    public RelayTableModel(Vector<RelayTableRow> rowData) {
+    public DisplayTableModel(Vector<DisplayTableRow> rowData) {
         data = new Object[rowData.size()][columnNames.length];
         for (int i = 0; i < rowData.size(); i++) {
             data[i] = rowData.get(i).toObject();
@@ -30,4 +28,5 @@ public class RelayTableModel  extends AbstractTableModel {
     public String getColumnName(int col) {
         return columnNames[col];
     }
+
 }

@@ -17,8 +17,10 @@
 - 1.1.0.13
     - UI Change: FE Simulation tab moved under Testrack tabs
 - 1.1.0.16
-    - Fixe issue with JWT token decoding. Option for decoding token directly from the textbox added (token can be clipboarded directly to textarea)
-
+    - Fixed issue with JWT token decoding. Option for decoding token directly from the textbox added (token can be clipboarded directly to textarea)
+- 1.2.0.0
+    - Testrack editing implemented
+  
 
 ## Environment specific configuration  
 As mentioned above various .

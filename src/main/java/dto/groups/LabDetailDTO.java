@@ -20,7 +20,7 @@ public class LabDetailDTO {
 
     public String getCreatedOnString() {
         Calendar c = Calendar.getInstance();
-        c.setTimeInMillis(createdOn);
+        c.setTimeInMillis(1000 * createdOn);
         return String.format("%d.%d.%d %02d:%02d:%02d",
                 c.get(Calendar.DAY_OF_MONTH), c.get(Calendar.MONTH)+1, c.get(Calendar.YEAR),
                 c.get(Calendar.HOUR_OF_DAY), c.get(Calendar.MINUTE), c.get(Calendar.SECOND));
@@ -46,7 +46,6 @@ public class LabDetailDTO {
         return new LabTableRow(id, name,
                 getCreatedOnString(),
                 getTestrackCountString(),
-                getUserCountString(),
-                getAdminsString());
+                getUserCountString());
     }
 }

@@ -5,7 +5,7 @@ import java.util.Vector;
 
 public class LabTableModel extends AbstractTableModel {
     private String[] columnNames =
-            { "Id", "Name", "Created On","Rack Count", "User Count", "Administrators"  };
+            { "Id", "Name", "Created On","Rack Count", "User Count"  };
 
     private Object[][] data;
 

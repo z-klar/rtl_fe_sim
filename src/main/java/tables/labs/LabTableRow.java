@@ -6,19 +6,17 @@ public class LabTableRow {
     public String CreatedOn;
     public String RackCOunt;
     public String UserCount;
-    public String Admins;
 
     public LabTableRow(int Id, String name, String CreatedOn,
-                       String RackCOunt, String UserCount, String Admins) {
+                       String RackCOunt, String UserCount) {
         this.Id = Id;
         this.Name = name;
         this.CreatedOn = CreatedOn;
         this.RackCOunt = RackCOunt;
         this.UserCount = UserCount;
-        this.Admins = Admins;
     }
 
     public Object[] toObject() {
-        return new Object[]{ Id, Name, CreatedOn, RackCOunt, UserCount, Admins };
+        return new Object[]{ Id, Name, CreatedOn, RackCOunt, UserCount };
     }
 }
