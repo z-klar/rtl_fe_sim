@@ -20,6 +20,8 @@
     - Fixed issue with JWT token decoding. Option for decoding token directly from the textbox added (token can be clipboarded directly to textarea)
 - 1.2.0.0
     - Testrack editing implemented
+- 1.2.0.1
+    - Hand over of a testrack (FE simulation) did not work properly - fixed
   
 
 ## Environment specific configuration  

@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import common.RestCallOutput;
 import dto.*;
+import tools.ToolFunctions;
 
 import javax.swing.*;
 import java.io.BufferedReader;
@@ -342,6 +343,7 @@ public class RestCallService {
 
             ObjectMapper mapper = new ObjectMapper();
             String jsonString = mapper.writeValueAsString(rack);
+            if(verbose) ToolFunctions.logSplit(dlmUserLog, jsonString, 120, "Update Testrack");
 
             RestCallOutput ro = SendRestApiRequest("PUT", props, jsonString, surl);
             ro.setInfoMsg(jsonString);

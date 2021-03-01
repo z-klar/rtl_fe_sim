@@ -151,8 +151,10 @@ public class RackEditTools {
         RestCallOutput ro = restCallService.updateTestrack(currTestrack, globalData.token.getToken(), true);
         if(ro.getResultCode() < 300)
             JOptionPane.showMessageDialog(null, "Testrack updated !");
-        else
+        else {
             JOptionPane.showMessageDialog(null, "Error updating testrack - see the LOG !");
+            dlmLog.addElement(ro.getErrorMsg());
+        }
     }
     /**
      *
