@@ -20,7 +20,7 @@ public class LabDetailDTO {
 
     public String getCreatedOnString() {
         Calendar c = Calendar.getInstance();
-        c.setTimeInMillis(1000 * createdOn);
+        c.setTimeInMillis(createdOn);
         return String.format("%d.%d.%d %02d:%02d:%02d",
                 c.get(Calendar.DAY_OF_MONTH), c.get(Calendar.MONTH)+1, c.get(Calendar.YEAR),
                 c.get(Calendar.HOUR_OF_DAY), c.get(Calendar.MINUTE), c.get(Calendar.SECOND));

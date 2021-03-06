@@ -1,14 +1,19 @@
 package tools;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import common.GlobalData;
 import dto.TestrackDTO;
 import dto.UserDto;
+import dto.groups.LabDetailDTO;
+import dto.groups.UserDetailPerLabDTO;
+import model.BackupAssign;
 import model.BackupRestoreData;
 
 import javax.swing.*;
 import java.io.FileOutputStream;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.List;
 
 public class BackupTools {
@@ -23,6 +28,7 @@ public class BackupTools {
     private JTextField txFileName;
     private DefaultListModel<String> dlmLog;
     private GlobalData globalData;
+    private LabTools labTools;
 
     /**
      *
@@ -42,7 +48,7 @@ public class BackupTools {
                        JCheckBox restoreUsers,JCheckBox restoreLabs,
                        JCheckBox restoreRacks,JCheckBox restoreAssigns,
                        JTextField fileName, DefaultListModel<String> dlmLog,
-                       GlobalData globalData) {
+                       GlobalData globalData, LabTools labTools) {
 
         this.chkBackupUsers = backupUsers;
         this.chkBackupLabs = backupLabs;
@@ -55,6 +61,7 @@ public class BackupTools {
         this.txFileName = fileName;
         this.dlmLog = dlmLog;
         this.globalData = globalData;
+        this.labTools = labTools;
     }
 
     /**
@@ -87,6 +94,7 @@ public class BackupTools {
         if(chkBackupAssigns.isSelected()) backupAssigns(data);
         try {
             ObjectMapper mapper = new ObjectMapper();
+            mapper.enable(SerializationFeature.INDENT_OUTPUT);
             PrintWriter vystup = new PrintWriter(new FileOutputStream(txFileName.getText(), true));
             String js = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(data);
             vystup.write(js);
@@ -117,7 +125,15 @@ public class BackupTools {
         data.setRacks(globalData.testracks);
     }
     private void backupAssigns(BackupRestoreData data) {
-
+        dlmLog.addElement("  - BackingUp Assignments: ");
+        List<LabDetailDTO> labs = globalData.labs;
+        List<BackupAssign> assigns = new ArrayList<BackupAssign>();
+        for(LabDetailDTO lab : labs) {
+            List<UserDetailPerLabDTO> ll = labTools.getUserList(lab.getId());
+            for(UserDetailPerLabDTO u : ll)
+                assigns.add(new BackupAssign(u, lab.getId()));
+        }
+        data.setAssignments(assigns);
     }
     private void restoreUsers() {
 

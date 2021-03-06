@@ -363,7 +363,7 @@ public class frmMain extends JFrame implements ActionListener {
                                 cbLabNewRole, cbLabNewState, dlmLabAdmins);
         backupTools = new BackupTools(chkBackupUsers, chkBackupLabs, chkBackupRacks, chkBackupAssignments,
                                     chkRestoreUsers, chkRestoreLabs, chkRestoreRacks, chkRestoreAssignments,
-                                    txBackupFileName, dlmBackupLog, globalData);
+                                    txBackupFileName, dlmBackupLog, globalData, labTools);
         // region UI elements init
         btnUserClearLog.addActionListener(e -> dlmUserLog.clear());
         btnUserLogin.addActionListener(e -> getLoginToken());

@@ -296,7 +296,7 @@ public class LabTools {
      * @param labId
      * @return
      */
-    private List<UserDetailPerLabDTO> getUserList(int labId) {
+    public List<UserDetailPerLabDTO> getUserList(int labId) {
         RestCallOutput ro = labService.getUsersForLab(labId);
         if(ro.getResultCode()>299) {
             dlmLog.addElement("Error: " + ro.getErrorMsg());
