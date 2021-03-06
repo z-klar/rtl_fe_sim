@@ -22,6 +22,9 @@
     - Testrack editing implemented
 - 1.2.0.1
     - Hand over of a testrack (FE simulation) did not work properly - fixed
+- 1.3.0.0
+    - Backup / Restore process implementation started (currently backup done)
+  
   
 
 ## Environment specific configuration  

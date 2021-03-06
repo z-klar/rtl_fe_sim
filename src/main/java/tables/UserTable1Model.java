@@ -5,7 +5,7 @@ import java.util.Vector;
 
 public class UserTable1Model extends AbstractTableModel {
     private String[] columnNames =
-            { "ID", "Username", "First Name", "Last Name", "Email" };
+            { "ID", "Username", "First Name", "Last Name", "Email" , "Enabled", "EmailVerified"};
 
     private Object[][] data;
 

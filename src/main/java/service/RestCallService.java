@@ -378,6 +378,21 @@ public class RestCallService {
         return(ro);
     }
 
+    public RestCallOutput enableUser(String userId, String token, boolean newState) {
+        dlmUserLog.addElement("Setting new state of user:" + userId + "   State=" + newState);
+        String surl = "http://" + BeIp + ":" + BePort + "/user/" + userId + "/enable";
+        if(newState) surl += "?enabled=true";
+        else surl += "?enabled=false";
+        dlmUserLog.addElement("URL: " + surl);
+
+        HttpURLConnection con = null;
+        int status = 0;
+        Map<String, String> props = new HashMap<>();
+        props.put("Authorization", "Bearer " + token);
+        RestCallOutput ro = SendRestApiRequest("POST", props, null, surl);
+        return(ro);
+    }
+
     public RestCallOutput getSystemInfo(String token) {
         String surl = "http://" + BeIp + ":" + BePort + "/sysinfo";
         Map<String, String> props = new HashMap<>();

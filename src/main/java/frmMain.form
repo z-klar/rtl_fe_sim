@@ -15,7 +15,7 @@
           </grid>
         </constraints>
         <properties/>
-        <border type="bevel-lowered"/>
+        <border type="bevel-raised"/>
         <children>
           <grid id="76abb" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
             <margin top="0" left="0" bottom="0" right="0"/>
@@ -133,7 +133,7 @@
                           </component>
                         </children>
                       </grid>
-                      <grid id="5f302" layout-manager="GridLayoutManager" row-count="6" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                      <grid id="5f302" layout-manager="GridLayoutManager" row-count="4" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
                         <margin top="5" left="5" bottom="5" right="5"/>
                         <constraints>
                           <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
@@ -152,27 +152,21 @@
                                 <preferred-size width="143" height="25"/>
                               </grid>
                             </constraints>
-                            <properties/>
+                            <properties>
+                              <font size="11"/>
+                            </properties>
                           </component>
                           <component id="79217" class="javax.swing.JButton" binding="btnUserMailResendVerifyEmail">
                             <constraints>
-                              <grid row="1" column="0" row-span="2" col-span="3" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                              <grid row="1" column="0" row-span="1" col-span="2" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                             </constraints>
                             <properties>
                               <text value="Resend Verification Email"/>
                             </properties>
                           </component>
-                          <component id="257af" class="javax.swing.JButton" binding="btnUserDeleteUser">
-                            <constraints>
-                              <grid row="3" column="0" row-span="2" col-span="3" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-                            </constraints>
-                            <properties>
-                              <text value="Delete User"/>
-                            </properties>
-                          </component>
                           <component id="28fcb" class="javax.swing.JLabel">
                             <constraints>
-                              <grid row="5" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                              <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                             </constraints>
                             <properties>
                               <font size="12" style="1"/>
@@ -182,7 +176,7 @@
                           </component>
                           <component id="23584" class="javax.swing.JButton" binding="btnUserSetPwd">
                             <constraints>
-                              <grid row="5" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                              <grid row="2" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                             </constraints>
                             <properties>
                               <text value="Set PASSWORD"/>
@@ -190,13 +184,56 @@
                           </component>
                           <component id="463ae" class="javax.swing.JTextField" binding="txUserNewPassword">
                             <constraints>
-                              <grid row="5" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                              <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                                 <preferred-size width="150" height="-1"/>
                               </grid>
                             </constraints>
                             <properties>
                               <font size="12"/>
                               <text value=""/>
+                            </properties>
+                          </component>
+                          <grid id="88cb1" layout-manager="GridLayoutManager" row-count="1" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                            <margin top="0" left="0" bottom="0" right="0"/>
+                            <constraints>
+                              <grid row="3" column="0" row-span="1" col-span="2" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                            </constraints>
+                            <properties/>
+                            <border type="none"/>
+                            <children>
+                              <component id="fe880" class="javax.swing.JRadioButton" binding="rbEnableUser">
+                                <constraints>
+                                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                                </constraints>
+                                <properties>
+                                  <text value="ENABLE User"/>
+                                </properties>
+                              </component>
+                              <component id="54e1e" class="javax.swing.JRadioButton" binding="rbDisableUser">
+                                <constraints>
+                                  <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                                </constraints>
+                                <properties>
+                                  <selected value="true"/>
+                                  <text value="DISABLE User"/>
+                                </properties>
+                              </component>
+                            </children>
+                          </grid>
+                          <component id="f0238" class="javax.swing.JButton" binding="btnUserEnableUser">
+                            <constraints>
+                              <grid row="3" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                            </constraints>
+                            <properties>
+                              <text value="Change User State"/>
+                            </properties>
+                          </component>
+                          <component id="257af" class="javax.swing.JButton" binding="btnUserDeleteUser">
+                            <constraints>
+                              <grid row="1" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                            </constraints>
+                            <properties>
+                              <text value="Delete User"/>
                             </properties>
                           </component>
                         </children>
@@ -3437,6 +3474,236 @@
                       </component>
                     </children>
                   </grid>
+                  <grid id="9825f" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                    <margin top="0" left="0" bottom="0" right="0"/>
+                    <constraints>
+                      <tabbedpane title="Backup / Restore"/>
+                    </constraints>
+                    <properties/>
+                    <border type="none"/>
+                    <children>
+                      <splitpane id="59082">
+                        <constraints>
+                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                            <preferred-size width="200" height="200"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <dividerLocation value="300"/>
+                          <dividerSize value="6"/>
+                          <orientation value="0"/>
+                        </properties>
+                        <border type="none"/>
+                        <children>
+                          <grid id="5f6e" layout-manager="GridLayoutManager" row-count="2" column-count="5" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                            <margin top="0" left="0" bottom="0" right="0"/>
+                            <constraints>
+                              <splitpane position="left"/>
+                            </constraints>
+                            <properties/>
+                            <border type="none"/>
+                            <children>
+                              <grid id="1470" layout-manager="GridLayoutManager" row-count="6" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                                <margin top="4" left="4" bottom="4" right="4"/>
+                                <constraints>
+                                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                                </constraints>
+                                <properties/>
+                                <border type="bevel-raised" title="   Backup   " title-justification="2">
+                                  <font size="12" style="1"/>
+                                  <title-color color="-14672672"/>
+                                </border>
+                                <children>
+                                  <component id="fb3b" class="javax.swing.JCheckBox" binding="chkBackupUsers">
+                                    <constraints>
+                                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                                    </constraints>
+                                    <properties>
+                                      <text value="Users"/>
+                                    </properties>
+                                  </component>
+                                  <vspacer id="974df">
+                                    <constraints>
+                                      <grid row="5" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+                                    </constraints>
+                                  </vspacer>
+                                  <component id="81919" class="javax.swing.JCheckBox" binding="chkBackupRacks">
+                                    <constraints>
+                                      <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                                    </constraints>
+                                    <properties>
+                                      <text value="Testracks"/>
+                                    </properties>
+                                  </component>
+                                  <component id="c6b9e" class="javax.swing.JCheckBox" binding="chkBackupLabs">
+                                    <constraints>
+                                      <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                                    </constraints>
+                                    <properties>
+                                      <text value="Labs"/>
+                                    </properties>
+                                  </component>
+                                  <component id="f83de" class="javax.swing.JCheckBox" binding="chkBackupAssignments">
+                                    <constraints>
+                                      <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                                    </constraints>
+                                    <properties>
+                                      <text value="LAB - USER Assignments"/>
+                                    </properties>
+                                  </component>
+                                  <component id="f371d" class="javax.swing.JButton" binding="btnBackupDo">
+                                    <constraints>
+                                      <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                                    </constraints>
+                                    <properties>
+                                      <text value="Backup"/>
+                                    </properties>
+                                  </component>
+                                </children>
+                              </grid>
+                              <grid id="cd2b5" layout-manager="GridLayoutManager" row-count="6" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                                <margin top="4" left="4" bottom="4" right="4"/>
+                                <constraints>
+                                  <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                                </constraints>
+                                <properties/>
+                                <border type="bevel-raised" title="   Restore" title-justification="2">
+                                  <font size="12" style="1"/>
+                                  <title-color color="-14672672"/>
+                                </border>
+                                <children>
+                                  <component id="f4fd6" class="javax.swing.JCheckBox" binding="chkRestoreUsers">
+                                    <constraints>
+                                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                                    </constraints>
+                                    <properties>
+                                      <text value="Users"/>
+                                    </properties>
+                                  </component>
+                                  <vspacer id="91cd9">
+                                    <constraints>
+                                      <grid row="5" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+                                    </constraints>
+                                  </vspacer>
+                                  <component id="72707" class="javax.swing.JCheckBox" binding="chkRestoreRacks">
+                                    <constraints>
+                                      <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                                    </constraints>
+                                    <properties>
+                                      <text value="Testracks"/>
+                                    </properties>
+                                  </component>
+                                  <component id="ec3b2" class="javax.swing.JCheckBox" binding="chkRestoreLabs">
+                                    <constraints>
+                                      <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                                    </constraints>
+                                    <properties>
+                                      <text value="Labs"/>
+                                    </properties>
+                                  </component>
+                                  <component id="8e02" class="javax.swing.JCheckBox" binding="chkRestoreAssignments">
+                                    <constraints>
+                                      <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                                    </constraints>
+                                    <properties>
+                                      <text value="LAB - USER Assignment"/>
+                                    </properties>
+                                  </component>
+                                  <component id="a3923" class="javax.swing.JButton" binding="btnRestoreDo">
+                                    <constraints>
+                                      <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                                    </constraints>
+                                    <properties>
+                                      <text value="Restore"/>
+                                    </properties>
+                                  </component>
+                                </children>
+                              </grid>
+                              <grid id="51035" layout-manager="GridLayoutManager" row-count="1" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                                <margin top="0" left="0" bottom="0" right="0"/>
+                                <constraints>
+                                  <grid row="1" column="0" row-span="1" col-span="3" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                                </constraints>
+                                <properties/>
+                                <border type="none"/>
+                                <children>
+                                  <component id="1d7de" class="javax.swing.JLabel">
+                                    <constraints>
+                                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                                    </constraints>
+                                    <properties>
+                                      <text value="    Input / Output File:"/>
+                                    </properties>
+                                  </component>
+                                  <component id="5ce96" class="javax.swing.JTextField" binding="txBackupFileName">
+                                    <constraints>
+                                      <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                                        <preferred-size width="150" height="-1"/>
+                                      </grid>
+                                    </constraints>
+                                    <properties/>
+                                  </component>
+                                </children>
+                              </grid>
+                              <vspacer id="8ca6b">
+                                <constraints>
+                                  <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+                                </constraints>
+                              </vspacer>
+                              <hspacer id="446c7">
+                                <constraints>
+                                  <grid row="0" column="3" row-span="1" col-span="2" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                                </constraints>
+                              </hspacer>
+                              <component id="bc673" class="javax.swing.JButton" binding="btnBackupBrowseFile">
+                                <constraints>
+                                  <grid row="1" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                                </constraints>
+                                <properties>
+                                  <horizontalAlignment value="2"/>
+                                  <text value="Browse"/>
+                                </properties>
+                              </component>
+                              <component id="27c73" class="javax.swing.JButton" binding="btnBackupClearLog">
+                                <constraints>
+                                  <grid row="1" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="4" fill="0" indent="0" use-parent-layout="false"/>
+                                </constraints>
+                                <properties>
+                                  <horizontalAlignment value="2"/>
+                                  <text value="Clear LOG"/>
+                                </properties>
+                              </component>
+                            </children>
+                          </grid>
+                          <grid id="6501b" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                            <margin top="0" left="0" bottom="0" right="0"/>
+                            <constraints>
+                              <splitpane position="right"/>
+                            </constraints>
+                            <properties/>
+                            <border type="none"/>
+                            <children>
+                              <scrollpane id="b29a5">
+                                <constraints>
+                                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                                </constraints>
+                                <properties/>
+                                <border type="none"/>
+                                <children>
+                                  <component id="c1e84" class="javax.swing.JList" binding="lbBackupLog">
+                                    <constraints/>
+                                    <properties>
+                                      <font name="Courier New" size="14"/>
+                                    </properties>
+                                  </component>
+                                </children>
+                              </scrollpane>
+                            </children>
+                          </grid>
+                        </children>
+                      </splitpane>
+                    </children>
+                  </grid>
                 </children>
               </tabbedpane>
             </children>
@@ -3823,7 +4090,7 @@
                       <editable value="false"/>
                       <font size="12"/>
                       <horizontalAlignment value="2"/>
-                      <text value="1.2.0.1"/>
+                      <text value="1.3.0.0"/>
                     </properties>
                   </component>
                   <component id="f55ba" class="javax.swing.JLabel">
@@ -3846,7 +4113,7 @@
                     <properties>
                       <editable value="false"/>
                       <font size="12"/>
-                      <text value="2021-02-25"/>
+                      <text value="2021-03-06"/>
                     </properties>
                   </component>
                   <hspacer id="47b19">
