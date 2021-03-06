@@ -3469,7 +3469,7 @@ public class frmMain extends JFrame implements ActionListener {
         Font textField1Font = this.$$$getFont$$$(null, -1, 12, textField1.getFont());
         if (textField1Font != null) textField1.setFont(textField1Font);
         textField1.setHorizontalAlignment(2);
-        textField1.setText("1.3.0.0");
+        textField1.setText("1.3.0.1");
         panel88.add(textField1, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         final JLabel label69 = new JLabel();
         Font label69Font = this.$$$getFont$$$(null, Font.BOLD, 12, label69.getFont());
