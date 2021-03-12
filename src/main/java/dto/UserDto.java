@@ -38,6 +38,13 @@ public class UserDto implements Comparable<UserDto> {
 
     @Override
     public int compareTo(UserDto o) {
-        return getEmail().compareTo(o.getEmail());
+        if(getEmail() == null) {
+            if(o.getEmail() == null) return 0;
+            else  return -1;
+        }
+        else {
+            if(o.getEmail() == null) return 1;
+            else return getEmail().compareTo(o.getEmail());
+        }
     }
 }
