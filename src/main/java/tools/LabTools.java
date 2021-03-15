@@ -30,7 +30,7 @@ public class LabTools {
     private RestCallService restCallService;
     private JComboBox<String> cbUsers;
     private JComboBox<String> cbRoles;
-    private JComboBox<String> cbStates;
+    private JComboBox<LabInvitationState> cbStates;
     private DefaultListModel<String> dlmLabAdmins;
 
     /**
@@ -51,7 +51,7 @@ public class LabTools {
                     RestCallService restCallService,
                     JComboBox<String> cbUsers,
                     JComboBox<String> cbRoles,
-                    JComboBox<String> cbStates,
+                    JComboBox<LabInvitationState> cbStates,
                     DefaultListModel<String> dlmLabAdmins) {
         this.tblMain = main;
         this.tblRacks = racks;

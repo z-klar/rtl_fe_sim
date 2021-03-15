@@ -38,6 +38,8 @@ import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.List;
 
+import static javax.swing.JOptionPane.*;
+
 public class frmMain extends JFrame implements ActionListener {
     private final Logger log = LoggerFactory.getLogger(JsonProcessing.class);
 
@@ -49,7 +51,7 @@ public class frmMain extends JFrame implements ActionListener {
     private JTextField txUserUserName;
     private JTextField txUserPassword;
     private JButton btnUserLogin;
-    private JList lbUserLog;
+    private JList<String> lbUserLog;
     private JButton btnUserClearLog;
     private JTextArea txaUserFeedback;
     private JButton btnUserClearText;
@@ -63,18 +65,15 @@ public class frmMain extends JFrame implements ActionListener {
     private JTabbedPane tabbedPane3;
     private JTable tblTestracks;
     private JButton btnGetAllTestracks;
-    private JComboBox cbUserMailUsers;
-    private JButton btnUserMailUpdateUsers;
+    private JComboBox<String> cbUserMailUsers;
     private JButton btnUserMailResendVerifyEmail;
     private JButton btnHeartbeatUpdateRacks;
-    private JComboBox cbHeartbeatRacks;
+    private JComboBox<String> cbHeartbeatRacks;
     private JButton btnHeartbeatSendHb;
     private JButton btnStartSimulation;
     private JLabel lbSysTime;
     private JCheckBox chkFrontendConnectRack;
-    private JTextField txFrontendRackId;
-    private JTable tblFrontendRacks;
-    private JComboBox cbCreateRackPlatform;
+    private JComboBox<TestrackVehicle> cbCreateRackPlatform;
     private JTextField txCreateRackName;
     private JTextField txCreateRackDescr;
     private JTextField txCreateRackAddr;
@@ -83,13 +82,12 @@ public class frmMain extends JFrame implements ActionListener {
     private JTextField txCreateRackRelayPosition;
     private JTextField txCreateRackRelayName;
     private JTextField txCreateRaclRelayType;
-    private JComboBox cbCreateRackDispType;
+    private JComboBox<DisplayType> cbCreateRackDispType;
     private JTextField txCreateRackDispWidth;
     private JTextField txCreateRackDispHeight;
-    private JTextField txCreateRackDispPort;
     private JButton btnCreatRack;
     private JButton btnDeleteTestrack;
-    private JList lbTestrackData;
+    private JList<String> lbTestrackData;
     private JButton btnClearTestrackData;
     private JButton lbGetRackDetails;
     private JTextField txCreateRackNoOfDevices;
@@ -98,10 +96,10 @@ public class frmMain extends JFrame implements ActionListener {
     private JTabbedPane tabbedPane5;
     private JTextField txConfigSignalServerPort;
     private JButton btnSignalReadAllDevices;
-    private JList lbLogSignal;
+    private JList<String> lbLogSignal;
     private JTable tblSignal;
     private JButton btnClearSignalLog;
-    private JComboBox cbSignalDevices;
+    private JComboBox<String> cbSignalDevices;
     private JButton btnSignaUpdateDevices;
     private JTextField txNewDeviceId;
     private JTextField txNewDeviceName;
@@ -121,23 +119,23 @@ public class frmMain extends JFrame implements ActionListener {
     private JButton btnGetSysInfo;
     private JButton btnUpdateConfig;
     private JTabbedPane tabbedPane6;
-    private JList lbSysInfo;
-    private JComboBox cbFesimRacks;
+    private JList<String> lbSysInfo;
+    private JComboBox<String> cbFesimRacks;
     private JCheckBox chkVerboseLogging;
     private JButton btnTestrackChangeDispVersion;
-    private JComboBox cbTestrackDisplayType;
+    private JComboBox<DisplayType> cbTestrackDisplayType;
     private JTextField txTestrackDisplayVersion;
     private JButton btnGetSignalServerInfo;
     private JTextField txStatusBar1;
     private JTextField txStatusBar2;
     private JTextField txStatusBar0;
     private JButton btnConfigAddUrl;
-    private JComboBox cbConfigUrl;
+    private JComboBox<String> cbConfigUrl;
     private JButton btnConfigDeleteUrl;
     private JButton btnTokensUpdate;
     private JTextArea txaTokensAccessToken;
-    private JList lbTokensAccessToken;
-    private JList lbTokensRefreshToken;
+    private JList<String> lbTokensAccessToken;
+    private JList<String> lbTokensRefreshToken;
     private JTextArea txaTokensRefreshToken;
     private JTable tblRealys;
     private JButton btnCreatRackAddRelay;
@@ -146,40 +144,40 @@ public class frmMain extends JFrame implements ActionListener {
     private JTextArea txaUserProfileUserProfile;
     private JTextField txCreateRackVin;
     private JTabbedPane tabbedPane7;
-    private JComboBox cbButtonsAbt;
+    private JComboBox<String> cbButtonsAbt;
     private JButton btnButtonsSendAbt;
-    private JComboBox cbButtonsFpk;
+    private JComboBox<String> cbButtonsFpk;
     private JButton btnButtonsSendFpk;
-    private JComboBox cbButtonsFpk2;
+    private JComboBox<String> cbButtonsFpk2;
     private JButton btnButtonsSendFpk2;
     private JTextField txButtonsCoordX;
     private JTextField txButtonsCoordY;
     private JButton btnButtonsSendTouch;
-    private JComboBox cbButtonsRacks;
+    private JComboBox<String> cbButtonsRacks;
     private JButton btnButtonsUpdateRacks;
     private JButton btnButtonsSendFpkSeq;
     private JTabbedPane tabbedPane8;
     private JButton btnClearJanusLog;
-    private JList lbJanusRawLog;
+    private JList<String> lbJanusRawLog;
     private JTextField txJanusBaseUrl;
     private JPasswordField txJanusAdminPwd;
     private JButton btnJanusGetSessions;
-    private JList lbJanusMainLog;
+    private JList<String> lbJanusMainLog;
     private JButton btnJanusClearMainLog;
     private JCheckBox chkJanusRemoveMainLog;
     private JButton btnJanusSaveLog;
     private JButton btnActuatorGetLogs;
-    private JList lbActuator;
+    private JList<String> lbActuator;
     private JButton btnActuatorClearLog;
     private JTable tblData1;
     private JTextField txJanusTestsHandleInfoFileName;
     private JButton btnJanusTestsBrowseHandleInfoFile;
     private JButton btnJanusTestsParseHandleInfoFile;
     private JButton btnJanusMainGetSession;
-    private JList lbJanusMainSessions;
-    private JList lbJanusMainHandles;
+    private JList<String> lbJanusMainSessions;
+    private JList<String> lbJanusMainHandles;
     private JButton btnJanusMainGesHandles;
-    private JList lbJanusMainHandleInfo;
+    private JList<String> lbJanusMainHandleInfo;
     private JButton btnJanusMainGetHandleInfo;
     private JButton btnGetJanusOverview;
     private JTable tblJanusOverview;
@@ -195,13 +193,13 @@ public class frmMain extends JFrame implements ActionListener {
     private JButton btnLabUpdateLab;
     private JTabbedPane tabbedPane10;
     private JButton btnLabClearLog;
-    private JList lbLabsLog;
+    private JList<String> lbLabsLog;
     private JTextField txLabNewRackId;
-    private JComboBox cbLabNewUser;
-    private JComboBox cbLabNewRole;
-    private JComboBox cbLabNewState;
+    private JComboBox<String> cbLabNewUser;
+    private JComboBox<String> cbLabNewRole;
+    private JComboBox<LabInvitationState> cbLabNewState;
     private JButton btnLabUpdateDependencies;
-    private JList lbLabAdmins;
+    private JList<String> lbLabAdmins;
     private JButton btnLabRemoveLab;
     private JTextField txLabNewLabName;
     private JButton btnLabCreateNewLab;
@@ -222,8 +220,8 @@ public class frmMain extends JFrame implements ActionListener {
     private JTextField txTestrackEditWin;
     private JTextField txTestrackEditIpAddr;
     private JTextField txTestrackEditQuidoPort;
-    private JComboBox cbTestrackEditVehicle;
-    private JComboBox cbTestrackEditDispType;
+    private JComboBox<TestrackVehicle> cbTestrackEditVehicle;
+    private JComboBox<DisplayType> cbTestrackEditDispType;
     private JTextField txTestrackEditDispWidth;
     private JTextField txTestrackEditDispHeight;
     private JScrollPane tblTestrackEditDisp;
@@ -233,8 +231,8 @@ public class frmMain extends JFrame implements ActionListener {
     private JButton btnTestrackEditRemoveRelay;
     private JButton btnTestrackEditUpdateRack;
     private JTable tblTestrackEditRelays;
-    private JComboBox cbTestrackEditRelayFunction;
-    private JComboBox cbTestrackEditRelayType;
+    private JComboBox<RelayFunctionality> cbTestrackEditRelayFunction;
+    private JComboBox<RelayType> cbTestrackEditRelayType;
     private JTextField txFeSimSysMsg;
     private JRadioButton rbEnableUser;
     private JRadioButton rbDisableUser;
@@ -251,12 +249,12 @@ public class frmMain extends JFrame implements ActionListener {
     private JCheckBox chkRestoreRacks;
     private JCheckBox chkRestoreLabs;
     private JCheckBox chkRestoreAssignments;
-    private JList lbBackupLog;
+    private JList<String> lbBackupLog;
     private JButton btnBackupClearLog;
     private JButton btnMaintenanceAssigns;
     private JTextField txMaintenanceCheckAssigns;
     private JCheckBox chkAssignsDeletWrong;
-    private JList lbAssigns;
+    private JList<String> lbAssigns;
 
     static JFrame frame;
 
@@ -293,25 +291,31 @@ public class frmMain extends JFrame implements ActionListener {
     private boolean Running = false;
     private boolean ControllingTestrack = false;
     private int Counter1 = 0;
-    private ToolFunctions tools;
+    private final ToolFunctions tools;
     private ConfigurationData Config = new ConfigurationData();
     private int TableMouseClickRow;
 
     JPopupMenu popLoggers = new JPopupMenu("pop_loggers");
-    private String[] popLoggersLabels = {"Set to OFF", "Set to ERROR", "Set to WARN",
+    private final String[] popLoggersLabels = {"Set to OFF", "Set to ERROR", "Set to WARN",
             "Set to INFO", "Set to DEBUG", "Set to TRACE"};
     private String[] popLoggersCommands = {"OFF", "ERROR", "WARN", "INFO", "DEBUG", "TRACE"};
-    JPopupMenu popMain = new JPopupMenu("pop_main");
 
     private ArrayList<RelayDefinitionDTO> relays = new ArrayList<>();
     /**
      *
      */
     public frmMain() {
+        /*
+        System.setProperty("http.proxyHost", "127.0.0.1");
+        System.setProperty("https.proxyHost", "127.0.0.1");
+        System.setProperty("http.proxyPort", "8888");
+        System.setProperty("https.proxyPort", "8888");
+         */
+
         //------ init popup menu for Spring Actuator ---------
         for(String label : popLoggersLabels) {
             JMenuItem mnuPpLogOFF = new JMenuItem(label);
-            mnuPpLogOFF.addActionListener((ActionListener) this);
+            mnuPpLogOFF.addActionListener(this);
             popLoggers.add(mnuPpLogOFF);
         }
 
@@ -355,7 +359,7 @@ public class frmMain extends JFrame implements ActionListener {
 
         Config = LoadConfiguration(cbConfigUrl);
         restCall = new RestCallService(
-                cbConfigUrl.getSelectedItem().toString(),
+                Objects.requireNonNull(cbConfigUrl.getSelectedItem()).toString(),
                 Integer.parseInt(txBePort.getText()),
                 dlmUserLog,
                 Integer.parseInt(txConfigSignalServerPort.getText())
@@ -509,33 +513,24 @@ public class frmMain extends JFrame implements ActionListener {
                 else rbEnableUser.setSelected(true);
             }
         });
-        rbEnableUser.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if(rbEnableUser.isSelected()) rbDisableUser.setSelected(false);
-                else rbDisableUser.setSelected(true);
-            }
+        rbEnableUser.addActionListener(e -> {
+            if(rbEnableUser.isSelected()) rbDisableUser.setSelected(false);
+            else rbDisableUser.setSelected(true);
         });
         btnUserEnableUser.addActionListener(e -> enableUser());
         btnBackupBrowseFile.addActionListener(e -> BrowseBackupFile());
         btnBackupClearLog.addActionListener(e -> dlmBackupLog.clear());
-        btnBackupDo.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                getAllUsers(false);
-                GetAllTestracks(false);
-                GetAllLabs();
-                backupTools.doBackup();
-            }
+        btnBackupDo.addActionListener(e -> {
+            getAllUsers(false);
+            GetAllTestracks(false);
+            GetAllLabs();
+            backupTools.doBackup();
         });
         btnRestoreDo.addActionListener(e -> backupTools.doRestore());
-        btnMaintenanceAssigns.addActionListener(new ActionListener() {
-             @Override
-             public void actionPerformed(ActionEvent e) {
-                 getAllUsers(false);
-                 GetAllLabs();
-                 maintenanceTools.CheckWrongAssigns(chkAssignsDeletWrong.isSelected());
-             }
+        btnMaintenanceAssigns.addActionListener(e -> {
+            getAllUsers(false);
+            GetAllLabs();
+            maintenanceTools.CheckWrongAssigns(chkAssignsDeletWrong.isSelected());
         });
     }
 
@@ -563,7 +558,7 @@ public class frmMain extends JFrame implements ActionListener {
                 Object obj = tblTestracks.getValueAt(row, 0);
                 try { rackId = Integer.parseInt(obj.toString()); }
                 catch(Exception ex) {
-                    JOptionPane.showMessageDialog(null, "Error converting rack ID:" + obj.toString());
+                    showMessageDialog(null, "Error converting rack ID:" + obj.toString());
                     return;
                 }
                 globalData.setLastSelectedTestrackId(rackId);
@@ -576,12 +571,12 @@ public class frmMain extends JFrame implements ActionListener {
      * *****************************************************************************************
      */
     private void SetPassword() {
-        String UserId = GetUserIdByEmail(cbUserMailUsers.getSelectedItem().toString());
+        String UserId = GetUserIdByEmail(Objects.requireNonNull(cbUserMailUsers.getSelectedItem()).toString());
         if (UserId.length() > 0) {
             String pwd = txUserNewPassword.getText();
             RestCallOutput ro = restCall.setPassword(UserId, globalData.token.getToken(), true, pwd);
             int iRes = ro.getResultCode();
-            JOptionPane.showMessageDialog(null, "Result code: " + iRes);
+            showMessageDialog(null, "Result code: " + iRes);
             if(iRes > 299) {
                 dlmUserLog.addElement(ro.getErrorMsg());
             }
@@ -609,7 +604,7 @@ public class frmMain extends JFrame implements ActionListener {
             boolean newState = rbEnableUser.isSelected();
             RestCallOutput ro = restCall.enableUser(UserId, globalData.token.getToken(), newState);
             int iRes = ro.getResultCode();
-            JOptionPane.showMessageDialog(null, "Result code: " + iRes);
+            showMessageDialog(null, "Result code: " + iRes);
             if(iRes > 299) {
                 dlmUserLog.addElement(ro.getErrorMsg());
             }
@@ -624,7 +619,7 @@ public class frmMain extends JFrame implements ActionListener {
         if (UserId.length() > 0) {
             RestCallOutput ro = restCall.deleteUser(UserId, globalData.token.getToken(), true);
             int iRes = ro.getResultCode();
-            JOptionPane.showMessageDialog(null, "Result code: " + iRes);
+            showMessageDialog(null, "Result code: " + iRes);
             if(iRes > 299) {
                 dlmUserLog.addElement(ro.getErrorMsg());
             }
@@ -635,7 +630,7 @@ public class frmMain extends JFrame implements ActionListener {
      *
      */
     private void TestToken() {
-        String InputLine = "", sOut = "";
+        String InputLine, sOut = "";
         try {
             BufferedReader vstup = new BufferedReader(new FileReader(txTestTokenFile.getText()));
             while((InputLine = vstup.readLine()) != null) {
@@ -644,7 +639,7 @@ public class frmMain extends JFrame implements ActionListener {
             vstup.close();
         }
         catch (IOException e) {
-            JOptionPane.showMessageDialog(null, e.getLocalizedMessage());
+            showMessageDialog(null, e.getLocalizedMessage());
             return;
         }
         txaTokensAccessToken.setText(sOut);
@@ -702,7 +697,7 @@ public class frmMain extends JFrame implements ActionListener {
      */
     public void GetAllLabs() {
         if(globalData.token == null) {
-            JOptionPane.showMessageDialog(null, "No logged user !");
+            showMessageDialog(null, "No logged user !");
             return;
         }
         String url = "http://" + cbConfigUrl.getSelectedItem().toString() + ":"
@@ -730,7 +725,7 @@ public class frmMain extends JFrame implements ActionListener {
         Vector<JanusOverviewTable> rows = new Vector<>();
         int res = janusService.getJanusOverviewData(rows, url, pwd);
         if(res < 0) {
-            JOptionPane.showMessageDialog(null, "Error !!!");
+            showMessageDialog(null, "Error !!!");
             return;
         }
         JanusOverviewTableModel model = new JanusOverviewTableModel(rows);
@@ -755,7 +750,7 @@ public class frmMain extends JFrame implements ActionListener {
     private void GetHandleInfo() {
         int selectedHandle = lbJanusMainHandles.getSelectedIndex();
         if(selectedHandle < 0) {
-            JOptionPane.showMessageDialog(null, "No handle selected !!");
+            showMessageDialog(null, "No handle selected !!");
             return;
         }
         String url = "http://" + cbConfigUrl.getSelectedItem().toString() + ":7088/admin";
@@ -766,7 +761,7 @@ public class frmMain extends JFrame implements ActionListener {
         dlmJanusMainHandleInfo.clear();
         JanusHandlesInfoResponseDTO handleObj = janusService.getHandleInfo(url, pwd, session, handle);
         if(handleObj.getJanus().contains("error")) {
-            JOptionPane.showMessageDialog(null, "Error: " + handleObj.getTransaction());
+            showMessageDialog(null, "Error: " + handleObj.getTransaction());
         }
         else {
             JanusHandleInfoDTO hi = handleObj.getInfo();
@@ -784,7 +779,7 @@ public class frmMain extends JFrame implements ActionListener {
     private void GetJanusHandles() {
         int selectedSession = lbJanusMainSessions.getSelectedIndex();
         if(selectedSession < 0) {
-            JOptionPane.showMessageDialog(null, "No session selected !!");
+            showMessageDialog(null, "No session selected !!");
             return;
         }
         String url = "http://" + cbConfigUrl.getSelectedItem().toString() + ":7088/admin";
@@ -809,7 +804,7 @@ public class frmMain extends JFrame implements ActionListener {
         String pwd = String.valueOf(txJanusAdminPwd.getPassword());
         RestCallOutput ro = janusService.getSession(url, pwd);
         if (ro.getResultCode() > 299) {
-            JOptionPane.showMessageDialog(null, "Error:\n" + ro.getErrorMsg());
+            showMessageDialog(null, "Error:\n" + ro.getErrorMsg());
             return;
         }
         JanusSessionsResponseDTO resp = JanusTools.getJanusSessionListResp(ro.getDataMsg());
@@ -858,7 +853,6 @@ public class frmMain extends JFrame implements ActionListener {
      */
     public void actionPerformed(ActionEvent e) {
         JMenuItem source = (JMenuItem) (e.getSource());
-        JPopupMenu comp = (JPopupMenu) source.getComponent().getParent();
         String label = source.getText();
         UpdateLogLevel(popLoggersCommands[FindLabel(label, popLoggersLabels)]);
     }
@@ -873,10 +867,10 @@ public class frmMain extends JFrame implements ActionListener {
         popLoggers.show(tblData1, x, y);
     }
     /**
-     * @param newLevel
+     * @param newLevel required log level
      */
     private void UpdateLogLevel(String newLevel) {
-        String surl = "http://" + cbConfigUrl.getSelectedItem().toString() + ":"
+        String surl = "http://" + Objects.requireNonNull(cbConfigUrl.getSelectedItem()).toString() + ":"
                 + Integer.parseInt(txBePort.getText()) + "/actuator/loggers/";
         surl += globalData.getLoggerRecords().get(TableMouseClickRow).getName();
         Map<String, String> props = new HashMap<>();
@@ -929,7 +923,7 @@ public class frmMain extends JFrame implements ActionListener {
             vystup.close();
         }
         catch(IOException e) {
-            JOptionPane.showMessageDialog(null, e.getMessage());
+            showMessageDialog(null, e.getMessage());
         }
     }
     /**
@@ -944,7 +938,7 @@ public class frmMain extends JFrame implements ActionListener {
        }
        RestCallOutput ro = janusService.getSession(url, pwd);
        if (ro.getResultCode() > 299) {
-           JOptionPane.showMessageDialog(null, "Error:\n" + ro.getErrorMsg());
+           showMessageDialog(null, "Error:\n" + ro.getErrorMsg());
            return;
        }
        JanusSessionsResponseDTO resp = JanusTools.getJanusSessionListResp(ro.getDataMsg());
@@ -955,7 +949,7 @@ public class frmMain extends JFrame implements ActionListener {
            dlmJanusMainLog.addElement("**************************************************************************");
            dlmJanusMainLog.addElement(String.format("%-20s:%s", "janus", resp.getJanus()));
            dlmJanusMainLog.addElement(String.format("%-20s:%s", "transaction", resp.getTransaction()));
-           dlmJanusMainLog.addElement(String.format("sessions:"));
+           dlmJanusMainLog.addElement("sessions:");
            for(String sess : resp.getSessions())
                dlmJanusMainLog.addElement(String.format("    - %s", sess));
        }
@@ -998,7 +992,7 @@ public class frmMain extends JFrame implements ActionListener {
      */
     private void SendTouchCommand() {
         if (globalData.token == null) {
-            JOptionPane.showMessageDialog(null, "No Access token available !");
+            showMessageDialog(null, "No Access token available !");
             return;
         }
         String rackId = tools.parseRackId(cbButtonsRacks.getSelectedItem().toString());
@@ -1006,7 +1000,7 @@ public class frmMain extends JFrame implements ActionListener {
         int y = Integer.parseInt(txButtonsCoordY.getText());
         RestCallOutput res = restCall.sendTouchCommand(rackId, x, y, globalData.token.getToken());
         if (res.getResultCode() > 299) {
-            JOptionPane.showMessageDialog(null, "Error:\n" + res.getErrorMsg());
+            showMessageDialog(null, "Error:\n" + res.getErrorMsg());
         }
     }
     /**
@@ -1022,7 +1016,7 @@ public class frmMain extends JFrame implements ActionListener {
      */
     private void SendFpkButton(int ord) {
         if (globalData.token == null) {
-            JOptionPane.showMessageDialog(null, "No Access token available !");
+            showMessageDialog(null, "No Access token available !");
             return;
         }
         String cmd;
@@ -1032,7 +1026,7 @@ public class frmMain extends JFrame implements ActionListener {
 
         RestCallOutput res = restCall.sendFpkCommand(rackId, cmd, globalData.token.getToken());
         if (res.getResultCode() > 299) {
-            JOptionPane.showMessageDialog(null, "Error:\n" + res.getErrorMsg());
+            showMessageDialog(null, "Error:\n" + res.getErrorMsg());
         }
     }
     /**
@@ -1040,15 +1034,15 @@ public class frmMain extends JFrame implements ActionListener {
      */
     private void SendAbtButton() {
         if (globalData.token == null) {
-            JOptionPane.showMessageDialog(null, "No Access token available !");
+            showMessageDialog(null, "No Access token available !");
             return;
         }
-        String cmd = cbButtonsAbt.getSelectedItem().toString();
+        String cmd = Objects.requireNonNull(cbButtonsAbt.getSelectedItem()).toString();
         String rackId = tools.parseRackId(cbButtonsRacks.getSelectedItem().toString());
 
         RestCallOutput res = restCall.sendAbtCommand(rackId, cmd, globalData.token.getToken());
         if (res.getResultCode() > 299) {
-            JOptionPane.showMessageDialog(null, "Error:\n" + res.getErrorMsg());
+            showMessageDialog(null, "Error:\n" + res.getErrorMsg());
         }
     }
     /**
@@ -1056,12 +1050,12 @@ public class frmMain extends JFrame implements ActionListener {
      */
     private void GetUserProfile() {
         if (globalData.token == null) {
-            JOptionPane.showMessageDialog(null, "No Access token available !");
+            showMessageDialog(null, "No Access token available !");
             return;
         }
         RestCallOutput res = restCall.readUserProfile(globalData.token.getToken(), true);
         if (res.getResultCode() > 299) {
-            JOptionPane.showMessageDialog(null, "Error:\n" + res.getErrorMsg());
+            showMessageDialog(null, "Error:\n" + res.getErrorMsg());
         }
         ArrayList<String> json = jsonProcessing.ParseJsonObject(res.getDataMsg());
         StringBuilder spom = new StringBuilder();
@@ -1077,7 +1071,7 @@ public class frmMain extends JFrame implements ActionListener {
     private void RemoveRelay() {
         int sel = tblRealys.getSelectedRow();
         if(sel < 0) {
-            JOptionPane.showMessageDialog(null, "No relay selected !");
+            showMessageDialog(null, "No relay selected !");
             return;
         }
         int pos = (int)tblRealys.getModel().getValueAt(sel, 0);
@@ -1151,7 +1145,7 @@ public class frmMain extends JFrame implements ActionListener {
      */
     private void UpdateTokens() {
         if(globalData.token == null) {
-            JOptionPane.showMessageDialog(null, "No Access Token available !");
+            showMessageDialog(null, "No Access Token available !");
             return;
         }
         String strAccess = globalData.token.getToken();
@@ -1166,7 +1160,7 @@ public class frmMain extends JFrame implements ActionListener {
      *
      */
     private void DeleteUrl() {
-        String url = cbConfigUrl.getSelectedItem().toString();
+        String url = Objects.requireNonNull(cbConfigUrl.getSelectedItem()).toString();
         int i = 0, j = -1;
         for (String u : Config.getHostUrls()) {
             if(u.equals(url)) {
@@ -1247,10 +1241,8 @@ public class frmMain extends JFrame implements ActionListener {
                 cbTestrackDisplayType.removeAllItems();
                 TestrackDTO rack = globalData.testracks.get(rackpos);
                 int i = 0;
-                Iterator<TestrackDisplayDTO> it = rack.getTestrackDisplays().iterator();
-                while (it.hasNext()) {
-                    TestrackDisplayDTO disp = it.next();
-                    cbTestrackDisplayType.addItem(disp.getType().toString());
+                for (TestrackDisplayDTO disp : rack.getTestrackDisplays()) {
+                    cbTestrackDisplayType.addItem(disp.getType());
                 }
             } else {
                 dlmUserLog.addElement("GetRackDetails: Rack=" + rackName + "   -> Unknown POS !");
@@ -1273,7 +1265,7 @@ public class frmMain extends JFrame implements ActionListener {
             dispList = rack.getTestrackDisplays().iterator();
             while (dispList.hasNext()) {
                 TestrackDisplayDTO disp = dispList.next();
-                if(cbTestrackDisplayType.getSelectedItem().toString().equals(disp.getType().toString())) {
+                if(Objects.requireNonNull(cbTestrackDisplayType.getSelectedItem()).toString().equals(disp.getType().toString())) {
                     disp.setVersion(txTestrackDisplayVersion.getText());
                     tools.UpdateRack(rack, dlmUserLog);
                     GetAllTestracks(true);
@@ -1296,7 +1288,7 @@ public class frmMain extends JFrame implements ActionListener {
             else {
                 String msg = "Response: " + iRes + "  ERR: " + res.getErrorMsg() ;
                 txRackHandOverResponse.setText(msg);
-                JOptionPane.showMessageDialog(null, "ERROR: Result code: " + iRes);
+                showMessageDialog(null, "ERROR: Result code: " + iRes);
             }
         }
     }
@@ -1321,7 +1313,7 @@ public class frmMain extends JFrame implements ActionListener {
         String surl = "http://" + cbConfigUrl.getSelectedItem().toString() + ":" + txConfigSignalServerPort.getText()
                 + "/device";
         RestCallOutput ro = restCall.SendRestApiRequest("DELETE", props, jsonString, surl);
-        JOptionPane.showMessageDialog(null, "RESULT CODE: " + ro.getResultCode());
+        showMessageDialog(null, "RESULT CODE: " + ro.getResultCode());
         if (ro.getResultCode() > 230) {
             dlmSignal.addElement("POST Err: " + ro.getErrorMsg());
         }
@@ -1351,10 +1343,10 @@ public class frmMain extends JFrame implements ActionListener {
         }
         catch (Exception ex) {
         }
-        String surl = "http://" + cbConfigUrl.getSelectedItem().toString() + ":" + txConfigSignalServerPort.getText()
+        String surl = "http://" + Objects.requireNonNull(cbConfigUrl.getSelectedItem()).toString() + ":" + txConfigSignalServerPort.getText()
                 + "/device";
         RestCallOutput ro = restCall.SendRestApiRequest("POST", props, jsonString, surl);
-        JOptionPane.showMessageDialog(null, "RESULT CODE: " + ro.getResultCode());
+        showMessageDialog(null, "RESULT CODE: " + ro.getResultCode());
         if (ro.getResultCode() > 230) {
             dlmSignal.addElement("POST Err: " + ro.getErrorMsg());
         }
@@ -1399,7 +1391,7 @@ public class frmMain extends JFrame implements ActionListener {
      *
      */
     private void RackAddDisplay() {
-        String rackName = cbHeartbeatRacks.getSelectedItem().toString();
+        String rackName = Objects.requireNonNull(cbHeartbeatRacks.getSelectedItem()).toString();
         int rackId = Integer.parseInt(tools.parseRackId(rackName));
         int rackpos = tools.GetRackOrderById(rackId);
 
@@ -1441,7 +1433,7 @@ public class frmMain extends JFrame implements ActionListener {
     /**
      *
      */
-    private void RackRemoveDisplay() {
+    private void RackRemoveDisplay() throws IllegalStateException {
         String rackName = cbHeartbeatRacks.getSelectedItem().toString();
         int rackId = Integer.parseInt(tools.parseRackId(rackName));
         int rackpos = tools.GetRackOrderById(rackId);
@@ -1465,15 +1457,17 @@ public class frmMain extends JFrame implements ActionListener {
                     tools.RemoveHud(rack);
                     tools.UpdateRack(rack, dlmUserLog);
                     break;
+                default:
+                    throw new IllegalStateException("Unexpected value: " + noDisplays);
             }
         }
     }
     private void DeleteTestrack() {
-        String rackId = tools.parseRackId(cbHeartbeatRacks.getSelectedItem().toString());
+        String rackId = tools.parseRackId(Objects.requireNonNull(cbHeartbeatRacks.getSelectedItem()).toString());
         if (rackId.length() > 0) {
             RestCallOutput res = restCall.deleteTestrack(rackId, globalData.token.getToken(), true);
             int iRes = res.getResultCode();
-            JOptionPane.showMessageDialog(null, "Result code: " + iRes);
+            showMessageDialog(null, "Result code: " + iRes);
         }
     }
     /**
@@ -1521,7 +1515,7 @@ public class frmMain extends JFrame implements ActionListener {
         rack.setRelayDefinitions(new HashSet<>(relays));
 
         RestCallOutput res = restCall.createNewRack(rack, globalData.token.getToken(), true);
-        JOptionPane.showMessageDialog(null, "Result code: " + res.getResultCode());
+        showMessageDialog(null, "Result code: " + res.getResultCode());
         dlmUserLog.addElement("JSON:");
         dlmUserLog.addElement(res.getInfoMsg());
         if (res.getResultCode() >= 300) {
@@ -1547,7 +1541,7 @@ public class frmMain extends JFrame implements ActionListener {
                     Object sel = cbFesimRacks.getSelectedItem();
                     if(sel == null) {
                         chkFrontendConnectRack.setSelected(false);
-                        JOptionPane.showMessageDialog(null, "No testrack selected !");
+                        showMessageDialog(null, "No testrack selected !");
                         return;
                     }
                     String selection = cbFesimRacks.getSelectedItem().toString();
@@ -1592,7 +1586,7 @@ public class frmMain extends JFrame implements ActionListener {
      *
      */
     private void SendOneHeartBeat() {
-        String rackId = tools.parseRackId(cbHeartbeatRacks.getSelectedItem().toString());
+        String rackId = tools.parseRackId(Objects.requireNonNull(cbHeartbeatRacks.getSelectedItem()).toString());
         if (rackId.length() > 0) {
             RestCallOutput res = restCall.sendHeartbeat(rackId, globalData.token.getToken(), true);
             int iRes = res.getResultCode();
@@ -1607,13 +1601,12 @@ public class frmMain extends JFrame implements ActionListener {
                     dlmRackData.addElement("Error during JSON parsing:");
                     dlmRackData.addElement(res.getDataMsg());
                     dlmRackData.addElement(ex.getMessage());
-                    return;
                 }
             }
             else {
                 String msg = "Response: " + iRes ;
                 txRackHeartbeatResponse.setText(msg + "   ERR: " + res.getErrorMsg());
-                JOptionPane.showMessageDialog(null, "ERROR: Result code: " + iRes);
+                showMessageDialog(null, "ERROR: Result code: " + iRes);
             }
         }
     }
@@ -1636,11 +1629,11 @@ public class frmMain extends JFrame implements ActionListener {
      *
      */
     private void ResendVerifyEmail() {
-        String UserId = GetUserIdByEmail(cbUserMailUsers.getSelectedItem().toString());
+        String UserId = GetUserIdByEmail(Objects.requireNonNull(cbUserMailUsers.getSelectedItem()).toString());
         if (UserId.length() > 0) {
             RestCallOutput ro = restCall.sendVerifyEmail(UserId, globalData.token.getToken());
             int iRes = ro.getResultCode();
-            JOptionPane.showMessageDialog(null, "Result code: " + iRes);
+            showMessageDialog(null, "Result code: " + iRes);
             if(iRes > 299) {
                 dlmUserLog.addElement(ro.getErrorMsg());
             }
@@ -1654,14 +1647,6 @@ public class frmMain extends JFrame implements ActionListener {
             }
         }
         return "";
-    }
-
-    private void UpdateUserListInMail() {
-        getAllUsers(true);
-        cbUserMailUsers.removeAllItems();
-        for (int i = 0; i < globalData.users.size(); i++) {
-            cbUserMailUsers.addItem(globalData.users.get(i).getEmail());
-        }
     }
 
     /**
@@ -1687,7 +1672,7 @@ public class frmMain extends JFrame implements ActionListener {
             globalData.testracks = racks;
             for (int i = 0; i < racks.size(); i++) {
                 TestrackDTO rack = racks.get(i);
-                ArrayList<TestrackDisplayDTO> dl = new ArrayList<TestrackDisplayDTO>(rack.getTestrackDisplays());
+                ArrayList<TestrackDisplayDTO> dl = new ArrayList<>(rack.getTestrackDisplays());
                 rows.add(new TestrackTable1(rack.getId(), rack.getName(), rack.getDescription(),
                         rack.getAddress(), rack.getVehicle(), rack.getAvailability(),
                         rack.getNetwork().getIp(),
@@ -1700,7 +1685,7 @@ public class frmMain extends JFrame implements ActionListener {
         }
     }
     /**
-     * @param displays
+     * @param displays Display list
      * @return
      */
     private int leastPort(ArrayList<TestrackDisplayDTO> displays) {
@@ -1723,19 +1708,19 @@ public class frmMain extends JFrame implements ActionListener {
         RestCallOutput res = restCall.createNewUser(user, globalData.token.getToken(), true);
         int ires = res.getResultCode();
         getAllUsers(true);
-        JOptionPane.showMessageDialog(null, "Result Code = " + ires);
+        showMessageDialog(null, "Result Code = " + ires);
     }
     /**
      *
      */
     private void getAllUsers(boolean complete) {
         if (globalData.token == null) {
-            JOptionPane.showMessageDialog(null, "No Access token available !");
+            showMessageDialog(null, "No Access token available !");
             return;
         }
         RestCallOutput res = restCall.readAllUsers(globalData.token.getToken(), true);
         if (res.getResultCode() > 299) {
-            JOptionPane.showMessageDialog(null, "Error:\n" + res.getErrorMsg());
+            showMessageDialog(null, "Error:\n" + res.getErrorMsg());
         }
         List<UserDto> users = (List<UserDto>) res.getOutputData();
         Vector<UserTable1> rows = new Vector<>();
@@ -1745,14 +1730,13 @@ public class frmMain extends JFrame implements ActionListener {
             Collections.sort(globalData.users);
             StringBuilder result = new StringBuilder();
             if(complete)cbUserMailUsers.removeAllItems();
-            for (int i = 0; i < users.size(); i++) {
-                UserDto user = users.get(i);
+            for (UserDto user : users) {
                 result.append(user.getId()).append("  |  ").append(user.getUsername()).append("  |  ")
                         .append(user.getFirstName()).append("  |  ").append(user.getLastName())
                         .append("  |  ").append(user.getEmail()).append("  |  ").append(user.getRole()).append("\n");
                 rows.add(new UserTable1(user.getId(), user.getUsername(), user.getFirstName(),
                         user.getLastName(), user.getEmail(), user.isEnabled(), user.isEmailVerified()));
-                if(complete) cbUserMailUsers.addItem(user.getEmail());
+                if (complete) cbUserMailUsers.addItem(user.getEmail());
             }
             txaUserFeedback.setText(result.toString());
             UserTable1Model model = new UserTable1Model(rows);
@@ -1763,7 +1747,7 @@ public class frmMain extends JFrame implements ActionListener {
      *
      */
     private void getLoginToken() {
-        tblUser.setModel(new UserTable1Model(new Vector<UserTable1>()));
+        tblUser.setModel(new UserTable1Model(new Vector<>()));
         tblTestracks.setModel(new TestrackTable1Model(new Vector<TestrackTable1>()));
         globalData.InitGlobalData();
 
@@ -1779,7 +1763,7 @@ public class frmMain extends JFrame implements ActionListener {
         }
         else {
             txUserLoginState.setText("Log Error !");
-            JOptionPane.showMessageDialog(null, "Error getting logged - see the Logger");
+            showMessageDialog(null, "Error getting logged - see the Logger");
             dlmUserLog.addElement("getLoginToken:   RES=" + res.getResultCode());
             dlmUserLog.addElement("ERR: " + res.getErrorMsg());
         }
@@ -1828,22 +1812,7 @@ public class frmMain extends JFrame implements ActionListener {
             dlmUserLog.addElement(ex.getMessage());
         }
     }
-    /**
-     *
-     */
-    private void UpdateRackTable() {
-        Vector<TestrackTable1> rows = new Vector<>();
-        for (int i = 0; i < globalData.testracks.size(); i++) {
-            TestrackDTO rack = globalData.testracks.get(i);
-            ArrayList<TestrackDisplayDTO> dl = new ArrayList<>(rack.getTestrackDisplays());
-            rows.add(new TestrackTable1(rack.getId(), rack.getName(), rack.getDescription(),
-                    rack.getAddress(), rack.getVehicle(), rack.getAvailability(),
-                    rack.getNetwork().getIp(),
-                    dl.size() == 0 ? 0 : dl.get(0).getMgbport(), rack.getVin(), rack.getLab().getName()));
-        }
-        TestrackTable1Model model = new TestrackTable1Model(rows);
-        tblFrontendRacks.setModel(model);
-    }
+
     /**
      * #####################################################################
      * Main function
@@ -3517,7 +3486,7 @@ public class frmMain extends JFrame implements ActionListener {
         Font textField1Font = this.$$$getFont$$$(null, -1, 12, textField1.getFont());
         if (textField1Font != null) textField1.setFont(textField1Font);
         textField1.setHorizontalAlignment(2);
-        textField1.setText("1.3.1.0");
+        textField1.setText("1.4.0.0");
         panel91.add(textField1, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         final JLabel label69 = new JLabel();
         Font label69Font = this.$$$getFont$$$(null, Font.BOLD, 12, label69.getFont());
@@ -3530,7 +3499,7 @@ public class frmMain extends JFrame implements ActionListener {
         textField2.setEditable(false);
         Font textField2Font = this.$$$getFont$$$(null, -1, 12, textField2.getFont());
         if (textField2Font != null) textField2.setFont(textField2Font);
-        textField2.setText("2021-03-09");
+        textField2.setText("2021-03-12");
         panel91.add(textField2, new GridConstraints(0, 3, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         final Spacer spacer44 = new Spacer();
         panel91.add(spacer44, new GridConstraints(0, 4, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
