@@ -1780,7 +1780,7 @@
                                     </constraints>
                                     <properties>
                                       <font size="12" style="1"/>
-                                      <text value="Last Cyclic Response:"/>
+                                      <text value="Last Resp: Result"/>
                                     </properties>
                                   </component>
                                   <component id="cbc32" class="javax.swing.JTextField" binding="txFrontEndLastResponse">
@@ -1851,7 +1851,7 @@
                                     </constraints>
                                     <properties>
                                       <font size="12" style="1"/>
-                                      <text value="Last Response ToBeKicked"/>
+                                      <text value="Last Resp: ToBeKicked:"/>
                                     </properties>
                                   </component>
                                   <component id="8cb41" class="javax.swing.JLabel">
@@ -1860,7 +1860,7 @@
                                     </constraints>
                                     <properties>
                                       <font size="12" style="1"/>
-                                      <text value="Last Response Message"/>
+                                      <text value="Last Resp: KickMessage"/>
                                     </properties>
                                   </component>
                                   <component id="881b4" class="javax.swing.JTextField" binding="txFrontEndLastRespToBeKicked">
@@ -1891,7 +1891,7 @@
                                     </constraints>
                                     <properties>
                                       <font size="12" style="1"/>
-                                      <text value="Last Response  State Msg"/>
+                                      <text value="Last Resp: ControlledBy:"/>
                                     </properties>
                                   </component>
                                   <component id="fe01f" class="javax.swing.JTextField" binding="txFrontEndLastResponseMessage">

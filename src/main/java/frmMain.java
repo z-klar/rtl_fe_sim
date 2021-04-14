@@ -2591,7 +2591,7 @@ public class frmMain extends JFrame implements ActionListener {
         final JLabel label39 = new JLabel();
         Font label39Font = this.$$$getFont$$$(null, Font.BOLD, 12, label39.getFont());
         if (label39Font != null) label39.setFont(label39Font);
-        label39.setText("Last Cyclic Response:");
+        label39.setText("Last Resp: Result");
         panel34.add(label39, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         txFrontEndLastResponse = new JTextField();
         Font txFrontEndLastResponseFont = this.$$$getFont$$$(null, -1, 12, txFrontEndLastResponse.getFont());
@@ -2626,12 +2626,12 @@ public class frmMain extends JFrame implements ActionListener {
         final JLabel label42 = new JLabel();
         Font label42Font = this.$$$getFont$$$(null, Font.BOLD, 12, label42.getFont());
         if (label42Font != null) label42.setFont(label42Font);
-        label42.setText("Last Response ToBeKicked");
+        label42.setText("Last Resp: ToBeKicked:");
         panel34.add(label42, new GridConstraints(3, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final JLabel label43 = new JLabel();
         Font label43Font = this.$$$getFont$$$(null, Font.BOLD, 12, label43.getFont());
         if (label43Font != null) label43.setFont(label43Font);
-        label43.setText("Last Response Message");
+        label43.setText("Last Resp: KickMessage");
         panel34.add(label43, new GridConstraints(4, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         txFrontEndLastRespToBeKicked = new JTextField();
         Font txFrontEndLastRespToBeKickedFont = this.$$$getFont$$$(null, -1, 12, txFrontEndLastRespToBeKicked.getFont());
@@ -2647,7 +2647,7 @@ public class frmMain extends JFrame implements ActionListener {
         final JLabel label44 = new JLabel();
         Font label44Font = this.$$$getFont$$$(null, Font.BOLD, 12, label44.getFont());
         if (label44Font != null) label44.setFont(label44Font);
-        label44.setText("Last Response  State Msg");
+        label44.setText("Last Resp: ControlledBy:");
         panel34.add(label44, new GridConstraints(2, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         txFrontEndLastResponseMessage = new JTextField();
         Font txFrontEndLastResponseMessageFont = this.$$$getFont$$$(null, -1, 12, txFrontEndLastResponseMessage.getFont());
@@ -3541,7 +3541,7 @@ public class frmMain extends JFrame implements ActionListener {
         textField2.setEditable(false);
         Font textField2Font = this.$$$getFont$$$(null, -1, 12, textField2.getFont());
         if (textField2Font != null) textField2.setFont(textField2Font);
-        textField2.setText("2021-04-02");
+        textField2.setText("2021-0.14");
         panel91.add(textField2, new GridConstraints(0, 3, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         final Spacer spacer44 = new Spacer();
         panel91.add(spacer44, new GridConstraints(0, 4, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
