@@ -330,6 +330,8 @@ public class JanusService {
             componentDetail.add(new JanusCommonTable("video_bytes_last_sec", String.format("%d", component.getIn_stats().getVideo_bytes_lastsec())));
             componentDetail.add(new JanusCommonTable("video_nacks", String.format("%d", component.getIn_stats().getVideo_nacks())));
             componentDetail.add(new JanusCommonTable("video_retransmission", String.format("%d", component.getIn_stats().getVideo_retransmissions())));
+            componentDetail.add(new JanusCommonTable("audio_bytes", String.format("%d", component.getIn_stats().getAudio_bytes())));
+            componentDetail.add(new JanusCommonTable("audio_packets", String.format("%d", component.getIn_stats().getAudio_packets())));
             componentDetail.add(new JanusCommonTable("data_bytes", String.format("%d", component.getIn_stats().getData_bytes())));
             componentDetail.add(new JanusCommonTable("data_packets", String.format("%d", component.getIn_stats().getData_packets())));
             componentDetail.add(new JanusCommonTable("**** OUTPUT Statistics: ****", ""));
@@ -337,6 +339,8 @@ public class JanusService {
             componentDetail.add(new JanusCommonTable("video_bytes_last_sec", String.format("%d", component.getOut_stats().getVideo_bytes_lastsec())));
             componentDetail.add(new JanusCommonTable("video_nacks", String.format("%d", component.getOut_stats().getVideo_nacks())));
             componentDetail.add(new JanusCommonTable("video_retransmission", String.format("%d", component.getOut_stats().getVideo_retransmissions())));
+            componentDetail.add(new JanusCommonTable("audio_bytes", String.format("%d", component.getOut_stats().getAudio_bytes())));
+            componentDetail.add(new JanusCommonTable("audio_packets", String.format("%d", component.getOut_stats().getAudio_packets())));
             componentDetail.add(new JanusCommonTable("data_bytes", String.format("%d", component.getOut_stats().getData_bytes())));
             componentDetail.add(new JanusCommonTable("data_packets", String.format("%d", component.getOut_stats().getData_packets())));
 
