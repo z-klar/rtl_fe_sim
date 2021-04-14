@@ -1736,7 +1736,7 @@
                             <properties/>
                             <border type="none"/>
                             <children>
-                              <grid id="5213e" layout-manager="GridLayoutManager" row-count="6" column-count="4" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                              <grid id="5213e" layout-manager="GridLayoutManager" row-count="9" column-count="4" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
                                 <margin top="5" left="5" bottom="5" right="5"/>
                                 <constraints>
                                   <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
@@ -1760,7 +1760,7 @@
                                   </hspacer>
                                   <component id="d6dd9" class="javax.swing.JLabel" binding="lbSysTime">
                                     <constraints>
-                                      <grid row="5" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                                      <grid row="8" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                                     </constraints>
                                     <properties>
                                       <text value="Label"/>
@@ -1796,7 +1796,7 @@
                                   </component>
                                   <component id="84d0f" class="javax.swing.JLabel">
                                     <constraints>
-                                      <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                                      <grid row="5" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                                     </constraints>
                                     <properties>
                                       <font size="12" style="1"/>
@@ -1805,7 +1805,7 @@
                                   </component>
                                   <component id="803ec" class="javax.swing.JTextField" binding="txFrontEndLastSingleResponse">
                                     <constraints>
-                                      <grid row="2" column="1" row-span="1" col-span="3" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                                      <grid row="5" column="1" row-span="1" col-span="3" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                                         <preferred-size width="244" height="26"/>
                                       </grid>
                                     </constraints>
@@ -1822,12 +1822,12 @@
                                   </component>
                                   <vspacer id="181c">
                                     <constraints>
-                                      <grid row="4" column="3" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+                                      <grid row="7" column="3" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
                                     </constraints>
                                   </vspacer>
                                   <component id="cf349" class="javax.swing.JLabel">
                                     <constraints>
-                                      <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                                      <grid row="6" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                                     </constraints>
                                     <properties>
                                       <font size="12" style="1"/>
@@ -1836,7 +1836,67 @@
                                   </component>
                                   <component id="1a6da" class="javax.swing.JTextField" binding="txFeSimSysMsg">
                                     <constraints>
+                                      <grid row="6" column="1" row-span="1" col-span="3" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                                        <preferred-size width="244" height="26"/>
+                                      </grid>
+                                    </constraints>
+                                    <properties>
+                                      <font size="12"/>
+                                      <text value=""/>
+                                    </properties>
+                                  </component>
+                                  <component id="32cf1" class="javax.swing.JLabel">
+                                    <constraints>
+                                      <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                                    </constraints>
+                                    <properties>
+                                      <font size="12" style="1"/>
+                                      <text value="Last Response ToBeKicked"/>
+                                    </properties>
+                                  </component>
+                                  <component id="8cb41" class="javax.swing.JLabel">
+                                    <constraints>
+                                      <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                                    </constraints>
+                                    <properties>
+                                      <font size="12" style="1"/>
+                                      <text value="Last Response Message"/>
+                                    </properties>
+                                  </component>
+                                  <component id="881b4" class="javax.swing.JTextField" binding="txFrontEndLastRespToBeKicked">
+                                    <constraints>
                                       <grid row="3" column="1" row-span="1" col-span="3" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                                        <preferred-size width="244" height="26"/>
+                                      </grid>
+                                    </constraints>
+                                    <properties>
+                                      <font size="12"/>
+                                      <text value=""/>
+                                    </properties>
+                                  </component>
+                                  <component id="f87e7" class="javax.swing.JTextField" binding="txFrontEndLastKickMessage">
+                                    <constraints>
+                                      <grid row="4" column="1" row-span="1" col-span="3" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                                        <preferred-size width="244" height="26"/>
+                                      </grid>
+                                    </constraints>
+                                    <properties>
+                                      <font size="12"/>
+                                      <text value=""/>
+                                    </properties>
+                                  </component>
+                                  <component id="51d4e" class="javax.swing.JLabel">
+                                    <constraints>
+                                      <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                                    </constraints>
+                                    <properties>
+                                      <font size="12" style="1"/>
+                                      <text value="Last Response  State Msg"/>
+                                    </properties>
+                                  </component>
+                                  <component id="fe01f" class="javax.swing.JTextField" binding="txFrontEndLastResponseMessage">
+                                    <constraints>
+                                      <grid row="2" column="1" row-span="1" col-span="3" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                                         <preferred-size width="244" height="26"/>
                                       </grid>
                                     </constraints>
@@ -4179,7 +4239,7 @@
                       <editable value="false"/>
                       <font size="12"/>
                       <horizontalAlignment value="2"/>
-                      <text value="1.4.0.0"/>
+                      <text value="1.4.1.0"/>
                     </properties>
                   </component>
                   <component id="f55ba" class="javax.swing.JLabel">
@@ -4202,7 +4262,7 @@
                     <properties>
                       <editable value="false"/>
                       <font size="12"/>
-                      <text value="2021-03-12"/>
+                      <text value="2021-0.14"/>
                     </properties>
                   </component>
                   <hspacer id="47b19">

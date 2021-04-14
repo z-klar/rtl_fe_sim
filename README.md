@@ -26,6 +26,8 @@
     - Backup / Restore process implementation started (currently backup done)
 - 1.4.0.0
     - Checking wrong LAB-USER assignments implemented
+- 1.4.1.0
+    - Added more details of response for HeartBeat in FE Simulation
   
 
 ## Environment specific configuration  
