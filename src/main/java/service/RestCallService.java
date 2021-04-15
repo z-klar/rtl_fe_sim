@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import common.RestCallOutput;
 import dto.*;
+import model.PasswordChangeInfo;
 import tools.ToolFunctions;
 
 import javax.swing.*;
@@ -264,7 +265,12 @@ public class RestCallService {
         try {
             Map<String, String> props = new HashMap<>();
             props.put("Authorization", "Bearer " + token);
-            RestCallOutput ro = SendRestApiRequest("PUT", props, pwd, surl);
+            props.put("Content-Type", "application/json");
+            PasswordChangeInfo info = new PasswordChangeInfo(pwd);
+            ObjectMapper mapper = new ObjectMapper();
+            String jsonString = mapper.writeValueAsString(info);
+            if(verbose) dlmUserLog.addElement("Data: " + jsonString);
+            RestCallOutput ro = SendRestApiRequest("PUT", props, jsonString, surl);
             return(ro);
         }
         catch(Exception ex) {

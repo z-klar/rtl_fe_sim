@@ -575,6 +575,7 @@ public class frmMain extends JFrame implements ActionListener {
      */
     private void SetPassword() {
         String UserId = GetUserIdByEmail(Objects.requireNonNull(cbUserMailUsers.getSelectedItem()).toString());
+        dlmUserLog.addElement("*** SetPassword: USR=" + UserId + "   PWD:" + txUserNewPassword.getText());
         if (UserId.length() > 0) {
             String pwd = txUserNewPassword.getText();
             RestCallOutput ro = restCall.setPassword(UserId, globalData.token.getToken(), true, pwd);
@@ -1646,6 +1647,7 @@ public class frmMain extends JFrame implements ActionListener {
 
     private String GetUserIdByEmail(String email) {
         for (int i = 0; i < globalData.users.size(); i++) {
+            if(globalData.users.get(i).getEmail() == null) continue;
             if (globalData.users.get(i).getEmail().equals(email)) {
                 return globalData.users.get(i).getId();
             }
@@ -3533,7 +3535,7 @@ public class frmMain extends JFrame implements ActionListener {
         Font textField1Font = this.$$$getFont$$$(null, -1, 12, textField1.getFont());
         if (textField1Font != null) textField1.setFont(textField1Font);
         textField1.setHorizontalAlignment(2);
-        textField1.setText("1.4.1.0");
+        textField1.setText("1.4.1.2");
         panel91.add(textField1, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         final JLabel label72 = new JLabel();
         Font label72Font = this.$$$getFont$$$(null, Font.BOLD, 12, label72.getFont());
@@ -3546,7 +3548,7 @@ public class frmMain extends JFrame implements ActionListener {
         textField2.setEditable(false);
         Font textField2Font = this.$$$getFont$$$(null, -1, 12, textField2.getFont());
         if (textField2Font != null) textField2.setFont(textField2Font);
-        textField2.setText("2021-0.14");
+        textField2.setText("2021-04-15");
         panel91.add(textField2, new GridConstraints(0, 3, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         final Spacer spacer44 = new Spacer();
         panel91.add(spacer44, new GridConstraints(0, 4, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
