@@ -28,6 +28,8 @@
     - Checking wrong LAB-USER assignments implemented
 - 1.4.1.0
     - Added more details of response for HeartBeat in FE Simulation
+- 1.4.1.1
+    - Smae HeartBeat details added also to TESTRACK | Services -> Send Single HeratBeat request
   
 
 ## Environment specific configuration  

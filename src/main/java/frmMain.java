@@ -1597,7 +1597,8 @@ public class frmMain extends JFrame implements ActionListener {
                 try {
                     ObjectMapper mapper = new ObjectMapper();
                     HeartbeatResponse resp = mapper.readValue(res.getDataMsg(), HeartbeatResponse.class);
-                    String msg = "Response: " + iRes + "     CurrentUser:" + resp.getControlledBy();
+                    String msg = "Response: " + iRes + "    CurrentUser:" + resp.getControlledBy();
+                    msg +=  "   KickOff: " + (resp.isKicked() ? "TRUE" : "FALSE") + "    KickoffMsg:" + resp.getKickMessage();
                     txRackHeartbeatResponse.setText(msg);
                 }
                 catch(Exception ex) {
@@ -1811,6 +1812,10 @@ public class frmMain extends JFrame implements ActionListener {
                         txFrontEndLastRespToBeKicked.setText(resp.isKicked() ? "KICKED !!!" : "normal");
                         txFrontEndLastKickMessage.setText(resp.getKickMessage());
                         txFrontEndLastResponseMessage.setText(resp.getControlledBy());
+                        if(resp.isKicked()) {
+                            ControllingTestrack = false;
+                            chkFrontendConnectRack.setSelected(false);
+                        }
                     }
                 }
             }
