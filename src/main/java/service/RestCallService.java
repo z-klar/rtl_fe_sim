@@ -399,6 +399,11 @@ public class RestCallService {
         return(ro);
     }
 
+    public RestCallOutput updateUserProfile(String firtsName, String lastName, String token) {
+        RestCallOutput ro = new RestCallOutput();
+        return(ro);
+    }
+
     public RestCallOutput getSystemInfo(String token) {
         String surl = "http://" + BeIp + ":" + BePort + "/sysinfo";
         Map<String, String> props = new HashMap<>();

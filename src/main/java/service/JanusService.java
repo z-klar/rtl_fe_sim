@@ -68,6 +68,7 @@ public class JanusService {
      * @return
      */
     public JanusHandlesResponseDTO getHandles(String url, String password, String session_id) {
+        lbJanus.addElement("*** GetHandles:   sessionId=" + session_id);
         Map<String, String> props = null;
         String jsonString = "";
         try {
@@ -103,6 +104,7 @@ public class JanusService {
 
     public JanusHandlesInfoResponseDTO getHandleInfo(String url, String password,
                                             String session_id, String handle_id) {
+        lbJanus.addElement("***** GetHandles:   handleId=" + handle_id);
         Map<String, String> props = null;
         String jsonString = "";
         try {
@@ -152,6 +154,10 @@ public class JanusService {
 
         RestCallOutput ro = new RestCallOutput();
 
+        lbJanus.addElement("-------------------------------------------------------------------");
+        lbJanus.addElement("Method:" + Method + "  URL:" + surl);
+        lbJanus.addElement("Data:" + TxData);
+
         try {
             URL url = new URL(surl);
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
@@ -178,10 +184,12 @@ public class JanusService {
                     content.append(inputLine);
                 }
                 ro.setDataMsg(content.toString());
+                lbJanus.addElement("RESP:" + content.toString());
                 in.close();
             }
             catch(Exception ex) {
                 ro.setDataMsg("--- No data ---");
+                lbJanus.addElement("NO DATA !!");
             }
             try {
                 BufferedReader in = new BufferedReader(new InputStreamReader(con.getErrorStream()));
@@ -191,6 +199,7 @@ public class JanusService {
                     content.append(inputLine);
                 }
                 ro.setErrorMsg(content.toString());
+                lbJanus.addElement("ERROR:" + content.toString());
                 in.close();
             }
             catch(Exception ex) {
@@ -202,16 +211,19 @@ public class JanusService {
         catch(ConnectException ex) {
             ro.setResultCode(1000);
             ro.setErrorMsg("ConnectException: " + ex.getMessage());
+            lbJanus.addElement("ConnectException: " + ex.getMessage());
             return(ro);
         }
         catch(UnknownHostException ex) {
             ro.setResultCode(1001);
             ro.setErrorMsg("UnknownHostException: " + ex.getMessage());
+            lbJanus.addElement("UnknownHostException: " + ex.getMessage());
             return(ro);
         }
         catch(Exception ex) {
             ro.setResultCode(1002);
             ro.setErrorMsg("Exception: " + ex.getMessage());
+            lbJanus.addElement("Exception: " + ex.getMessage());
             return(ro);
         }
     }
@@ -297,6 +309,7 @@ public class JanusService {
                                    Vector<JanusCommonTable> componentDetail,
                                    String url, String pwd) {
 
+        lbJanus.addElement("***** GetComponentDetails:   streamId=" + streamId);
         JanusHandlesInfoResponseDTO handleObj = getHandleInfo(url, pwd, sessionId, handleId);
         if(handleObj.getJanus().contains("error")) {
             return -1;

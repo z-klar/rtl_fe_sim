@@ -32,6 +32,8 @@
     - Same HeartBeat details added also to TESTRACK | Services -> Send Single HeratBeat request
 - 1.4.1.2
     - Error fixed in sending PWD update: missing content-type JSON
+- 1.4.2.0
+    - More logging in Janus monitoring
   
 
 
