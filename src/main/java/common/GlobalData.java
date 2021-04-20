@@ -31,6 +31,7 @@ public class GlobalData {
     private String BePort;
     private int LastSelectedLabId;
     private int LastSelectedTestrackId;
+    private boolean verboseLogging;
 
     public void InitGlobalData() {
         token = null;

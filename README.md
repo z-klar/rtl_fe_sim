@@ -34,6 +34,9 @@
     - Error fixed in sending PWD update: missing content-type JSON
 - 1.4.2.0
     - More logging in Janus monitoring
+- 1.4.3.0
+     final version, enabling o monitor STREAMING as well as AUDIOBRIDGE plugins
+  
   
 
 

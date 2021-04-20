@@ -1210,6 +1210,7 @@ public class frmMain extends JFrame implements ActionListener {
                 Integer.parseInt(txBePort.getText()));
         globalData.setBeIP(cbConfigUrl.getSelectedItem().toString());
         globalData.setBePort(txBePort.getText());
+        globalData.setVerboseLogging(chkVerboseLogging.isSelected());
         frame.setTitle("RTL FrontEnd Simulator: " + cbConfigUrl.getSelectedItem().toString());
     }
     /**
@@ -3570,7 +3571,7 @@ public class frmMain extends JFrame implements ActionListener {
         Font textField1Font = this.$$$getFont$$$(null, -1, 12, textField1.getFont());
         if (textField1Font != null) textField1.setFont(textField1Font);
         textField1.setHorizontalAlignment(2);
-        textField1.setText("1.4.2.0");
+        textField1.setText("1.4.3.0g");
         panel91.add(textField1, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         final JLabel label74 = new JLabel();
         Font label74Font = this.$$$getFont$$$(null, Font.BOLD, 12, label74.getFont());

@@ -1,6 +1,8 @@
 package service;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import common.GlobalData;
 import common.JsonProcessing;
 import common.RestCallOutput;
@@ -121,7 +123,8 @@ public class JanusService {
         }
         String surl = url + "/" + session_id + "/" + handle_id;
         RestCallOutput ro = SendRestApiRequest("POST", props, jsonString, surl);
-        ToolFunctions.logSplit(lbJanus, ro.getDataMsg(), 140, "   getHandleInfo   ");
+        if(globalData.isVerboseLogging())
+            ToolFunctions.logSplit(lbJanus, ro.getDataMsg(), 140, "   getHandleInfo   ");
         JanusHandlesInfoResponseDTO resp = new JanusHandlesInfoResponseDTO();
         if(ro.getResultCode() > 299) {
             resp.setJanus("error");
@@ -129,7 +132,7 @@ public class JanusService {
         }
         else {
             try {
-                ObjectMapper mapper = new ObjectMapper();
+                ObjectMapper mapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
                 resp = mapper.readValue(ro.getDataMsg(), JanusHandlesInfoResponseDTO.class);
             }
             catch(Exception ex) {
@@ -184,7 +187,10 @@ public class JanusService {
                     content.append(inputLine);
                 }
                 ro.setDataMsg(content.toString());
-                lbJanus.addElement("RESP:" + content.toString());
+                if(globalData.isVerboseLogging()) {
+                    lbJanus.addElement("RESP:");
+                    ToolFunctions.logSplit(lbJanus, content.toString(), 140);
+                }
                 in.close();
             }
             catch(Exception ex) {
@@ -318,45 +324,86 @@ public class JanusService {
             JanusHandleInfoDTO handle = handleObj.getInfo();
             JanusStreamDTO stream = handle.getStreams()[findStreamIndex(handle, streamId)];
             JanusStreamComponentDTO component = stream.getComponents()[findComponentIndex(stream,componentId)];
-            streamdetails.add(new JanusCommonTable("StreamID", String.format("%d", stream.getId())));
-            streamdetails.add(new JanusCommonTable("ready", String.format("%d", stream.getReady())));
-            streamdetails.add(new JanusCommonTable("ssrc.audio", String.format("%d", stream.getSsrc().getAudio())));
-            streamdetails.add(new JanusCommonTable("ssrc.video", String.format("%d", stream.getSsrc().getVideo())));
-            streamdetails.add(new JanusCommonTable("audio-send", stream.getDirection().isAudio_send()?"true" : "false"));
-            streamdetails.add(new JanusCommonTable("audio-recv", stream.getDirection().isAudio_recv()?"true" : "false"));
-            streamdetails.add(new JanusCommonTable("video-send", stream.getDirection().isVideo_send()?"true" : "false"));
-            streamdetails.add(new JanusCommonTable("video-recv", stream.getDirection().isVideo_recv()?"true" : "false"));
-            streamdetails.add(new JanusCommonTable("RTCP Video Statistics:", ""));
-            streamdetails.add(new JanusCommonTable("lost-by-remote", String.format("%d", stream.getRtcp_stats().getVideo().getLost_by_remote())));
-            streamdetails.add(new JanusCommonTable("jitter-local", String.format("%d", stream.getRtcp_stats().getVideo().getJitter_local())));
-            streamdetails.add(new JanusCommonTable("in-link-quality", String.format("%d", stream.getRtcp_stats().getVideo().getIn_link_quality())));
-            streamdetails.add(new JanusCommonTable("in-media-link-quality", String.format("%d", stream.getRtcp_stats().getVideo().getIn_media_link_quality())));
-            streamdetails.add(new JanusCommonTable("out-link-quality", String.format("%d", stream.getRtcp_stats().getVideo().getOut_link_quality())));
-            streamdetails.add(new JanusCommonTable("out-media-link-quality", String.format("%d", stream.getRtcp_stats().getVideo().getOut_media_link_quality())));
 
-            componentDetail.add(new JanusCommonTable("id", String.format("%d", component.getId())));
-            componentDetail.add(new JanusCommonTable("state", component.getState()));
-            componentDetail.add(new JanusCommonTable("connected", String.format("%d", component.getConnected())));
-            componentDetail.add(new JanusCommonTable("selected-pair", component.getSelected_pair()));
-            componentDetail.add(new JanusCommonTable("**** INPUT Statistics: ****", ""));
-            componentDetail.add(new JanusCommonTable("video_packets", String.format("%d", component.getIn_stats().getVideo_packets())));
-            componentDetail.add(new JanusCommonTable("video_bytes_last_sec", String.format("%d", component.getIn_stats().getVideo_bytes_lastsec())));
-            componentDetail.add(new JanusCommonTable("video_nacks", String.format("%d", component.getIn_stats().getVideo_nacks())));
-            componentDetail.add(new JanusCommonTable("video_retransmission", String.format("%d", component.getIn_stats().getVideo_retransmissions())));
-            componentDetail.add(new JanusCommonTable("audio_bytes", String.format("%d", component.getIn_stats().getAudio_bytes())));
-            componentDetail.add(new JanusCommonTable("audio_packets", String.format("%d", component.getIn_stats().getAudio_packets())));
-            componentDetail.add(new JanusCommonTable("data_bytes", String.format("%d", component.getIn_stats().getData_bytes())));
-            componentDetail.add(new JanusCommonTable("data_packets", String.format("%d", component.getIn_stats().getData_packets())));
-            componentDetail.add(new JanusCommonTable("**** OUTPUT Statistics: ****", ""));
-            componentDetail.add(new JanusCommonTable("video_packets", String.format("%d", component.getOut_stats().getVideo_packets())));
-            componentDetail.add(new JanusCommonTable("video_bytes_last_sec", String.format("%d", component.getOut_stats().getVideo_bytes_lastsec())));
-            componentDetail.add(new JanusCommonTable("video_nacks", String.format("%d", component.getOut_stats().getVideo_nacks())));
-            componentDetail.add(new JanusCommonTable("video_retransmission", String.format("%d", component.getOut_stats().getVideo_retransmissions())));
-            componentDetail.add(new JanusCommonTable("audio_bytes", String.format("%d", component.getOut_stats().getAudio_bytes())));
-            componentDetail.add(new JanusCommonTable("audio_packets", String.format("%d", component.getOut_stats().getAudio_packets())));
-            componentDetail.add(new JanusCommonTable("data_bytes", String.format("%d", component.getOut_stats().getData_bytes())));
-            componentDetail.add(new JanusCommonTable("data_packets", String.format("%d", component.getOut_stats().getData_packets())));
+            if(globalData.isVerboseLogging()) {
+                lbJanus.addElement("  ");
+                lbJanus.addElement("+++++++++++++++++++++++++   COnverted data  +++++++++++++++++++++++++++++++");
+                try {
+                    ObjectMapper mapper = new ObjectMapper();
+                    mapper.enable(SerializationFeature.INDENT_OUTPUT);
+                    String js = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(handle);
+                    //lbJanus.addElement(js);
+                    String[] lines = js.split("\n");
+                    for (String s : lines) lbJanus.addElement(s);
+                    lbJanus.addElement("  ");
+                    lbJanus.addElement("  ");
+                } catch (Exception ex) {
+                    lbJanus.addElement("Exception during conversion:");
+                    lbJanus.addElement(ex.getMessage());
+                }
 
+                lbJanus.addElement("+++++++++++++++++++++++++   Component Details  +++++++++++++++++++++++++++++++");
+                lbJanus.addElement("STREAM:      VideoSSRC = " + stream.getSsrc().getVideo());
+                lbJanus.addElement("             RtcpStats.Video = " + stream.getRtcp_stats().getVideo());
+                if (stream.getRtcp_stats().getVideo() != null)
+                    lbJanus.addElement("             VideoLost = " + stream.getRtcp_stats().getVideo().getLost_by_remote());
+                lbJanus.addElement("COMPONENT:   ID = " + component.getId());
+                lbJanus.addElement("             VideoPacketsIn = " + component.getIn_stats().getVideo_packets());
+                lbJanus.addElement("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+                lbJanus.addElement("  ");
+            }
+            try {
+                streamdetails.add(new JanusCommonTable("StreamID", String.format("%d", stream.getId())));
+                streamdetails.add(new JanusCommonTable("ready", String.format("%d", stream.getReady())));
+                streamdetails.add(new JanusCommonTable("ssrc.audio", String.format("%d", stream.getSsrc().getAudio())));
+                streamdetails.add(new JanusCommonTable("ssrc.video", String.format("%d", stream.getSsrc().getVideo())));
+                streamdetails.add(new JanusCommonTable("audio-send", stream.getDirection().isAudio_send() ? "true" : "false"));
+                streamdetails.add(new JanusCommonTable("audio-recv", stream.getDirection().isAudio_recv() ? "true" : "false"));
+                streamdetails.add(new JanusCommonTable("video-send", stream.getDirection().isVideo_send() ? "true" : "false"));
+                streamdetails.add(new JanusCommonTable("video-recv", stream.getDirection().isVideo_recv() ? "true" : "false"));
+                if (stream.getRtcp_stats().getVideo() != null) {
+                    streamdetails.add(new JanusCommonTable("RTCP Video Statistics:", ""));
+                    streamdetails.add(new JanusCommonTable("lost-by-remote", String.format("%d", stream.getRtcp_stats().getVideo().getLost_by_remote())));
+                    streamdetails.add(new JanusCommonTable("in-link-quality", String.format("%d", stream.getRtcp_stats().getVideo().getIn_link_quality())));
+                    streamdetails.add(new JanusCommonTable("in-media-link-quality", String.format("%d", stream.getRtcp_stats().getVideo().getIn_media_link_quality())));
+                    streamdetails.add(new JanusCommonTable("out-link-quality", String.format("%d", stream.getRtcp_stats().getVideo().getOut_link_quality())));
+                    streamdetails.add(new JanusCommonTable("out-media-link-quality", String.format("%d", stream.getRtcp_stats().getVideo().getOut_media_link_quality())));
+                }
+                streamdetails.add(new JanusCommonTable("RTCP Audio Statistics:", ""));
+                streamdetails.add(new JanusCommonTable("lost-by-remote", String.format("%d", stream.getRtcp_stats().getAudio().getLost_by_remote())));
+                streamdetails.add(new JanusCommonTable("in-link-quality", String.format("%d", stream.getRtcp_stats().getAudio().getIn_link_quality())));
+                streamdetails.add(new JanusCommonTable("in-media-link-quality", String.format("%d", stream.getRtcp_stats().getAudio().getIn_media_link_quality())));
+                streamdetails.add(new JanusCommonTable("out-link-quality", String.format("%d", stream.getRtcp_stats().getAudio().getOut_link_quality())));
+                streamdetails.add(new JanusCommonTable("out-media-link-quality", String.format("%d", stream.getRtcp_stats().getAudio().getOut_media_link_quality())));
+
+                componentDetail.add(new JanusCommonTable("id", String.format("%d", component.getId())));
+                componentDetail.add(new JanusCommonTable("state", component.getState()));
+                componentDetail.add(new JanusCommonTable("connected", String.format("%d", component.getConnected())));
+                componentDetail.add(new JanusCommonTable("selected-pair", component.getSelected_pair()));
+                componentDetail.add(new JanusCommonTable("**** INPUT Statistics: ****", ""));
+                componentDetail.add(new JanusCommonTable("video_packets", String.format("%d", component.getIn_stats().getVideo_packets())));
+                componentDetail.add(new JanusCommonTable("video_bytes_last_sec", String.format("%d", component.getIn_stats().getVideo_bytes_lastsec())));
+                componentDetail.add(new JanusCommonTable("video_nacks", String.format("%d", component.getIn_stats().getVideo_nacks())));
+                componentDetail.add(new JanusCommonTable("video_retransmission", String.format("%d", component.getIn_stats().getVideo_retransmissions())));
+                componentDetail.add(new JanusCommonTable("audio_bytes", String.format("%d", component.getIn_stats().getAudio_bytes())));
+                componentDetail.add(new JanusCommonTable("audio_packets", String.format("%d", component.getIn_stats().getAudio_packets())));
+                componentDetail.add(new JanusCommonTable("data_bytes", String.format("%d", component.getIn_stats().getData_bytes())));
+                componentDetail.add(new JanusCommonTable("data_packets", String.format("%d", component.getIn_stats().getData_packets())));
+                componentDetail.add(new JanusCommonTable("**** OUTPUT Statistics: ****", ""));
+                componentDetail.add(new JanusCommonTable("video_packets", String.format("%d", component.getOut_stats().getVideo_packets())));
+                componentDetail.add(new JanusCommonTable("video_bytes_last_sec", String.format("%d", component.getOut_stats().getVideo_bytes_lastsec())));
+                componentDetail.add(new JanusCommonTable("video_nacks", String.format("%d", component.getOut_stats().getVideo_nacks())));
+                componentDetail.add(new JanusCommonTable("video_retransmission", String.format("%d", component.getOut_stats().getVideo_retransmissions())));
+                componentDetail.add(new JanusCommonTable("audio_bytes", String.format("%d", component.getOut_stats().getAudio_bytes())));
+                componentDetail.add(new JanusCommonTable("audio_packets", String.format("%d", component.getOut_stats().getAudio_packets())));
+                componentDetail.add(new JanusCommonTable("data_bytes", String.format("%d", component.getOut_stats().getData_bytes())));
+                componentDetail.add(new JanusCommonTable("data_packets", String.format("%d", component.getOut_stats().getData_packets())));
+            }
+            catch(Exception ex) {
+                lbJanus.addElement("Exception creating tables:");
+                lbJanus.addElement(ex.getMessage());
+                return(0);
+            }
             return 0;
         }
     }
