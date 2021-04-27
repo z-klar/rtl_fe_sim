@@ -33,6 +33,8 @@ public class GlobalData {
     private int LastSelectedTestrackId;
     private boolean verboseLogging;
 
+    private UserDto lastUser;
+
     public void InitGlobalData() {
         token = null;
         users = new ArrayList<UserDto>();

@@ -8,6 +8,7 @@ import dto.*;
 import model.PasswordChangeInfo;
 import tools.ToolFunctions;
 
+import javax.jws.soap.SOAPBinding;
 import javax.swing.*;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -182,6 +183,27 @@ public class RestCallService {
             props.put("Accept", "*/*");
             props.put("Authorization", "Bearer " + token);
             ro = SendRestApiRequest("GET", props, null, surl);
+            return (ro);
+        }
+        catch(Exception ex) {
+            return(ro);
+        }
+    }
+
+    public RestCallOutput updateUserProfile(String token, boolean verbose, UserDto user) {
+        if(verbose) dlmUserLog.addElement("Updating user profile ....");
+        String surl = "http://" + BeIp + ":" + BePort + "/user/profile";
+        if(verbose) dlmUserLog.addElement("URL: " + surl);
+
+        RestCallOutput ro = new RestCallOutput();
+        try {
+            Map<String, String> props = new HashMap<>();
+            props.put("Accept", "*/*");
+            props.put("Authorization", "Bearer " + token);
+            props.put("Content-Type", "application/json");
+            ObjectMapper mapper = new ObjectMapper();
+            String jsonString = mapper.writeValueAsString(user);
+            ro = SendRestApiRequest("PUT", props, jsonString, surl);
             return (ro);
         }
         catch(Exception ex) {

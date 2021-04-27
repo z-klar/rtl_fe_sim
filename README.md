@@ -36,6 +36,8 @@
     - More logging in Janus monitoring
 - 1.4.3.0
      final version, enabling o monitor STREAMING as well as AUDIOBRIDGE plugins
+- 1.4.4.0
+     Updating user profile fully implemented
   
   
 
