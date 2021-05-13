@@ -28,6 +28,12 @@ public class TestrackDTO {
     private NetworkDTO network;
     private Set<RelayDefinitionDTO> relayDefinitions = new HashSet<>();
     private Set<TestrackDisplayDTO> testrackDisplays = new HashSet<>();
+    private String primaryUserAccount;
+    private String primaryUserPassword;
+    private String primaryUserSpin;
+    private String sop;
+    private String environment;
+    private boolean connected;
 
 
     public LabTestrackTableRow convertToLabTableRow() {

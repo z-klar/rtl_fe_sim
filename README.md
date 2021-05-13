@@ -38,7 +38,8 @@
      final version, enabling o monitor STREAMING as well as AUDIOBRIDGE plugins
 - 1.4.4.0
      Updating user profile fully implemented
-  
+- 1.4.5.0
+     testrack data (DTO) extended with new ExtendedInfo and AVAIL / CONNECTION state
   
 
 

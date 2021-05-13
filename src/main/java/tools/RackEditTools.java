@@ -46,6 +46,7 @@ public class RackEditTools {
     private JTable tblDisplays, tblRelays;
     private boolean verbose = false;
     private RestCallService restCallService;
+    private JTextField txEIAccount, txEIPwd, txEISpin, txEISop, txEIEnv;
 
     private TestrackDTO currTestrack;
 
@@ -77,7 +78,9 @@ public class RackEditTools {
                          JTextField txIpAddress, JTextField txQuidoPort, JTextField txDispWidth,
                          JTextField txDispHeight, JTextField txRelayPos, JComboBox cbRelayFunctions,
                          JComboBox cbRelayTypes, JTextField txVin,
-                         JTable tblDisplays, JTable tblRelays, RestCallService restCallService) {
+                         JTable tblDisplays, JTable tblRelays, RestCallService restCallService,
+                         JTextField txEIAccount, JTextField txEIPwd, JTextField txEISpin,
+                         JTextField txEISop, JTextField txEIEnv ) {
 
         this.dlmLog = dlm;
         this.globalData = globalData;
@@ -97,6 +100,11 @@ public class RackEditTools {
         this.tblDisplays = tblDisplays;
         this.tblRelays = tblRelays;
         this.restCallService = restCallService;
+        this.txEIAccount = txEIAccount;
+        this.txEIPwd = txEIPwd;
+        this.txEISpin = txEISpin;
+        this.txEISop = txEISop;
+        this.txEIEnv = txEIEnv;
     }
 
     /**
@@ -123,6 +131,13 @@ public class RackEditTools {
         txIpAddress.setText(currTestrack.getNetwork().getIp());
         txQuidoPort.setText(currTestrack.getNetwork().getQuidoPort().toString());
         txVin.setText(currTestrack.getVin());
+
+        txEIEnv.setText(currTestrack.getEnvironment());
+        txEIPwd.setText(currTestrack.getPrimaryUserPassword());
+        txEIAccount.setText(currTestrack.getPrimaryUserAccount());
+        txEISpin.setText(currTestrack.getPrimaryUserSpin());
+        txEISop.setText(currTestrack.getSop());
+
         updateCombobox(cbVehicleTypes, currTestrack.getVehicle().toString());
 
         Vector<RelayTableRow> rows = new Vector<>();
@@ -148,6 +163,12 @@ public class RackEditTools {
         currTestrack.getNetwork().setIp(txIpAddress.getText());
         currTestrack.getNetwork().setBlackboxPort(Integer.parseInt(txQuidoPort.getText()));
         currTestrack.setVehicle(TestrackVehicle.valueOf(cbVehicleTypes.getSelectedItem().toString()));
+
+        currTestrack.setPrimaryUserAccount(txEIAccount.getText());
+        currTestrack.setPrimaryUserPassword(txEIPwd.getText());
+        currTestrack.setPrimaryUserSpin(txEISpin.getText());
+        currTestrack.setSop(txEISop.getText());
+        currTestrack.setEnvironment(txEIEnv.getText());
         RestCallOutput ro = restCallService.updateTestrack(currTestrack, globalData.token.getToken(), true);
         if(ro.getResultCode() < 300)
             JOptionPane.showMessageDialog(null, "Testrack updated !");
